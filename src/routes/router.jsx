@@ -1,11 +1,14 @@
-import { BrowserRouter as Router } from "react-router-dom"
+import { BrowserRouter as Router, Routes } from "react-router-dom"
+import LandingPageRoutes from "./LandingPageRoutes"
 import HomeRoutes from "./HomeRoutes"
-
 
 const routes = () => {
   return (
     <Router>
-      <HomeRoutes />
+      <Routes>
+        {LandingPageRoutes}
+        {HomeRoutes}
+      </Routes>
     </Router>
   )
 }

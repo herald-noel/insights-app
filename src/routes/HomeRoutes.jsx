@@ -1,13 +1,9 @@
-import { Routes, Route } from "react-router-dom"
-import Home from "../pages/Home/Home"
+import { Route } from "react-router-dom"
 import { PATH } from "../data/paths"
+import Home from "../pages/Home/Home"
 
-const HomeRoutes = () => {
-  return (
-    <Routes>
-      <Route path={PATH.HOME} element={<Home />} />
-    </Routes>
-  )
-}
+const HomeRoutes = (
+  <Route path={PATH.HOME} element={<Home />} exact />
+)
 
 export default HomeRoutes
