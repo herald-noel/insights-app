@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes } from "react-router-dom"
-import LandingPageRoutes from "./LandingPageRoutes"
-import HomeRoutes from "./HomeRoutes"
+import { BrowserRouter as Router, Routes } from 'react-router-dom'
+import LandingPageRoutes from './LandingPageRoutes'
+import HomeRoutes from './HomeRoutes'
 
 const routes = () => {
   return (
