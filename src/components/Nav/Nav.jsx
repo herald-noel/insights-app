@@ -4,26 +4,13 @@ import {
   Toolbar,
   Typography,
   CssBaseline,
-  useScrollTrigger,
   Container,
-  Slide,
   Button,
   Box,
 } from '@mui/material/'
-import { Link } from 'react-router-dom'
 import { BRAND_LOGO, BRAND_NAME } from '../../data/constants'
-import { PATH } from '../../data/paths'
 import CustomButton from './components/CustomButton'
-
-const HideOnScroll = (props) => {
-  const { children } = props
-  const trigger = useScrollTrigger()
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  )
-}
+import HideOnScroll from './components/HideOnScroll'
 
 const Nav = (props) => {
   return (
