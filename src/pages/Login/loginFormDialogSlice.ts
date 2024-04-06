@@ -11,8 +11,14 @@ const initialState: OpenState = {
 export const loginFormDialogSlice = createSlice({
   name: 'loginFormDialog',
   initialState,
-  reducers: {}
+  reducers: {
+    clickOpen: (state) => {
+      state.isOpen = !state.isOpen
+    },
+  }
 })
+
+export const {clickOpen} = loginFormDialogSlice.actions
 
 export default loginFormDialogSlice.reducer
 

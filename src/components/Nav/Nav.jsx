@@ -5,12 +5,12 @@ import {
   Typography,
   CssBaseline,
   Container,
-  Button,
   Box,
 } from '@mui/material/'
 import { BRAND_LOGO, BRAND_NAME } from '../../data/constants'
 import CustomButton from './components/CustomButton'
 import HideOnScroll from './components/HideOnScroll'
+import LoginButton from '../../pages/Login/LoginButton'
 
 const Nav = (props) => {
   return (
@@ -32,7 +32,7 @@ const Nav = (props) => {
                 {BRAND_NAME}
               </Typography>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                <Button sx={{ color: '#fff' }}>Sign in</Button>
+                <LoginButton />
                 <CustomButton buttonName="Get Started" />
               </Box>
             </Toolbar>
