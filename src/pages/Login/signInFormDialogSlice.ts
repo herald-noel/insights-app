@@ -8,8 +8,8 @@ const initialState: OpenState = {
   isOpen: false,
 }
 
-export const loginFormDialogSlice = createSlice({
-  name: 'loginFormDialog',
+export const signInFormDialogSlice = createSlice({
+  name: 'signInFormDialog',
   initialState,
   reducers: {
     clickOpen: (state) => {
@@ -18,7 +18,7 @@ export const loginFormDialogSlice = createSlice({
   }
 })
 
-export const {clickOpen} = loginFormDialogSlice.actions
+export const {clickOpen} = signInFormDialogSlice.actions
 
-export default loginFormDialogSlice.reducer
+export default signInFormDialogSlice.reducer
 

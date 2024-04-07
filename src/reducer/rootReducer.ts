@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit"
-import loginFormDialogSlice from "../pages/Login/loginFormDialogSlice"
+import signInFormDialogSlice from "../pages/Login/signInFormDialogSlice"
 
 
 export const rootReducer = combineReducers({
-  loginFormDialog: loginFormDialogSlice,
+  signInFormDialog: signInFormDialogSlice,
 })

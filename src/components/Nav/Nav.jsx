@@ -10,7 +10,7 @@ import {
 import { BRAND_LOGO, BRAND_NAME } from '../../data/constants'
 import CustomButton from './components/CustomButton'
 import HideOnScroll from './components/HideOnScroll'
-import SignInButton from '../../pages/Login/SignIn'
+import SignInButton from '../../pages/Login/SignInButton'
 
 const Nav = (props) => {
   return (

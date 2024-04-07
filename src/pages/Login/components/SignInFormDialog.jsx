@@ -8,12 +8,12 @@ import {
   Button,
   Link,
 } from '@mui/material'
-import { clickOpen } from '../loginFormDialogSlice'
+import { clickOpen } from '../signInFormDialogSlice'
 import { useSelector, useDispatch } from 'react-redux'
 
 // TODO change to REDUX!!
-const FormDialog = () => {
-  const isOpen = useSelector((state) => state.loginFormDialog.isOpen)
+const SignInFormDialog = () => {
+  const isOpen = useSelector((state) => state.signInFormDialog.isOpen)
   const dispatch = useDispatch()
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -67,4 +67,4 @@ const FormDialog = () => {
   )
 }
 
-export default FormDialog
+export default SignInFormDialog

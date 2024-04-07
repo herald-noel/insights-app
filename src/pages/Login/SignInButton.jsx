@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
 import { useDispatch } from 'react-redux'
-import { clickOpen } from './loginFormDialogSlice'
-import FormDialog from './components/FormDialog'
+import { clickOpen } from './signInFormDialogSlice'
+import SignInFormDialog from './components/SignInFormDialog'
 
 export default function SignInButton() {
   const dispatch = useDispatch()
@@ -13,7 +13,7 @@ export default function SignInButton() {
         Sign in
       </Button>
 
-      <FormDialog />
+      <SignInFormDialog />
     </React.Fragment>
   )
 }
