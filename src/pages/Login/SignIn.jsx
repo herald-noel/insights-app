@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { clickOpen } from './loginFormDialogSlice'
 import FormDialog from './components/FormDialog'
 
-export default function LoginButton() {
+export default function SignInButton() {
   const dispatch = useDispatch()
 
   return (

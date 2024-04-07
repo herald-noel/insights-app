@@ -10,7 +10,7 @@ import {
 import { BRAND_LOGO, BRAND_NAME } from '../../data/constants'
 import CustomButton from './components/CustomButton'
 import HideOnScroll from './components/HideOnScroll'
-import LoginButton from '../../pages/Login/LoginButton'
+import SignInButton from '../../pages/Login/SignIn'
 
 const Nav = (props) => {
   return (
@@ -32,7 +32,7 @@ const Nav = (props) => {
                 {BRAND_NAME}
               </Typography>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                <LoginButton />
+                <SignInButton />
                 <CustomButton buttonName="Get Started" />
               </Box>
             </Toolbar>
