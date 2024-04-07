@@ -1,54 +1,67 @@
+import React from 'react'
 import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   TextField,
   Button,
+  Link,
 } from '@mui/material'
 import { clickOpen } from '../loginFormDialogSlice'
 import { useSelector, useDispatch } from 'react-redux'
 
+// TODO change to REDUX!!
 const FormDialog = () => {
   const isOpen = useSelector((state) => state.loginFormDialog.isOpen)
   const dispatch = useDispatch()
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value)
+  }
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    // Handle sign in logic here (e.g., call API)
+    console.log('Sign in with email:', email, 'password:', password)
+  }
   return (
-    <Dialog
-      open={isOpen}
-      onClose={() => dispatch(clickOpen())}
-      PaperProps={{
-        component: 'form',
-        onSubmit: (event) => {
-          event.preventDefault()
-          const formData = new FormData(event.currentTarget)
-          const formJson = Object.fromEntries(formData.entries())
-          const email = formJson.email
-          console.log(email)
-        },
-      }}
-    >
-      <DialogTitle>Subscribe</DialogTitle>
+    <Dialog open={isOpen} onClose={() => dispatch(clickOpen())}>
+      <DialogTitle textAlign={'center'}>Welcome back.</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
-        </DialogContentText>
         <TextField
           autoFocus
-          required
           margin="dense"
-          id="name"
-          name="email"
           label="Email Address"
           type="email"
           fullWidth
-          variant="standard"
+          value={email}
+          onChange={handleEmailChange}
         />
+        <TextField
+          margin="dense"
+          label="Password"
+          type="password"
+          fullWidth
+          value={password}
+          onChange={handlePasswordChange}
+          sx={{ marginBottom: '10px' }}
+        />
+        <Link href="#" underline="none">
+          Forgot Password?
+        </Link>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => dispatch(clickOpen())}>Cancel</Button>
-        <Button type="submit">Subscribe</Button>
+        <Button variant="contained" type="submit" onClick={handleSubmit}>
+          Submit
+        </Button>
       </DialogActions>
     </Dialog>
   )
