@@ -4,11 +4,9 @@ import Mainlayout from '../../layout/Mainlayout'
 
 const Home = () => {
   return (
-    <>
-      <Mainlayout>
-        <h1>Home</h1>
-      </Mainlayout>
-    </>
+    <Mainlayout>
+      <h1>Home</h1>
+    </Mainlayout>
   )
 }
 
