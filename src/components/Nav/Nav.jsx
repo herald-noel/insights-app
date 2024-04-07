@@ -7,10 +7,11 @@ import {
   Container,
   Box,
 } from '@mui/material/'
-import { BRAND_LOGO, BRAND_NAME } from '../../data/constants'
+import { BRAND_NAME } from '../../data/constants'
 import HideOnScroll from './components/HideOnScroll'
 import SignInButton from '../../pages/SignIn/SignInButton'
 import GetStartedButton from '../../pages/SignUp/GetStartedButton'
+import brandLogo from '../../assets/feather.svg'
 
 const Nav = (props) => {
   return (
@@ -28,7 +29,9 @@ const Nav = (props) => {
               }}
             >
               <Typography variant="h6" component="div">
-                <span style={{ marginRight: '7px' }}>{<BRAND_LOGO />}</span>
+                <span style={{ marginRight: '7px' }}>
+                  <img src={brandLogo} alt="insights logo" width="21px" />
+                </span>
                 {BRAND_NAME}
               </Typography>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
