@@ -17,5 +17,5 @@ const Mainlayout = (props) => {
 export default Mainlayout
 
 Mainlayout.propTypes = {
-  children: PropTypes.ReactNode,
+  children: PropTypes.object.isRequired,
 }

@@ -1,5 +1,4 @@
-import Nav from '../../components/Nav/Nav'
-import { Container, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import CardPost from '../../components/CardPost'
 import Hero from './components/Hero'
 import { heroContent } from '../../data/hero.constants'
