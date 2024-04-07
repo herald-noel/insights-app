@@ -8,7 +8,7 @@ import {
   Button,
   Link,
 } from '@mui/material'
-import { clickOpen } from '../signInFormDialogSlice'
+import { openSignIn } from '../signInFormDialogSlice'
 import { useSelector, useDispatch } from 'react-redux'
 
 // TODO change to REDUX!!
@@ -32,7 +32,7 @@ const SignInFormDialog = () => {
     console.log('Sign in with email:', email, 'password:', password)
   }
   return (
-    <Dialog open={isOpen} onClose={() => dispatch(clickOpen())}>
+    <Dialog open={isOpen} onClose={() => dispatch(openSignIn())}>
       <DialogTitle textAlign={'center'}>Welcome back.</DialogTitle>
       <DialogContent>
         <TextField
@@ -58,7 +58,7 @@ const SignInFormDialog = () => {
         </Link>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => dispatch(clickOpen())}>Cancel</Button>
+        <Button onClick={() => dispatch(openSignIn())}>Cancel</Button>
         <Button variant="contained" type="submit" onClick={handleSubmit}>
           Submit
         </Button>

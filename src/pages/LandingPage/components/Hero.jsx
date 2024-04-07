@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { Paper, Typography, Grid, Box, Button } from '@mui/material'
 import { useDispatch } from 'react-redux'
-import { clickOpen } from '../../SignUp/signUpFromDialogSlice'
+import { openSignUp } from '../../SignUp/signUpFromDialogSlice'
 
 function Hero(props) {
   const { post } = props
@@ -60,7 +60,7 @@ function Hero(props) {
             <Typography variant="h5" color="inherit" paragraph>
               {post.description}
             </Typography>
-            <Button onClick={() => dispatch(clickOpen())} variant="contained">
+            <Button onClick={() => dispatch(openSignUp())} variant="contained">
               {post.linkText}
             </Button>
           </Box>

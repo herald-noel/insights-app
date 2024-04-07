@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 import { PATH } from '../../data/paths'
 import SignUpFormDialog from './components/SignUpFormDialog'
 import { useDispatch } from 'react-redux'
-import { clickOpen } from './signUpFromDialogSlice'
+import { openSignUp } from './signUpFromDialogSlice'
 
 const GetStartedButton = ({ buttonName }) => {
   const dispatch = useDispatch()
   return (
     <>
       <Button
-        onClick={() => dispatch(clickOpen())}
+        onClick={() => dispatch(openSignUp())}
         component={Link}
         to={PATH.SIGN_UP}
         variant="contained"

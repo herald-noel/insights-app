@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Button from '@mui/material/Button'
 import { useDispatch } from 'react-redux'
-import { clickOpen } from './signInFormDialogSlice'
+import { openSignIn } from './signInFormDialogSlice'
 import SignInFormDialog from './components/SignInFormDialog'
 
 export default function SignInButton() {
@@ -9,7 +9,7 @@ export default function SignInButton() {
 
   return (
     <React.Fragment>
-      <Button sx={{ color: '#fff' }} onClick={() => dispatch(clickOpen())}>
+      <Button sx={{ color: '#fff' }} onClick={() => dispatch(openSignIn())}>
         Sign in
       </Button>
 

@@ -13,13 +13,12 @@ export const signUpFormDialogSlice = createSlice({
   name: 'signUpFormDialog',
   initialState,
   reducers: {
-    clickOpen: (state) => {
+    openSignUp: (state) => {
       state.isOpen = !state.isOpen
-      console.log("register " + state.isOpen)
     },
   }
 })
 
-export const {clickOpen} = signUpFormDialogSlice.actions
+export const {openSignUp} = signUpFormDialogSlice.actions
 
 export default signUpFormDialogSlice.reducer
