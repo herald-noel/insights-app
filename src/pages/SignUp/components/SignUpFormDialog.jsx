@@ -8,15 +8,20 @@ import {
   Button,
   Box,
   Typography,
-  Link,
 } from '@mui/material'
 import { openSignUp } from '../signUpFromDialogSlice'
+import { openSignIn } from '../../SignIn/signInFormDialogSlice'
 import { useSelector, useDispatch } from 'react-redux'
 
 // TODO change to REDUX!!
 const SignUpFormDialog = () => {
   const isOpen = useSelector((state) => state.signUpFormDialog.isOpen)
   const dispatch = useDispatch()
+
+  const handleLinkSignIn = () => {
+    dispatch(openSignIn())
+    dispatch(openSignUp())
+  }
 
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
@@ -105,9 +110,9 @@ const SignUpFormDialog = () => {
       >
         <Typography variant="body4">
           Already have an account?{' '}
-          <Link href="/sign-in" underline="none">
+          <Button onClick={handleLinkSignIn} underline="none">
             Sign In
-          </Link>
+          </Button>
         </Typography>
       </DialogContent>
     </Dialog>
