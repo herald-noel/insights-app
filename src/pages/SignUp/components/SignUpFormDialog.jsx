@@ -10,9 +10,14 @@ import {
   Typography,
   Link,
 } from '@mui/material'
+import { clickOpen } from '../signUpFromDialogSlice'
+import { useSelector, useDispatch } from 'react-redux'
 
 // TODO change to REDUX!!
 const SignUpFormDialog = () => {
+  const isOpen = useSelector((state) => state.signUpFormDialog.isOpen)
+  const dispatch = useDispatch()
+
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -35,7 +40,7 @@ const SignUpFormDialog = () => {
     console.log('Sign up with:', name, email, password)
   }
   return (
-    <Dialog open={false}>
+    <Dialog open={isOpen} onClose={() => dispatch(clickOpen())}>
       <DialogTitle textAlign={'center'}>Join Insights.</DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', gap: '10px' }}>
@@ -82,7 +87,7 @@ const SignUpFormDialog = () => {
         />
       </DialogContent>
       <DialogActions>
-        <Button>Cancel</Button>
+        <Button onClick={() => dispatch(clickOpen())}>Cancel</Button>
         <Button
           variant="contained"
           type="submit"

@@ -3,11 +3,15 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { PATH } from '../../data/paths'
 import SignUpFormDialog from './components/SignUpFormDialog'
+import { useDispatch } from 'react-redux'
+import { clickOpen } from './signUpFromDialogSlice'
 
 const GetStartedButton = ({ buttonName }) => {
+  const dispatch = useDispatch()
   return (
     <>
       <Button
+        onClick={() => dispatch(clickOpen())}
         component={Link}
         to={PATH.SIGN_UP}
         variant="contained"

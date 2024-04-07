@@ -8,9 +8,9 @@ import {
   Box,
 } from '@mui/material/'
 import { BRAND_LOGO, BRAND_NAME } from '../../data/constants'
-import CustomButton from './components/CustomButton'
 import HideOnScroll from './components/HideOnScroll'
 import SignInButton from '../../pages/SignIn/SignInButton'
+import GetStartedButton from '../../pages/SignUp/GetStartedButton'
 
 const Nav = (props) => {
   return (
@@ -33,7 +33,7 @@ const Nav = (props) => {
               </Typography>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <SignInButton />
-                <CustomButton buttonName="Get Started" />
+                <GetStartedButton buttonName="Get Started" />
               </Box>
             </Toolbar>
           </Container>
