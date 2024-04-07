@@ -1,8 +1,14 @@
 import React from 'react'
+import Nav from '../../components/Nav/Nav'
+import Mainlayout from '../../layout/Mainlayout'
 
 const Home = () => {
   return (
-    <div>Home 123</div>
+    <>
+      <Mainlayout>
+        <h1>Home</h1>
+      </Mainlayout>
+    </>
   )
 }
 

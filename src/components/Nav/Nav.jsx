@@ -12,8 +12,13 @@ import HideOnScroll from './components/HideOnScroll'
 import SignInButton from '../../pages/SignIn/SignInButton'
 import GetStartedButton from '../../pages/SignUp/GetStartedButton'
 import brandLogo from '../../assets/feather.svg'
+import SearchAppBar from './components/SearchAppBar'
+import { useSelector } from 'react-redux'
+import NavItems from './components/NavItems'
 
 const Nav = (props) => {
+  let isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+  isAuthenticated = false
   return (
     <React.Fragment>
       <CssBaseline />
@@ -22,21 +27,33 @@ const Nav = (props) => {
           <Container>
             <Toolbar
               sx={{
-                padding: '0px',
+                padding: 0,
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}
             >
-              <Typography variant="h6" component="div">
-                <span style={{ marginRight: '7px' }}>
-                  <img src={brandLogo} alt="insights logo" width="21px" />
-                </span>
-                {BRAND_NAME}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <img
+                  src={brandLogo}
+                  alt="insights logo"
+                  width="21px"
+                  style={{ marginRight: '7px' }}
+                />
+                <Typography variant="h6" component="div">
+                  {BRAND_NAME}
+                </Typography>
+                {isAuthenticated && <SearchAppBar />}
+              </Box>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                <SignInButton />
-                <GetStartedButton buttonName="Get Started" />
+                {isAuthenticated ? (
+                  <NavItems />
+                ) : (
+                  <>
+                    <SignInButton />
+                    <GetStartedButton buttonName="Get Started" />
+                  </>
+                )}
               </Box>
             </Toolbar>
           </Container>
