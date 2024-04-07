@@ -1,12 +1,15 @@
-import React from 'react'
 import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
-import SignUpFormDialog from '../../../pages/SignUp/components/SignUpFormDialog'
+import { Link } from 'react-router-dom'
+import { PATH } from '../../data/paths'
+import SignUpFormDialog from './components/SignUpFormDialog'
 
-const CustomButton = ({ buttonName }) => {
+const GetStartedButton = ({ buttonName }) => {
   return (
-    <React.Fragment>
+    <>
       <Button
+        component={Link}
+        to={PATH.SIGN_UP}
         variant="contained"
         size="small"
         sx={{
@@ -23,12 +26,12 @@ const CustomButton = ({ buttonName }) => {
         {buttonName}
       </Button>
       <SignUpFormDialog />
-    </React.Fragment>
+    </>
   )
 }
 
-export default CustomButton
+export default GetStartedButton
 
-CustomButton.propTypes = {
+GetStartedButton.propTypes = {
   buttonName: PropTypes.string.isRequired,
 }
