@@ -12,8 +12,11 @@ import {
 import { openSignUp } from '../signUpFromDialogSlice'
 import { openSignIn } from '../../SignIn/signInFormDialogSlice'
 import { useSelector, useDispatch } from 'react-redux'
+import { register } from '../../../services/auth/auth'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpFormDialog = () => {
+  const navigate = useNavigate()
   const isOpen = useSelector((state) => state.signUpFormDialog.isOpen)
   const dispatch = useDispatch()
 
@@ -28,8 +31,11 @@ const SignUpFormDialog = () => {
   const [password, setPassword] = React.useState('')
   const [confirmPassword, setConfirmPassword] = React.useState('')
 
+  const [emailError, setEmailError] = React.useState(false)
+  const [emailErrorMsg, setEmailErrorMsg] = React.useState('')
+
   const [passwordError, setPasswordError] = React.useState(false)
-  const [passwordErrorMsg, setPasswordErrorMsg] = React.useState(false)
+  const [passwordErrorMsg, setPasswordErrorMsg] = React.useState('')
 
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value)
@@ -65,10 +71,26 @@ const SignUpFormDialog = () => {
     return false
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     if (validatePassword()) return
-    console.log('Sign up with:', firstName, lastName, email, password)
+    const signUpData = {
+      firstname: firstName,
+      lastname: lastName,
+      email: email,
+      password: password,
+    }
+    try {
+      await register(signUpData)
+      setEmailError(false)
+      setEmailErrorMsg('')
+      dispatch(openSignUp())
+
+      navigate('/home')
+    } catch (error) {
+      setEmailError(true)
+      setEmailErrorMsg('Email already exist.')
+    }
   }
   return (
     <Dialog open={isOpen} onClose={() => dispatch(openSignUp())}>
@@ -102,6 +124,8 @@ const SignUpFormDialog = () => {
             fullWidth
             value={email}
             onChange={handleEmailChange}
+            error={emailError}
+            helperText={emailError ? emailErrorMsg : ''}
             required
           />
           <TextField
