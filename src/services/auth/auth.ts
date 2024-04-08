@@ -25,8 +25,7 @@ export const register = async (signUpData: SignUpData) => {
     localStorage.setItem('token', token);
     return token;
   } catch (error) {
-    console.error('Error registering user:', error);
-    return { error: error.message };
+    throw error
   }
 };
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -10,88 +9,31 @@ import {
   Typography,
 } from '@mui/material'
 import { openSignUp } from '../signUpFromDialogSlice'
-import { openSignIn } from '../../SignIn/signInFormDialogSlice'
-import { useSelector, useDispatch } from 'react-redux'
-import { register } from '../../../services/auth/auth'
-import { useNavigate } from 'react-router-dom'
+import useSignUp from '../hooks/useSignUp'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SignUpFormDialog = () => {
-  const navigate = useNavigate()
-  const isOpen = useSelector((state) => state.signUpFormDialog.isOpen)
   const dispatch = useDispatch()
+  const isOpen = useSelector((state) => state.signUpFormDialog.isOpen)
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    emailError,
+    emailErrorMsg,
+    passwordError,
+    passwordErrorMsg,
+    handleLinkSignIn,
+    handleFirstNameChange,
+    handleLastNameChange,
+    handleEmailChange,
+    handlePasswordChange,
+    handleConfirmPasswordChange,
+    handleSubmit,
+  } = useSignUp()
 
-  const handleLinkSignIn = () => {
-    dispatch(openSignIn())
-    dispatch(openSignUp())
-  }
-
-  const [firstName, setFirstName] = React.useState('')
-  const [lastName, setLastName] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [confirmPassword, setConfirmPassword] = React.useState('')
-
-  const [emailError, setEmailError] = React.useState(false)
-  const [emailErrorMsg, setEmailErrorMsg] = React.useState('')
-
-  const [passwordError, setPasswordError] = React.useState(false)
-  const [passwordErrorMsg, setPasswordErrorMsg] = React.useState('')
-
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value)
-  }
-
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value)
-  }
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value)
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
-
-  const handleConfirmPasswordChange = (event) => {
-    setConfirmPassword(event.target.value)
-  }
-
-  const validatePassword = () => {
-    if (password !== confirmPassword) {
-      setPasswordError(true)
-      setPasswordErrorMsg('Password does not match.')
-      return true
-    } else if (password.length < 6) {
-      setPasswordError(true)
-      setPasswordErrorMsg('Password must be atleast 6 characters.')
-      return true
-    }
-    setPasswordError(false)
-    return false
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    if (validatePassword()) return
-    const signUpData = {
-      firstname: firstName,
-      lastname: lastName,
-      email: email,
-      password: password,
-    }
-    try {
-      await register(signUpData)
-      setEmailError(false)
-      setEmailErrorMsg('')
-      dispatch(openSignUp())
-
-      navigate('/home')
-    } catch (error) {
-      setEmailError(true)
-      setEmailErrorMsg('Email already exist.')
-    }
-  }
   return (
     <Dialog open={isOpen} onClose={() => dispatch(openSignUp())}>
       <DialogTitle textAlign={'center'}>Join Insights.</DialogTitle>
