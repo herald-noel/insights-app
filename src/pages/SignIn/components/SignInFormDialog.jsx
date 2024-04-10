@@ -10,27 +10,27 @@ import {
 } from '@mui/material'
 import { openSignIn } from '../signInFormDialogSlice'
 import { useSelector, useDispatch } from 'react-redux'
+import useSignIn from '../hooks/useSignIn'
 
 // TODO change to REDUX!!
 const SignInFormDialog = () => {
   const isOpen = useSelector((state) => state.signInFormDialog.isOpen)
   const dispatch = useDispatch()
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value)
-  }
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    emailError,
+    emailErrorMsg,
+    passwordError,
+    passwordErrorMsg,
+    handleEmailChange,
+    handlePasswordChange,
+    handleSubmit,
+  } = useSignIn()
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    // Handle sign in logic here (e.g., call API)
-    console.log('Sign in with email:', email, 'password:', password)
-  }
   return (
     <Dialog open={isOpen} onClose={() => dispatch(openSignIn())}>
       <DialogTitle textAlign={'center'}>Welcome back.</DialogTitle>
