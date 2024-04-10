@@ -18,7 +18,7 @@ import NavItems from './components/NavItems'
 
 const Nav = (props) => {
   let isAuthenticated = useSelector((state) => state.user.isAuthenticated)
-  isAuthenticated = false
+
   return (
     <React.Fragment>
       <CssBaseline />

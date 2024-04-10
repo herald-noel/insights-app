@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import { login } from '../../../services/auth/auth'
 import { openSignIn } from '../signInFormDialogSlice'
+import { loginSuccess } from '../../../reducer/user/userSlice'
 
 const useSignIn = () => {
   const dispatch = useDispatch()
@@ -35,10 +36,14 @@ const useSignIn = () => {
     console.log('Submitting credentials:', credentials)
 
     try {
-      await login(credentials)
+      const userData = await login(credentials)
       setEmailError(false)
       setEmailErrorMsg('')
       dispatch(openSignIn())
+      dispatch(loginSuccess(userData))
+      console.log('loginSuccess dispatched with userData:', userData)
+      // Add temporary UI feedback
+      alert('Login Successful')
       navigate('/home')
     } catch (error) {
       setEmailError(true)
