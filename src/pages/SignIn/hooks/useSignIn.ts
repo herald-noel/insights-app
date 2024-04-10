@@ -42,8 +42,7 @@ const useSignIn = () => {
       dispatch(openSignIn())
       dispatch(loginSuccess(userData))
       console.log('loginSuccess dispatched with userData:', userData)
-      // Add temporary UI feedback
-      alert('Login Successful')
+
       navigate('/home')
     } catch (error) {
       setEmailError(true)
