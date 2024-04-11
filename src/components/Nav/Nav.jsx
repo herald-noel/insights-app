@@ -15,9 +15,17 @@ import brandLogo from '../../assets/feather.svg'
 import SearchAppBar from './components/SearchAppBar'
 import { useSelector } from 'react-redux'
 import NavItems from './components/NavItems'
+import { useNavigate } from 'react-router-dom'
 
 const Nav = (props) => {
+  const navigate = useNavigate()
+
   let isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+
+  const handleLogoClick = () => {
+    console.log('Brand clicked') // Add console.log statement
+    navigate(isAuthenticated ? '/home' : '/')
+  }
 
   return (
     <React.Fragment>
@@ -33,7 +41,14 @@ const Nav = (props) => {
                 alignItems: 'center',
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+                onClick={handleLogoClick}
+              >
                 <img
                   src={brandLogo}
                   alt="insights logo"
@@ -43,6 +58,7 @@ const Nav = (props) => {
                 <Typography variant="h6" component="div">
                   {BRAND_NAME}
                 </Typography>
+
                 {isAuthenticated && <SearchAppBar />}
               </Box>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
