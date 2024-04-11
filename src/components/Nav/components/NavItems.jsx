@@ -48,6 +48,11 @@ export default function NavItems() {
     navigate('/')
   }
 
+  const handleNotificationClick = () => {
+    console.log('Notification clicked') // Add console.log statement
+    navigate('/notifications')
+  }
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -96,7 +101,7 @@ export default function NavItems() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleNotificationClick}>
         <IconButton size="large" aria-label="new notifications" color="inherit">
           <Badge badgeContent={17} color="error">
             <NotificationsIcon />
@@ -104,6 +109,7 @@ export default function NavItems() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -133,6 +139,7 @@ export default function NavItems() {
             size="large"
             aria-label="new notifications"
             color="inherit"
+            onClick={handleNotificationClick}
           >
             <Badge badgeContent={17} color="error">
               <NotificationsIcon />

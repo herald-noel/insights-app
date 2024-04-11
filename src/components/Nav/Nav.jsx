@@ -22,6 +22,7 @@ const Nav = (props) => {
 
   let isAuthenticated = useSelector((state) => state.user.isAuthenticated)
 
+  // not sure how to handle all of these constants in redux so ari lng sani
   const handleLogoClick = () => {
     console.log('Brand clicked') // Add console.log statement
     navigate(isAuthenticated ? '/home' : '/')

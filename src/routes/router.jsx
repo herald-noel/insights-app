@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes } from 'react-router-dom'
 import LandingPageRoutes from './LandingPageRoutes'
 import HomeRoutes from './HomeRoutes'
+import NotificationRoutes from './NotificationRoutes'
 
 const routes = () => {
   return (
@@ -8,6 +9,7 @@ const routes = () => {
       <Routes>
         {LandingPageRoutes}
         {HomeRoutes}
+        {NotificationRoutes}
       </Routes>
     </Router>
   )
