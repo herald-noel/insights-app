@@ -9,8 +9,14 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import MoreIcon from '@mui/icons-material/MoreVert'
+import { useDispatch } from 'react-redux'
+import { logout } from '../../../reducer/user/userSlice'
+import { useNavigate } from 'react-router-dom' // Import useNavigate
 
 export default function NavItems() {
+  const dispatch = useDispatch() // useDispatch hook to dispatch actions
+  const navigate = useNavigate()
+
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
@@ -34,6 +40,19 @@ export default function NavItems() {
     setMobileMoreAnchorEl(event.currentTarget)
   }
 
+  const handleLogout = () => {
+    // Dispatch the logout action when the user clicks on "Log out"
+    dispatch(logout())
+    // Close the menu
+    handleMenuClose()
+    navigate('/')
+  }
+
+  const handleNotificationClick = () => {
+    console.log('Notification clicked') // Add console.log statement
+    navigate('/notifications')
+  }
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -53,7 +72,7 @@ export default function NavItems() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+      <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   )
 
@@ -82,7 +101,7 @@ export default function NavItems() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleNotificationClick}>
         <IconButton size="large" aria-label="new notifications" color="inherit">
           <Badge badgeContent={17} color="error">
             <NotificationsIcon />
@@ -90,6 +109,7 @@ export default function NavItems() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -119,6 +139,7 @@ export default function NavItems() {
             size="large"
             aria-label="new notifications"
             color="inherit"
+            onClick={handleNotificationClick}
           >
             <Badge badgeContent={17} color="error">
               <NotificationsIcon />
