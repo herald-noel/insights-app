@@ -1,6 +1,7 @@
 import React from 'react'
 import Mainlayout from '../../layout/Mainlayout'
 import BlogPost from '../../components/BlogPost'
+import CommentButton from '../Comments/CommentButton'
 
 const Blog = () => {
   const sampleBlog = [
@@ -38,6 +39,7 @@ const Blog = () => {
         {sampleBlog.map((post) => (
           <BlogPost key={post.title} post={post} />
         ))}
+        <CommentButton />
       </div>
     </Mainlayout>
   )

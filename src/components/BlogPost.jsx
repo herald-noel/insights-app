@@ -2,7 +2,6 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import { Typography, Grid, Divider } from '@mui/material'
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined'
-import CommentButton from '../pages/Comments/CommentButton'
 
 function BlogPost(props) {
   const { post } = props
@@ -28,7 +27,7 @@ function BlogPost(props) {
         {post.description}
       </Typography>
 
-      <CommentButton />
+      {/* <CommentButton /> */}
     </Grid>
   )
 }

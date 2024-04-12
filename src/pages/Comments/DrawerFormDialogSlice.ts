@@ -8,16 +8,16 @@ const initialState: OpenState = {
   isOpen: false,
 }
 
-export const DrawerDialogSlice = createSlice({
-  name: 'DrawerDialog',
+export const DrawerFormDialogSlice = createSlice({
+  name: 'DrawerFormDialog',
   initialState,
   reducers: {
     openDrawer: (state) => {
-      // Toggle the isOpen state to the opposite of its current value
       state.isOpen = !state.isOpen
     },
   },
 })
 
-export const { openDrawer } = DrawerDialogSlice.actions
-export default DrawerDialogSlice.reducer
+export const { openDrawer } = DrawerFormDialogSlice.actions
+
+export default DrawerFormDialogSlice.reducer
