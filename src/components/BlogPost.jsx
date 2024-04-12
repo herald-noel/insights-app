@@ -22,15 +22,13 @@ function BlogPost(props) {
         {post.title}
       </Typography>
       <Typography variant="subtitle1" marginBottom={1}>
-        <span style={{ fontStyle: 'italic' }}>{post.date}</span> by{' '}
-        <span style={{ fontStyle: 'italic' }}>{post.author}</span>
+        <span>{post.date}</span> by <span>{post.author}</span>
       </Typography>
-      <Typography variant="subtitle1" paragraph>
+      <Typography variant="body1" paragraph>
         {post.description}
       </Typography>
-      <Divider /> {/* Added a divider for visual separation */}
+
       <CommentButton />
-      <Divider />
     </Grid>
   )
 }

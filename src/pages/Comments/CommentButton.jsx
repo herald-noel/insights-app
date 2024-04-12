@@ -22,7 +22,7 @@ export default function CommentButton() {
   const [value, setValue] = React.useState(0)
 
   return (
-    <Box sx={{ width: 100 }}>
+    <Box sx={{ width: 69 }}>
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
