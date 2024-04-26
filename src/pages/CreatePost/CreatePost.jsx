@@ -4,9 +4,9 @@ import { Editor } from 'react-draft-wysiwyg'
 import { EditorState } from 'draft-js'
 import { useState } from 'react'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import draftToHtml from 'draftjs-to-html'
 import { convertToRaw } from 'draft-js'
 import SendIcon from '@mui/icons-material/Send'
+import draftToMarkdown from 'draftjs-to-markdown'
 
 const CreateBlog = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
@@ -15,18 +15,18 @@ const CreateBlog = () => {
     setEditorState(newEditorState)
   }
 
+  const handleSubmit = () => {
+    const content = editorState.getCurrentContent()
+    console.log(draftToMarkdown(convertToRaw(content)))
+  }
+
   return (
     <Mainlayout>
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button
             variant="outlined"
-            onClick={() => {
-              const content = draftToHtml(
-                convertToRaw(editorState.getCurrentContent())
-              )
-              console.log(content)
-            }}
+            onClick={handleSubmit}
             sx={{
               marginBottom: '8px',
             }}
