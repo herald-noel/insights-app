@@ -7,13 +7,14 @@ import {
   CardActionArea,
   CardContent,
 } from '@mui/material'
+import { PATH } from '../data/paths'
 
 function CardPost(props) {
   const { post } = props
 
   return (
     <Grid item xs={12} md={6} py={1}>
-      <CardActionArea component={Link} to="blog">
+      <CardActionArea component={Link} to={PATH.BLOG}>
         <Card
           sx={{
             display: 'flex',
