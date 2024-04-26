@@ -6,7 +6,7 @@ import Hero from '../LandingPage/components/Hero'
 import CardPost from '../../components/CardPost'
 import { heroContent } from '../../data/hero.constants'
 import Divider from '@mui/material/Divider'
-import NewPostButton from './components/NewPostButton'
+import CreateBlogButton from './components/CreateBlogButton'
 
 const Home = () => {
   const featuredPosts = [
@@ -39,7 +39,7 @@ const Home = () => {
     <Mainlayout>
       <Box>
         <>
-          <NewPostButton />
+          <CreateBlogButton />
           {featuredPosts.map((post) => (
             <CardPost key={post.title} post={post} />
           ))}
