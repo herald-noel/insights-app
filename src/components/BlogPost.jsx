@@ -1,21 +1,13 @@
-import * as React from 'react'
 import PropTypes from 'prop-types'
-import { Typography, Grid, Divider } from '@mui/material'
-import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined'
+import { Typography, Grid } from '@mui/material'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 function BlogPost(props) {
   const { post } = props
 
   return (
-    <Grid
-      item
-      xs={12}
-      md={6}
-      py={1}
-      marginTop={10}
-      marginLeft={5}
-      marginRight={5}
-    >
+    <Grid item xs={12} md={6} py={1} marginLeft={5} marginRight={5}>
       <Grid sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}></Grid>
       <Typography component="h1" variant="h2" marginBottom={2}>
         {post.title}
@@ -23,9 +15,9 @@ function BlogPost(props) {
       <Typography variant="subtitle1" marginBottom={1}>
         <span>{post.date}</span> by <span>{post.author}</span>
       </Typography>
-      <Typography variant="body1" paragraph>
+      <ReactMarkdown rehypePlugins={[rehypeRaw]}>
         {post.description}
-      </Typography>
+      </ReactMarkdown>
 
       {/* <CommentButton /> */}
     </Grid>
