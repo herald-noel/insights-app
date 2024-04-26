@@ -11,10 +11,11 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import MoreIcon from '@mui/icons-material/MoreVert'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../../reducer/user/userSlice'
-import { useNavigate } from 'react-router-dom' // Import useNavigate
+import { useNavigate } from 'react-router-dom'
+import { logout as logoutUser } from '../../../services/auth/auth'
 
 export default function NavItems() {
-  const dispatch = useDispatch() // useDispatch hook to dispatch actions
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -41,10 +42,9 @@ export default function NavItems() {
   }
 
   const handleLogout = () => {
-    // Dispatch the logout action when the user clicks on "Log out"
-    dispatch(logout())
-    // Close the menu
     handleMenuClose()
+    dispatch(logout())
+    logoutUser()
     navigate('/')
   }
 
