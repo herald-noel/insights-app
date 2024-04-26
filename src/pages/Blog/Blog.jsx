@@ -1,4 +1,3 @@
-import React from 'react'
 import Mainlayout from '../../layout/Mainlayout'
 import BlogPost from '../../components/BlogPost'
 import CommentButton from '../Comments/CommentButton'

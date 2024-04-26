@@ -1,11 +1,6 @@
-import React from 'react'
-import Nav from '../../components/Nav/Nav'
 import Mainlayout from '../../layout/Mainlayout'
 import { Box } from '@mui/material'
-import Hero from '../LandingPage/components/Hero'
 import CardPost from '../../components/CardPost'
-import { heroContent } from '../../data/hero.constants'
-import Divider from '@mui/material/Divider'
 import CreateBlogButton from './components/CreateBlogButton'
 
 const Home = () => {

@@ -1,4 +1,3 @@
-import React from 'react'
 import Mainlayout from '../../layout/Mainlayout'
 
 const Notifications = () => {
