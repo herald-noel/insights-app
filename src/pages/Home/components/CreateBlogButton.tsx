@@ -13,7 +13,7 @@ const CreateBlogButton = () => {
         variant="outlined"
         startIcon={<AddIcon />}
       >
-        Add Post
+        New Post
       </Button>
     </Box>
   )
