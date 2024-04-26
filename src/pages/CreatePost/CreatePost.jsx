@@ -41,6 +41,19 @@ const CreateBlog = () => {
           wrapperClassName="wrapperClassName"
           editorClassName="editorClassName"
           onEditorStateChange={onEditorStateChange}
+          toolbar={{
+            options: [
+              'inline',
+              'blockType',
+              'fontSize',
+              'list',
+              'link',
+              'image',
+              'emoji',
+              'history',
+            ],
+            link: { inDropdown: true },
+          }}
           placeholder="Enter text here..."
         />
       </Box>
