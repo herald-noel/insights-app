@@ -10,7 +10,6 @@ export const login = async (credentials: Credentials) => {
     console.log('Login credentials:', credentials)
     const response = await axios.post(`${BASE_URL}/authenticate`, credentials)
     const { token } = response.data
-    console.log(token)
     localStorage.setItem('token', token)
     return token
   } catch (error) {
