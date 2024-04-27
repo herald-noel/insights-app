@@ -70,7 +70,7 @@ const useSignUp = () => {
       setEmailErrorMsg('')
 
       dispatch(openSignUp())
-      dispatch(loginSuccess(credentials.email))
+      dispatch(loginSuccess(signUpData.email))
 
       navigate('/home')
     } catch (error) {
