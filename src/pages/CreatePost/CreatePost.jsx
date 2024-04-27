@@ -6,19 +6,21 @@ import SendIcon from '@mui/icons-material/Send'
 import { TextField } from '@mui/material'
 import SnackbarBlog from './components/SnackbarBlog'
 import useEditor from './hooks/useEditor'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { openSnackbar } from './createPostSlice'
 import draftToMarkdown from 'draftjs-to-markdown'
 import { convertToRaw } from 'draft-js'
 import { useDispatch } from 'react-redux'
 import useFetch from '../../hooks/useFetch'
+import { useNavigate } from 'react-router-dom'
 import { REQUEST } from '../../data/requests.constants'
 import '../../styles/editor.modules.css'
 
 const CreateBlog = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
-  const { data, fetchData } = useFetch('/posts/create/blog', REQUEST.POST)
+  const { fetchData } = useFetch('/posts/create/blog', REQUEST.POST)
 
   const { editorState, onEditorStateChange, editorContent } = useEditor()
 
@@ -35,13 +37,10 @@ const CreateBlog = () => {
       title: title,
       content: content,
     }
-    fetchData(newData)
-    console.log(content)
-  }
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
+    fetchData(newData)
+    navigate('/home')
+  }
 
   return (
     <Mainlayout>
