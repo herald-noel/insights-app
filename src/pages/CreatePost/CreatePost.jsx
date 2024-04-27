@@ -13,6 +13,7 @@ import { convertToRaw } from 'draft-js'
 import { useDispatch } from 'react-redux'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
+import '../../styles/editor.modules.css'
 
 const CreateBlog = () => {
   const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const CreateBlog = () => {
       content: content,
     }
     fetchData(newData)
+    console.log(content)
   }
 
   useEffect(() => {
@@ -71,8 +73,9 @@ const CreateBlog = () => {
           editorState={editorState}
           toolbarClassName="toolbarClassName"
           wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
+          editorClassName="editor-class"
           onEditorStateChange={onEditorStateChange}
+          stripPastedStyles={true}
           toolbar={{
             options: [
               'inline',
