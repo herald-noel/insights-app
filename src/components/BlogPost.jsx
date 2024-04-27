@@ -1,25 +1,41 @@
 import PropTypes from 'prop-types'
-import { Typography, Grid } from '@mui/material'
+import { Grid, Divider, Box } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import CommentButton from '../pages/Comments/CommentButton'
+import '../styles/reactMarkdown.css'
 
 function BlogPost(props) {
   const { post } = props
 
   return (
-    <Grid item xs={12} md={6} py={1} marginLeft={5} marginRight={5}>
+    <Grid
+      item
+      xs={12}
+      md={6}
+      py={1}
+      width={'800px'}
+      maxWidth={'800px'}
+      minWidth={'100px'}
+    >
       <Grid sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}></Grid>
-      <Typography component="h1" variant="h2" marginBottom={2}>
-        {post.title}
-      </Typography>
-      <Typography variant="subtitle1" marginBottom={1}>
-        <span>{post.date}</span> by <span>{post.author}</span>
-      </Typography>
-      <ReactMarkdown rehypePlugins={[rehypeRaw]}>
-        {post.description}
-      </ReactMarkdown>
-
-      {/* <CommentButton /> */}
+      <h1 style={{ fontSize: '42px' }}>{post.title}</h1>
+      <Box sx={{ marginY: '20px' }}>
+        <p style={{ fontSize: '16px' }}>{post.author}</p>
+        <p style={{ fontSize: '14px', color: 'grey' }}>{post.date}</p>
+      </Box>
+      <Divider />
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Box marginY={'1px'}>
+          <CommentButton />
+        </Box>
+      </Box>
+      <Divider />
+      <Box marginTop={'20px'}>
+        <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
+          {post.description}
+        </ReactMarkdown>
+      </Box>
     </Grid>
   )
 }
