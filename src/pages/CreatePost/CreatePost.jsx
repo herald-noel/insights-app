@@ -1,38 +1,14 @@
 import Mainlayout from '../../layout/Mainlayout'
 import { Box, Button } from '@mui/material'
 import { Editor } from 'react-draft-wysiwyg'
-import { EditorState } from 'draft-js'
-import { useState } from 'react'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import { convertToRaw } from 'draft-js'
 import SendIcon from '@mui/icons-material/Send'
-import draftToMarkdown from 'draftjs-to-markdown'
 import { TextField } from '@mui/material'
 import SnackbarBlog from './components/SnackbarBlog'
-import { useDispatch } from 'react-redux'
-import { openSnackbar } from './createPostSlice'
+import useEditor from './hooks/useEditor'
 
 const CreateBlog = () => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  const [editorContent, setEditorContent] = useState(null)
-  const dispatch = useDispatch()
-
-  const onEditorStateChange = (newEditorState) => {
-    setEditorState(newEditorState)
-    setEditorContent(editorState.getCurrentContent().getPlainText().trim())
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-
-    const content = editorState.getCurrentContent()
-    if (!editorContent) {
-      dispatch(openSnackbar())
-      return
-    }
-    console.log(draftToMarkdown(convertToRaw(content)))
-  }
-
+  const { editorState, handleSubmit, onEditorStateChange } = useEditor()
   return (
     <Mainlayout>
       <Box component="form" onSubmit={handleSubmit}>
