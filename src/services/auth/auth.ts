@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Credentials, SignUpData } from './authInterface'
 import { API_BASE_URL } from '../../data/apiUrl'
 
-const BASE_URL = 'http://localhost:8080/api/v1/auth'
+const BASE_URL = API_BASE_URL + '/auth'
 
 // Function to authenticate user (login)
 export const login = async (credentials: Credentials) => {
@@ -10,6 +10,7 @@ export const login = async (credentials: Credentials) => {
     console.log('Login credentials:', credentials)
     const response = await axios.post(`${BASE_URL}/authenticate`, credentials)
     const { token } = response.data
+    console.log(token)
     localStorage.setItem('token', token)
     return token
   } catch (error) {

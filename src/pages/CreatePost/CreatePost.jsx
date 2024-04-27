@@ -6,12 +6,44 @@ import SendIcon from '@mui/icons-material/Send'
 import { TextField } from '@mui/material'
 import SnackbarBlog from './components/SnackbarBlog'
 import useEditor from './hooks/useEditor'
+import { useEffect, useState } from 'react'
+import { openSnackbar } from './createPostSlice'
+import draftToMarkdown from 'draftjs-to-markdown'
+import { convertToRaw } from 'draft-js'
+import { useDispatch } from 'react-redux'
+import useFetch from '../../hooks/useFetch'
+import { REQUEST } from '../../data/requests.constants'
 
 const CreateBlog = () => {
-  const { editorState, handleSubmit, onEditorStateChange } = useEditor()
+  const dispatch = useDispatch()
+  const [title, setTitle] = useState('')
+  const { data, fetchData } = useFetch('/posts/create/blog', REQUEST.POST)
+
+  const { editorState, onEditorStateChange, editorContent } = useEditor()
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    let content = editorState.getCurrentContent()
+    if (!editorContent) {
+      dispatch(openSnackbar())
+      return
+    }
+    content = draftToMarkdown(convertToRaw(content))
+    const newData = {
+      title: title,
+      content: content,
+    }
+    fetchData(newData)
+  }
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
+
   return (
     <Mainlayout>
-      <Box component="form" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button
             variant="outlined"
@@ -30,6 +62,10 @@ const CreateBlog = () => {
           label="Title"
           fullWidth
           margin="normal"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value)
+          }}
         />
         <Editor
           editorState={editorState}
@@ -53,7 +89,7 @@ const CreateBlog = () => {
           placeholder="Tell your story..."
         />
         <SnackbarBlog />
-      </Box>
+      </form>
     </Mainlayout>
   )
 }

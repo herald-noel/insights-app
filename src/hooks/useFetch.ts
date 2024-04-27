@@ -1,32 +1,25 @@
-import { useEffect, useState } from "react";
-import { useFetchDataFromApi } from "../services/apiAuth";
-
+import { useEffect, useState } from 'react'
+import { useFetchDataFromApi } from '../services/apiAuth'
 
 const useFetch = (url: string, method: string, params?: any) => {
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<any>(null)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
+  const fetchData = async (payload?: any) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await useFetchDataFromApi(url, method, params, payload)
+      setData(response)
+    } catch (error) {
+      setError(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
-      try {
-        const response = await useFetchDataFromApi(url, method, params);
-        setData(response.data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  return { data, loading, error, fetchData }
+}
 
-    fetchData();
-  }, [method, params]); // Re-run on changes to method, url, or params
-
-  return { data, loading, error };
-
-};
-
-export default useFetch;
+export default useFetch
