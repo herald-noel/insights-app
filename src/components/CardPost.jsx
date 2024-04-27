@@ -11,7 +11,6 @@ import { PATH } from '../data/paths'
 
 function CardPost(props) {
   const { post } = props
-
   return (
     <Grid item xs={12} md={6} py={1}>
       <CardActionArea component={Link} to={PATH.BLOG}>
@@ -22,7 +21,14 @@ function CardPost(props) {
           }}
           variant="outlined"
         >
-          <CardContent sx={{ flex: 1 }}>
+          <CardContent
+            sx={{
+              flex: 1,
+              minHeight: '150px',
+              maxHeight: '180px',
+              width: '100%',
+            }}
+          >
             <Grid
               sx={{
                 display: 'flex',
@@ -30,18 +36,19 @@ function CardPost(props) {
                 gap: '5px',
               }}
             >
-              <Typography variant="subtitle1">John Doe </Typography>
+              <Typography variant="subtitle1">{`${post.user.firstname} ${post.user.lastname}`}</Typography>
               <span>⋅</span>
               <Typography variant="subtitle1" color="text.secondary">
-                {post.date}
+                {post.createdAt}
               </Typography>
             </Grid>
             <Typography component="h2" variant="h5">
               {post.title}
             </Typography>
-
             <Typography variant="subtitle1" paragraph>
-              {post.description}
+              {post.content.length > 400
+                ? post.content.substring(0, 400) + '...'
+                : post.content}
             </Typography>
           </CardContent>
         </Card>
@@ -52,9 +59,14 @@ function CardPost(props) {
 
 CardPost.propTypes = {
   post: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      userId: PropTypes.number.isRequired,
+      firstname: PropTypes.string.isRequired,
+      lastname: PropTypes.string.isRequired,
+    }),
   }).isRequired,
 }
 

@@ -4,6 +4,7 @@ import signUpFormDialogSlice from '../pages/SignUp/signUpFromDialogSlice'
 import userSlice from './user/userSlice'
 import DrawerFormDialogSlice from '../pages/Comments/DrawerFormDialogSlice'
 import createPostSlice from '../pages/CreatePost/createPostSlice'
+import homePageSlice from '../pages/Home/homePageSlice'
 
 export const rootReducer = combineReducers({
   signInFormDialog: signInFormDialogSlice,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   user: userSlice,
   DrawerFormDialog: DrawerFormDialogSlice,
   createPost: createPostSlice,
+  homePage: homePageSlice,
 })
