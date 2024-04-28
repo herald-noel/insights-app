@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import '../styles/reactMarkdown.css'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 import {
   Typography,
   Grid,
@@ -46,9 +49,11 @@ function CardPost(props) {
               {post.title}
             </Typography>
             <Typography variant="subtitle1" paragraph>
-              {post.content.length > 400
-                ? post.content.substring(0, 400) + '...'
-                : post.content}
+              <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
+                {post.content.length > 400
+                  ? post.content.substring(0, 400) + '...'
+                  : post.content}
+              </ReactMarkdown>
             </Typography>
           </CardContent>
         </Card>
