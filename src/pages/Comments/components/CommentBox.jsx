@@ -27,7 +27,7 @@ export default function CommentBox() {
           sx={{ width: '100%' }}
         />
       </CardContent>
-      <CardActions>
+      <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           size="small"
           sx={{ color: 'grey' }}
