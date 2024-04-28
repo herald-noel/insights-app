@@ -12,37 +12,9 @@ import {
   Avatar,
 } from '@mui/material'
 import { PATH } from '../data/paths'
-import { useEffect, useRef, useState } from 'react'
 
 function CardPost(props) {
   const { post } = props
-  const [cardWidth, setCardWidth] = useState(0)
-  const cardContentRef = useRef(null)
-
-  const updateWidth = () => {
-    if (cardContentRef.current) {
-      const width = cardContentRef.current.clientWidth - 32
-      // Use the width here (e.g., store it in state)
-      setCardWidth(width)
-      console.log('CardContent width:', width)
-    }
-  }
-
-  useEffect(() => {
-    updateWidth()
-
-    const observer = new ResizeObserver(updateWidth)
-    if (cardContentRef.current) {
-      observer.observe(cardContentRef.current)
-    }
-
-    // Cleanup function to remove observer on unmount
-    return () => {
-      if (cardContentRef.current) {
-        observer.unobserve(cardContentRef.current)
-      }
-    }
-  }, [])
 
   return (
     <Grid item xs={12} md={6} py={1}>
@@ -62,7 +34,6 @@ function CardPost(props) {
               width: '100%',
               overflow: 'hidden',
             }}
-            ref={cardContentRef}
           >
             <Grid
               sx={{
