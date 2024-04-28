@@ -13,7 +13,7 @@ function CardPost(props) {
   const { post } = props
   return (
     <Grid item xs={12} md={6} py={1}>
-      <CardActionArea component={Link} to={PATH.BLOG}>
+      <CardActionArea component={Link} to={`${PATH.BLOG}/${post.blogId}`}>
         <Card
           sx={{
             display: 'flex',
@@ -59,6 +59,7 @@ function CardPost(props) {
 
 CardPost.propTypes = {
   post: PropTypes.shape({
+    blogId: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

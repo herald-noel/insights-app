@@ -1,12 +1,29 @@
-import PropTypes from 'prop-types'
 import { Grid, Divider, Box } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import CommentButton from '../pages/Comments/CommentButton'
 import '../styles/reactMarkdown.css'
+import { useLocation } from 'react-router-dom'
+import useFetch from '../hooks/useFetch'
+import { REQUEST } from '../data/requests.constants'
+import { useEffect, useState } from 'react'
 
-function BlogPost(props) {
-  const { post } = props
+function BlogPost() {
+  const location = useLocation()
+  const pathnameParts = location.pathname.split('/')
+  const blogId = pathnameParts[pathnameParts.length - 1]
+
+  const url = `posts/get/blog/${blogId}`
+  const { data, fetchData } = useFetch(url, REQUEST.GET)
+  const [responseData, setResponseData] = useState({})
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  useEffect(() => {
+    setResponseData(data)
+  }, [data])
 
   return (
     <Grid
@@ -18,35 +35,38 @@ function BlogPost(props) {
       maxWidth={'800px'}
       minWidth={'100px'}
     >
-      <Grid sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}></Grid>
-      <h1 style={{ fontSize: '42px' }}>{post.title}</h1>
-      <Box sx={{ marginY: '20px' }}>
-        <p style={{ fontSize: '16px' }}>{post.author}</p>
-        <p style={{ fontSize: '14px', color: 'grey' }}>{post.date}</p>
-      </Box>
-      <Divider />
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Box marginY={'1px'}>
-          <CommentButton />
-        </Box>
-      </Box>
-      <Divider />
-      <Box marginTop={'20px'}>
-        <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
-          {post.description}
-        </ReactMarkdown>
-      </Box>
+      {responseData && (
+        <>
+          <Grid
+            sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+          ></Grid>
+          <h1 style={{ fontSize: '42px' }}>{responseData.title}</h1>
+          <Box sx={{ marginY: '20px' }}>
+            {responseData.user && (
+              <p
+                style={{ fontSize: '16px' }}
+              >{`${responseData.user.firstname} ${responseData.user.lastname}`}</p>
+            )}
+            <p style={{ fontSize: '14px', color: 'grey' }}>
+              {responseData.createdAt}
+            </p>
+          </Box>
+          <Divider />
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box marginY={'1px'}>
+              <CommentButton />
+            </Box>
+          </Box>
+          <Divider />
+          <Box marginTop={'20px'}>
+            <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
+              {responseData.content}
+            </ReactMarkdown>
+          </Box>
+        </>
+      )}
     </Grid>
   )
-}
-
-BlogPost.propTypes = {
-  post: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-  }).isRequired,
 }
 
 export default BlogPost
