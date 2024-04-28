@@ -1,21 +1,22 @@
 import Mainlayout from '../../layout/Mainlayout'
-import { Box } from '@mui/material'
+import { Box, Pagination } from '@mui/material'
 import CardPost from '../../components/CardPost'
 import CreateBlogButton from './components/CreateBlogButton'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useState } from 'react'
-import HomePagination from './components/HomePagination'
 
 const Home = () => {
   const url = '/posts/all'
+  const [page, setPage] = useState(0)
+  const [pageParam, setPageParam] = useState({ page: 0 })
   const [responseData, setResponseData] = useState({})
-  const [page, setPage] = useState({ page: 0 })
-  const { data, fetchData } = useFetch(url, REQUEST.GET, page)
+
+  const { data, fetchData } = useFetch(url, REQUEST.GET, pageParam)
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [page])
 
   useEffect(() => {
     if (data === null) {
@@ -24,6 +25,11 @@ const Home = () => {
     console.log(data)
     setResponseData(data)
   }, [data])
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage)
+    setPageParam({ page: newPage - 1 })
+  }
 
   return (
     <Mainlayout>
@@ -36,7 +42,13 @@ const Home = () => {
             ))}
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             {responseData.content && (
-              <HomePagination length={responseData.totalPages} />
+              <Pagination
+                page={page}
+                count={responseData.totalPages}
+                shape="rounded"
+                size="large"
+                onChange={handlePageChange}
+              />
             )}
           </Box>
         </>
