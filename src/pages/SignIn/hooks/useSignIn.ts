@@ -32,16 +32,12 @@ const useSignIn = () => {
       password: password,
     }
 
-    // Log the credentials before making the login request
-    console.log('Submitting credentials:', credentials)
-
     try {
       const userData = await login(credentials)
       setEmailError(false)
       setEmailErrorMsg('')
       dispatch(openSignIn())
-      dispatch(loginSuccess(userData))
-      console.log('loginSuccess dispatched with userData:', userData)
+      dispatch(loginSuccess(credentials.email))
 
       navigate('/home')
     } catch (error) {

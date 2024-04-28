@@ -11,10 +11,11 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import MoreIcon from '@mui/icons-material/MoreVert'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../../reducer/user/userSlice'
-import { useNavigate } from 'react-router-dom' // Import useNavigate
+import { useNavigate } from 'react-router-dom'
+import { logout as logoutUser } from '../../../services/auth/auth'
 
 export default function NavItems() {
-  const dispatch = useDispatch() // useDispatch hook to dispatch actions
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -41,11 +42,10 @@ export default function NavItems() {
   }
 
   const handleLogout = () => {
-    // Dispatch the logout action when the user clicks on "Log out"
-    dispatch(logout())
-    // Close the menu
     handleMenuClose()
-    navigate('/')
+    logoutUser()
+    dispatch(logout())
+    window.location.href = '/'
   }
 
   const handleNotificationClick = () => {
@@ -56,16 +56,38 @@ export default function NavItems() {
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
+      slotProps={{
+        paper: {
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 0.1,
+            '&::before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 20,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        },
+      }}
       anchorEl={anchorEl}
       anchorOrigin={{
-        vertical: 'top',
         horizontal: 'right',
+        vertical: 'bottom',
       }}
       id={menuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
         horizontal: 'right',
+        vertical: 'top',
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}

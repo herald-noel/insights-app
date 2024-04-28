@@ -1,8 +1,8 @@
 import * as React from 'react'
 
-import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 
-import BottomNavigationAction from '@mui/material/BottomNavigationAction'
+import { IconButton, Tooltip } from '@mui/material'
 import { useDispatch } from 'react-redux'
 
 import DrawerFormDialog from '../Comments/components/DrawerFormDialog'
@@ -13,11 +13,11 @@ export default function CommentButton() {
 
   return (
     <React.Fragment>
-      <BottomNavigationAction
-        label="Comments"
-        onClick={() => dispatch(openDrawer())}
-        icon={<ChatOutlinedIcon />}
-      ></BottomNavigationAction>
+      <Tooltip title="Respond" placement="top">
+        <IconButton label="Comments" onClick={() => dispatch(openDrawer())}>
+          <ChatBubbleOutlineIcon />
+        </IconButton>
+      </Tooltip>
 
       <DrawerFormDialog />
     </React.Fragment>

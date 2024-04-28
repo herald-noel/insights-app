@@ -1,5 +1,4 @@
 import { Box } from '@mui/material'
-import CardPost from '../../components/CardPost'
 import Hero from './components/Hero'
 import { heroContent } from '../../data/hero.constants'
 import Mainlayout from '../../layout/Mainlayout'
@@ -35,9 +34,6 @@ const LandingPage = () => {
     <Mainlayout>
       <Box sx={{ my: 2 }}>
         <Hero post={heroContent} />
-        {featuredPosts.map((post) => (
-          <CardPost key={post.title} post={post} />
-        ))}
       </Box>
     </Mainlayout>
   )

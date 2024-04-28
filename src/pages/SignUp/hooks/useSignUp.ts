@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { openSignUp } from '../signUpFromDialogSlice'
 import { openSignIn } from '../../SignIn/signInFormDialogSlice'
+import { loginSuccess } from '../../../reducer/user/userSlice'
 
 const useSignUp = () => {
   const dispatch = useDispatch()
@@ -67,7 +68,10 @@ const useSignUp = () => {
       await register(signUpData)
       setEmailError(false)
       setEmailErrorMsg('')
+
       dispatch(openSignUp())
+      dispatch(loginSuccess(signUpData.email))
+
       navigate('/home')
     } catch (error) {
       setEmailError(true)

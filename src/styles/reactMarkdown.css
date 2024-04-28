@@ -1,0 +1,12 @@
+.line-break {
+  white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis; /* Add ellipsis (...) at the end */
+  overflow: hidden;
+}
+
+.blog-line-break {
+  white-space: pre-wrap;
+}

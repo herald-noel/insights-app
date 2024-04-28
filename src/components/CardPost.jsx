@@ -1,19 +1,24 @@
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import '../styles/reactMarkdown.css'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 import {
   Typography,
   Grid,
   Card,
   CardActionArea,
   CardContent,
+  Avatar,
 } from '@mui/material'
+import { PATH } from '../data/paths'
 
 function CardPost(props) {
   const { post } = props
 
   return (
     <Grid item xs={12} md={6} py={1}>
-      <CardActionArea component={Link} to="blog">
+      <CardActionArea component={Link} to={`${PATH.BLOG}/${post.blogId}`}>
         <Card
           sx={{
             display: 'flex',
@@ -21,27 +26,39 @@ function CardPost(props) {
           }}
           variant="outlined"
         >
-          <CardContent sx={{ flex: 1 }}>
+          <CardContent
+            sx={{
+              flex: 1,
+              minHeight: '200px',
+              maxHeight: '200px',
+              width: '100%',
+              overflow: 'hidden',
+            }}
+          >
             <Grid
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
+                marginBottom: '10px',
               }}
             >
-              <Typography variant="subtitle1">John Doe </Typography>
+              <Avatar sx={{ width: 30, height: 30 }}>
+                {post.user.firstname[0]}
+                {post.user.lastname[0]}
+              </Avatar>
+              <Typography variant="subtitle1">{`${post.user.firstname} ${post.user.lastname}`}</Typography>
               <span>⋅</span>
               <Typography variant="subtitle1" color="text.secondary">
-                {post.date}
+                {post.createdAt}
               </Typography>
             </Grid>
             <Typography component="h2" variant="h5">
               {post.title}
             </Typography>
-
-            <Typography variant="subtitle1" paragraph>
-              {post.description}
-            </Typography>
+            <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
+              {post.content}
+            </ReactMarkdown>
           </CardContent>
         </Card>
       </CardActionArea>
@@ -51,9 +68,15 @@ function CardPost(props) {
 
 CardPost.propTypes = {
   post: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    blogId: PropTypes.number.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      userId: PropTypes.number.isRequired,
+      firstname: PropTypes.string.isRequired,
+      lastname: PropTypes.string.isRequired,
+    }),
   }).isRequired,
 }
 
