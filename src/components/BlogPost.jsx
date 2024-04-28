@@ -17,14 +17,17 @@ function BlogPost() {
   const url = `posts/get/blog/${blogId}`
   const { data, fetchData } = useFetch(url, REQUEST.GET)
   const [responseData, setResponseData] = useState({})
+  const [likes, setLikes] = useState(0)
 
   useEffect(() => {
     fetchData()
   }, [])
 
   useEffect(() => {
-    console.log(data)
-    setResponseData(data)
+    if (data !== null) {
+      setLikes(data.likes)
+      setResponseData(data)
+    }
   }, [data])
 
   return (
@@ -67,7 +70,7 @@ function BlogPost() {
             }}
           >
             <Box marginY={'1px'} display={'flex'}>
-              <RecommendButton likes={responseData.likes} />
+              <RecommendButton likes={likes} />
               <CommentButton />
             </Box>
           </Box>
