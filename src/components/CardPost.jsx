@@ -9,6 +9,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Avatar,
 } from '@mui/material'
 import { PATH } from '../data/paths'
 
@@ -37,8 +38,13 @@ function CardPost(props) {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '5px',
+                marginBottom: '10px',
               }}
             >
+              <Avatar sx={{ width: 30, height: 30 }}>
+                {post.user.firstname[0]}
+                {post.user.lastname[0]}
+              </Avatar>
               <Typography variant="subtitle1">{`${post.user.firstname} ${post.user.lastname}`}</Typography>
               <span>⋅</span>
               <Typography variant="subtitle1" color="text.secondary">
@@ -48,13 +54,11 @@ function CardPost(props) {
             <Typography component="h2" variant="h5">
               {post.title}
             </Typography>
-            <Typography variant="subtitle1" paragraph>
-              <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
-                {post.content.length > 400
-                  ? post.content.substring(0, 400) + '...'
-                  : post.content}
-              </ReactMarkdown>
-            </Typography>
+            <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
+              {post.content.length > 400
+                ? post.content.substring(0, 400) + '...'
+                : post.content}
+            </ReactMarkdown>
           </CardContent>
         </Card>
       </CardActionArea>

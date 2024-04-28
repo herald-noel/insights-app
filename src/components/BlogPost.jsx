@@ -1,4 +1,4 @@
-import { Grid, Divider, Box } from '@mui/material'
+import { Grid, Divider, Box, Avatar } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import CommentButton from '../pages/Comments/CommentButton'
@@ -42,16 +42,22 @@ function BlogPost() {
             sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
           ></Grid>
           <h1 style={{ fontSize: '42px' }}>{responseData.title}</h1>
-          <Box sx={{ marginY: '20px' }}>
-            {responseData.user && (
-              <p
-                style={{ fontSize: '16px' }}
-              >{`${responseData.user.firstname} ${responseData.user.lastname}`}</p>
-            )}
-            <p style={{ fontSize: '14px', color: 'grey' }}>
-              {responseData.createdAt}
-            </p>
-          </Box>
+          {responseData.user && (
+            <Box display={'flex'} alignItems={'center'}>
+              <Avatar>
+                {responseData.user.firstname[0]}
+                {responseData.user.lastname[0]}
+              </Avatar>
+              <Box sx={{ marginY: '20px', marginLeft: '10px' }}>
+                <p
+                  style={{ fontSize: '16px' }}
+                >{`${responseData.user.firstname} ${responseData.user.lastname}`}</p>
+                <p style={{ fontSize: '14px', color: 'grey' }}>
+                  {responseData.createdAt}
+                </p>
+              </Box>
+            </Box>
+          )}
           <Divider />
           <Box
             sx={{
