@@ -12,7 +12,7 @@ export default function RecommendButton(props) {
       <Box display={'flex'} alignItems={'center'}>
         <Tooltip title="Recommend" placement="top">
           <IconButton label="Recommend">
-            <ThumbUpOffAltOutlined />{' '}
+            <ThumbUpOffAltOutlined />
           </IconButton>
         </Tooltip>
         <Typography marginRight={'5px'}>{likes}</Typography>

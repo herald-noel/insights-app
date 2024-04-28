@@ -23,6 +23,7 @@ function BlogPost() {
   }, [])
 
   useEffect(() => {
+    console.log(data)
     setResponseData(data)
   }, [data])
 
@@ -66,9 +67,7 @@ function BlogPost() {
             }}
           >
             <Box marginY={'1px'} display={'flex'}>
-              {responseData.like && (
-                <RecommendButton likes={responseData.likes} />
-              )}
+              <RecommendButton likes={responseData.likes} />
               <CommentButton />
             </Box>
           </Box>
