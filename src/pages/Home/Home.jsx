@@ -22,7 +22,6 @@ const Home = () => {
     if (data === null) {
       return
     }
-    console.log(data)
     setResponseData(data)
   }, [data])
 

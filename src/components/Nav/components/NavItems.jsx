@@ -43,9 +43,9 @@ export default function NavItems() {
 
   const handleLogout = () => {
     handleMenuClose()
-    dispatch(logout())
     logoutUser()
-    navigate('/')
+    dispatch(logout())
+    window.location.href = '/'
   }
 
   const handleNotificationClick = () => {

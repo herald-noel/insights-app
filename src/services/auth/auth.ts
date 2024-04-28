@@ -7,7 +7,6 @@ const BASE_URL = API_BASE_URL + '/auth'
 // Function to authenticate user (login)
 export const login = async (credentials: Credentials) => {
   try {
-    console.log('Login credentials:', credentials)
     const response = await axios.post(`${BASE_URL}/authenticate`, credentials)
     const { token } = response.data
     localStorage.setItem('token', token)

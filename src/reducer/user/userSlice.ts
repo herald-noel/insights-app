@@ -12,8 +12,6 @@ const userSlice = createSlice({
     loginSuccess(state, action) {
       state.isAuthenticated = true
       state.user = action.payload
-      console.log('User logged in:', action.payload) // Add logging for debugging
-      console.log('Authentication: ', state.isAuthenticated)
     },
     logout(state) {
       state.isAuthenticated = false
