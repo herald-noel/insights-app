@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import { REQUEST } from '../data/requests.constants'
 import { useEffect, useState } from 'react'
+import RecommendButton from '../pages/Blog/components/RecommendButton'
 
 function BlogPost() {
   const location = useLocation()
@@ -52,8 +53,14 @@ function BlogPost() {
             </p>
           </Box>
           <Divider />
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Box marginY={'1px'}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Box marginY={'1px'} display={'flex'}>
+              <RecommendButton likes={responseData.likes} />
               <CommentButton />
             </Box>
           </Box>
