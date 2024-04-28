@@ -74,7 +74,10 @@ function BlogPost() {
           </Box>
           <Divider />
           <Box marginTop={'20px'}>
-            <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
+            <ReactMarkdown
+              className="blog-line-break"
+              rehypePlugins={[rehypeRaw]}
+            >
               {responseData.content}
             </ReactMarkdown>
           </Box>
