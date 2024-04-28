@@ -92,8 +92,7 @@ export default function Comments() {
         <Typography variant="body2" color="text.primary">
           Anyone with a head on your sholders should avoid this kind of foolery
           at any cost. I bet your bottom dollar that 3 out of the 6 minimum of
-          these "passive income" streams are used to password spray, ddos, tor
-          traffic and more.
+          these streams are used to password spray, ddos, tor traffic and more.
         </Typography>
       </CardContent>
 

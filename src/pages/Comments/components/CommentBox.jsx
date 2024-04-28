@@ -1,13 +1,13 @@
-import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import React from 'react'
 import Card from '@mui/material/Card'
-import Typography from '@mui/material/Typography'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
+import { useDispatch } from 'react-redux'
+import { openDrawer } from '../DrawerFormDialogSlice'
 
 export default function CommentBox() {
+  const dispatch = useDispatch()
   return (
     <Card
       sx={{
@@ -22,16 +22,19 @@ export default function CommentBox() {
           label="What are your thoughts?"
           multiline
           maxRows={50}
-          variant="standard" // Use standard variant
-          InputProps={{ disableUnderline: true }} // Disable the underline
-          sx={{ width: '100%' }} // Set width to 100%
+          variant="standard"
+          InputProps={{ disableUnderline: true }}
+          sx={{ width: '100%' }}
         />
       </CardContent>
       <CardActions>
-        <Button size="small" sx={{ color: 'grey' }}>
+        <Button
+          size="small"
+          sx={{ color: 'grey' }}
+          onClick={() => dispatch(openDrawer())}
+        >
           Cancel
-        </Button>{' '}
-        {/* Set color to grey */}
+        </Button>
         <Button
           size="small"
           variant="contained"

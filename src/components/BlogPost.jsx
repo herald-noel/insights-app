@@ -60,7 +60,9 @@ function BlogPost() {
             }}
           >
             <Box marginY={'1px'} display={'flex'}>
-              <RecommendButton likes={responseData.likes} />
+              {responseData.like && (
+                <RecommendButton likes={responseData.likes} />
+              )}
               <CommentButton />
             </Box>
           </Box>

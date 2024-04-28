@@ -1,9 +1,7 @@
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Divider from '@mui/material/Divider'
 import CommentBox from './CommentBox'
 import { openDrawer } from '../../Comments/DrawerFormDialogSlice'
 import Comments from './Comments'
@@ -13,7 +11,6 @@ const DrawerFormDialog = () => {
 
   const dispatch = useDispatch()
   const handleOpenDrawer = () => {
-    console.log('Dispatching openDrawer action')
     dispatch(openDrawer())
   }
 
