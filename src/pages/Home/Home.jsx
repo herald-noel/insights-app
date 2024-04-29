@@ -5,18 +5,30 @@ import CreateBlogButton from './components/CreateBlogButton'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
   const url = '/posts/all'
-  const [page, setPage] = useState(0)
-  const [pageParam, setPageParam] = useState({ page: 0 })
+  const [pageNumber, setPageNumber] = useState(0)
+  const [search, setSearch] = useState('')
+  const [params, setParams] = useState({})
   const [responseData, setResponseData] = useState({})
 
-  const { data, fetchData } = useFetch(url, REQUEST.GET, pageParam)
+  const newSearch = useSelector((state) => state.search.query)
+
+  const { data, fetchData } = useFetch(url, REQUEST.GET, params)
 
   useEffect(() => {
     fetchData()
-  }, [page])
+  }, [params])
+
+  useEffect(() => {
+    setParams({ page: pageNumber, query: search })
+  }, [pageNumber, search])
+
+  useEffect(() => {
+    setSearch(newSearch)
+  }, [newSearch])
 
   useEffect(() => {
     if (data === null) {
@@ -27,8 +39,7 @@ const Home = () => {
   }, [data])
 
   const handlePageChange = (event, newPage) => {
-    setPage(newPage)
-    setPageParam({ page: newPage - 1 })
+    setPageNumber(newPage - 1)
   }
 
   return (
@@ -43,7 +54,7 @@ const Home = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             {responseData.content && (
               <Pagination
-                page={page}
+                page={pageNumber}
                 count={responseData.totalPages}
                 shape="rounded"
                 size="large"
