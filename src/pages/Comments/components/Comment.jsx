@@ -1,4 +1,4 @@
-import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Typography,
   Card,
@@ -10,11 +10,11 @@ import {
 } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
+import { useState } from 'react'
 
-export default function Comments() {
-  const [moreAnchorEl, setMoreAnchorEl] = React.useState(null)
-
-  const mobileMenuId = 'primary-search-account-menu-mobile'
+export default function Comment(props) {
+  const { data } = props
+  const [moreAnchorEl, setMoreAnchorEl] = useState(null)
 
   const isMobileMenuOpen = Boolean(moreAnchorEl)
 
@@ -33,7 +33,6 @@ export default function Comments() {
         vertical: 'bottom',
         horizontal: 'right',
       }}
-      id={mobileMenuId}
       keepMounted
       transformOrigin={{
         vertical: 'top',
@@ -50,10 +49,11 @@ export default function Comments() {
       </MenuItem>
     </Menu>
   )
+
   return (
     <Card
       sx={{
-        maxWidth: 400,
+        width: 400,
         border: 'none', // Remove the border
       }}
     >
@@ -70,9 +70,11 @@ export default function Comments() {
           <Box display={'flex'} alignItems={'center'}>
             <Avatar>J</Avatar>
             <Box marginLeft={'10px'}>
-              <Typography variant="subtitle1">John Doe </Typography>
+              <Typography variant="subtitle1">
+                {data.user.firstname} {data.user.lastname}
+              </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                March 15, 2024
+                {data.createdAt}
               </Typography>
             </Box>
           </Box>
@@ -80,7 +82,6 @@ export default function Comments() {
             <IconButton
               size="large"
               aria-label="show more"
-              aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMenuOpen}
               color="inherit"
@@ -89,14 +90,28 @@ export default function Comments() {
             </IconButton>
           </Box>
         </Box>
-        <Typography variant="body2" color="text.primary">
-          Anyone with a head on your sholders should avoid this kind of foolery
-          at any cost. I bet your bottom dollar that 3 out of the 6 minimum of
-          these streams are used to password spray, ddos, tor traffic and more.
+        <Typography
+          variant="body2"
+          color="text.primary"
+          sx={{ wordBreak: 'break-word' }}
+        >
+          {data.comment}
         </Typography>
       </CardContent>
 
       {renderMenu}
     </Card>
   )
+}
+
+Comment.propTypes = {
+  data: PropTypes.shape({
+    comment: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      firstname: PropTypes.string.isRequired,
+      lastname: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
 }
