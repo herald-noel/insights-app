@@ -5,6 +5,7 @@ import NotificationRoutes from './NotificationRoutes'
 import BlogRoutes from './BlogRoutes'
 import CreateBlogRoutes from './CreateBlogRoutes'
 import PrivateUserRoutes from './PrivateUserRoutes'
+import MyBlogRoutes from './MyBlogsRoutes'
 
 const routes = () => {
   return (
@@ -15,6 +16,7 @@ const routes = () => {
           {NotificationRoutes}
           {BlogRoutes}
           {CreateBlogRoutes}
+          {MyBlogRoutes}
         </Route>
         {LandingPageRoutes}
       </Routes>

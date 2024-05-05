@@ -4,4 +4,5 @@ export const PATH = {
   NOTIFICATIONS: '/notifications',
   BLOG: '/blog',
   CREATE_BLOG: '/create-blog/',
+  USER_BLOGS: '/my-blogs/',
 }
