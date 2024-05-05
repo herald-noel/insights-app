@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 
 const BlogCards = (props) => {
   const { url, isNewPostBtn } = props
-  const [pageNumber, setPageNumber] = useState(0)
+  const [pageNumber, setPageNumber] = useState(1)
   const [search, setSearch] = useState('')
   const [params, setParams] = useState({})
   const [responseData, setResponseData] = useState({})
@@ -23,7 +23,7 @@ const BlogCards = (props) => {
   }, [params])
 
   useEffect(() => {
-    setParams({ page: pageNumber, query: search })
+    setParams({ page: pageNumber - 1, query: search })
   }, [pageNumber, search])
 
   useEffect(() => {
@@ -39,7 +39,8 @@ const BlogCards = (props) => {
   }, [data])
 
   const handlePageChange = (event, newPage) => {
-    setPageNumber(newPage - 1)
+    console.log(pageNumber)
+    setPageNumber(newPage)
   }
   return (
     <>

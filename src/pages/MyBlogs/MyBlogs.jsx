@@ -5,7 +5,9 @@ const MyBlogs = () => {
   const url = '/posts/get/blog/user'
   return (
     <Mainlayout>
-      <BlogCards url={url} isNewPostBtn={false} />
+      <>
+        <BlogCards url={url} isNewPostBtn={false} />
+      </>
     </Mainlayout>
   )
 }
