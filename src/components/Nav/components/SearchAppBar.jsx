@@ -1,6 +1,9 @@
+import React, { useState } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
+import { useDispatch, useSelector } from 'react-redux'
+import { searchKey } from '../../../reducer/search/searchSlice'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -32,7 +35,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -43,15 +45,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 export default function SearchAppBar() {
+  const [inputValue, setInputValue] = useState('')
+  const dispatch = useDispatch()
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    dispatch(searchKey(inputValue))
+  }
+
   return (
     <Search>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search…"
-        inputProps={{ 'aria-label': 'search' }}
-      />
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ 'aria-label': 'search' }}
+          value={inputValue}
+          onChange={handleChange}
+        />
+      </form>
     </Search>
   )
 }

@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../../../reducer/user/userSlice'
 import { useNavigate } from 'react-router-dom'
 import { logout as logoutUser } from '../../../services/auth/auth'
+import { PATH } from '../../../data/paths'
 
 export default function NavItems() {
   const dispatch = useDispatch()
@@ -51,6 +52,10 @@ export default function NavItems() {
   const handleNotificationClick = () => {
     console.log('Notification clicked') // Add console.log statement
     navigate('/notifications')
+  }
+
+  const handleMyBlogs = () => {
+    navigate(PATH.USER_BLOGS)
   }
 
   const menuId = 'primary-search-account-menu'
@@ -93,6 +98,7 @@ export default function NavItems() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMyBlogs}>My Blogs</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
