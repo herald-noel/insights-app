@@ -1,4 +1,12 @@
-import { Grid, Divider, Box, Avatar } from '@mui/material'
+import {
+  Grid,
+  Divider,
+  Box,
+  Avatar,
+  Menu,
+  MenuItem,
+  Typography,
+} from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import CommentButton from '../pages/Comments/CommentButton'
@@ -8,6 +16,8 @@ import useFetch from '../hooks/useFetch'
 import { REQUEST } from '../data/requests.constants'
 import { useEffect, useState } from 'react'
 import RecommendButton from '../pages/Blog/components/RecommendButton'
+import IconButton from '@mui/material/IconButton'
+import MoreIcon from '@mui/icons-material/MoreHoriz'
 
 function BlogPost() {
   const location = useLocation()
@@ -19,6 +29,18 @@ function BlogPost() {
   const [responseData, setResponseData] = useState({})
   const [likes, setLikes] = useState(0)
 
+  const [moreAnchorEl, setMoreAnchorEl] = useState(null)
+
+  const handleMenuOpen = (event) => {
+    setMoreAnchorEl(event.currentTarget)
+  }
+
+  const handleMenuClose = () => {
+    setMoreAnchorEl(null)
+  }
+
+  const isMenuOpen = Boolean(moreAnchorEl)
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -29,6 +51,30 @@ function BlogPost() {
       setResponseData(data)
     }
   }, [data])
+
+  const renderMenu = (
+    <Menu
+      anchorEl={moreAnchorEl}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem>
+        <Typography variant="body2">Edit</Typography>
+      </MenuItem>
+      <MenuItem>
+        <Typography variant="body2">Delete</Typography>
+      </MenuItem>
+    </Menu>
+  )
 
   return (
     <Grid
@@ -47,18 +93,36 @@ function BlogPost() {
           ></Grid>
           <h1 style={{ fontSize: '42px' }}>{responseData.title}</h1>
           {responseData.user && (
-            <Box display={'flex'} alignItems={'center'}>
-              <Avatar>
-                {responseData.user.firstname[0]}
-                {responseData.user.lastname[0]}
-              </Avatar>
-              <Box sx={{ marginY: '20px', marginLeft: '10px' }}>
-                <p
-                  style={{ fontSize: '16px' }}
-                >{`${responseData.user.firstname} ${responseData.user.lastname}`}</p>
-                <p style={{ fontSize: '14px', color: 'grey' }}>
-                  {responseData.createdAt}
-                </p>
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+            >
+              <Box display={'flex'} alignItems={'center'}>
+                <Avatar>
+                  {responseData.user.firstname[0]}
+                  {responseData.user.lastname[0]}
+                </Avatar>
+                <Box sx={{ marginY: '20px', marginLeft: '10px' }}>
+                  <p
+                    style={{ fontSize: '16px' }}
+                  >{`${responseData.user.firstname} ${responseData.user.lastname}`}</p>
+                  <p style={{ fontSize: '14px', color: 'grey' }}>
+                    {responseData.createdAt}
+                  </p>
+                </Box>
+              </Box>
+
+              <Box>
+                <IconButton
+                  size="large"
+                  aria-label="show more"
+                  aria-haspopup="true"
+                  onClick={handleMenuOpen}
+                  color="inherit"
+                >
+                  <MoreIcon />
+                </IconButton>
               </Box>
             </Box>
           )}
@@ -85,6 +149,7 @@ function BlogPost() {
           </Box>
         </>
       )}
+      {renderMenu}
     </Grid>
   )
 }
