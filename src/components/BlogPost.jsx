@@ -19,8 +19,10 @@ import RecommendButton from '../pages/Blog/components/RecommendButton'
 import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
 import useCurrentId from '../hooks/useCurrentId'
+import { useSelector } from 'react-redux'
 
 function BlogPost() {
+  const userEmail = useSelector((state) => state.user.user)
   const navigate = useNavigate()
   const { currentId } = useCurrentId()
 
@@ -44,6 +46,10 @@ function BlogPost() {
   useEffect(() => {
     fetchData()
   }, [])
+
+  useEffect(() => {
+    console.log(responseData)
+  }, [responseData])
 
   useEffect(() => {
     if (data !== null) {
@@ -117,17 +123,19 @@ function BlogPost() {
                 </Box>
               </Box>
 
-              <Box>
-                <IconButton
-                  size="large"
-                  aria-label="show more"
-                  aria-haspopup="true"
-                  onClick={handleMenuOpen}
-                  color="inherit"
-                >
-                  <MoreIcon />
-                </IconButton>
-              </Box>
+              {userEmail === responseData.user.email && (
+                <Box>
+                  <IconButton
+                    size="large"
+                    aria-label="show more"
+                    aria-haspopup="true"
+                    onClick={handleMenuOpen}
+                    color="inherit"
+                  >
+                    <MoreIcon />
+                  </IconButton>
+                </Box>
+              )}
             </Box>
           )}
           <Divider />
