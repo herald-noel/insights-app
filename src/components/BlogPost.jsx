@@ -20,14 +20,22 @@ import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
 import useCurrentId from '../hooks/useCurrentId'
 import { useSelector } from 'react-redux'
+import { PATH } from '../data/paths'
 
 function BlogPost() {
   const userEmail = useSelector((state) => state.user.user)
   const navigate = useNavigate()
   const { currentId } = useCurrentId()
 
-  const url = `posts/get/blog/${currentId}`
-  const { data, fetchData } = useFetch(url, REQUEST.GET)
+  const { data, fetchData } = useFetch(
+    `posts/get/blog/${currentId}`,
+    REQUEST.GET
+  )
+  const { fetchData: deleteBlog } = useFetch(
+    `posts/delete/blog/${currentId}`,
+    REQUEST.DELETE
+  )
+
   const [responseData, setResponseData] = useState({})
   const [likes, setLikes] = useState(0)
 
@@ -62,6 +70,11 @@ function BlogPost() {
     navigate(`/edit/${currentId}`)
   }
 
+  const handleClickDelete = () => {
+    deleteBlog()
+    navigate(PATH.HOME)
+  }
+
   const renderMenu = (
     <Menu
       anchorEl={moreAnchorEl}
@@ -80,7 +93,7 @@ function BlogPost() {
       <MenuItem onClick={handleClickEdit}>
         <Typography variant="body2">Edit</Typography>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleClickDelete}>
         <Typography variant="body2">Delete</Typography>
       </MenuItem>
     </Menu>
