@@ -11,20 +11,20 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import CommentButton from '../pages/Comments/CommentButton'
 import '../styles/reactMarkdown.css'
-import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import { REQUEST } from '../data/requests.constants'
 import { useEffect, useState } from 'react'
 import RecommendButton from '../pages/Blog/components/RecommendButton'
 import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
+import useCurrentId from '../hooks/useCurrentId'
 
 function BlogPost() {
-  const location = useLocation()
-  const pathnameParts = location.pathname.split('/')
-  const blogId = pathnameParts[pathnameParts.length - 1]
+  const navigate = useNavigate()
+  const { currentId } = useCurrentId()
 
-  const url = `posts/get/blog/${blogId}`
+  const url = `posts/get/blog/${currentId}`
   const { data, fetchData } = useFetch(url, REQUEST.GET)
   const [responseData, setResponseData] = useState({})
   const [likes, setLikes] = useState(0)
@@ -52,6 +52,10 @@ function BlogPost() {
     }
   }, [data])
 
+  const handleClickEdit = () => {
+    navigate(`/edit/${currentId}`)
+  }
+
   const renderMenu = (
     <Menu
       anchorEl={moreAnchorEl}
@@ -67,7 +71,7 @@ function BlogPost() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem>
+      <MenuItem onClick={handleClickEdit}>
         <Typography variant="body2">Edit</Typography>
       </MenuItem>
       <MenuItem>

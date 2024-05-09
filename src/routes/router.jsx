@@ -20,7 +20,7 @@ const routes = () => {
           {MyBlogRoutes}
         </Route>
         {LandingPageRoutes}
-        <Route path={'/edit'} element={<EditPost />} exact />
+        <Route path={'/edit/:id'} element={<EditPost isNew={false} />} exact />
       </Routes>
     </Router>
   )

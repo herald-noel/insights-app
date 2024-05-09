@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Mainlayout from '../../layout/Mainlayout'
 import { Box, Button } from '@mui/material'
 import { Editor } from 'react-draft-wysiwyg'
@@ -16,7 +17,8 @@ import { useNavigate } from 'react-router-dom'
 import { REQUEST } from '../../data/requests.constants'
 import '../../styles/editor.modules.css'
 
-const EditPost = () => {
+const EditPost = (props) => {
+  const { isNew } = props
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [title, setTitle] = useState('')
@@ -54,7 +56,7 @@ const EditPost = () => {
             type="submit"
             endIcon={<SendIcon />}
           >
-            POST
+            {isNew ? 'POST' : 'SAVE'}
           </Button>
         </Box>
         <TextField
@@ -94,6 +96,10 @@ const EditPost = () => {
       </form>
     </Mainlayout>
   )
+}
+
+EditPost.propTypes = {
+  isNew: PropTypes.bool.isRequired,
 }
 
 export default EditPost
