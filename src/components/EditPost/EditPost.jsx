@@ -7,24 +7,51 @@ import SendIcon from '@mui/icons-material/Send'
 import { TextField } from '@mui/material'
 import SnackbarBlog from './components/SnackbarBlog'
 import useEditor from './hooks/useEditor'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { openSnackbar } from './createPostSlice'
 import draftToMarkdown from 'draftjs-to-markdown'
-import { convertToRaw } from 'draft-js'
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import { useDispatch } from 'react-redux'
 import useFetch from '../../hooks/useFetch'
 import { useNavigate } from 'react-router-dom'
 import { REQUEST } from '../../data/requests.constants'
 import '../../styles/editor.modules.css'
+import useCurrentId from '../../hooks/useCurrentId'
+import { markdownToDraft } from 'markdown-draft-js'
 
 const EditPost = (props) => {
   const { isNew } = props
+
+  const { currentId } = useCurrentId()
+  const { editorState, onEditorStateChange, editorContent, setEditorState } =
+    useEditor()
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [title, setTitle] = useState('')
-  const { fetchData } = useFetch('/posts/create/blog', REQUEST.POST)
 
-  const { editorState, onEditorStateChange, editorContent } = useEditor()
+  const [title, setTitle] = useState('')
+  const [responseData, setResponseData] = useState({})
+
+  const { fetchData: createFetchData } = useFetch(
+    '/posts/create/blog',
+    REQUEST.POST
+  )
+  const { data, fetchData: getFetchData } = useFetch(
+    `posts/get/blog/${currentId}`,
+    REQUEST.GET
+  )
+
+  useEffect(() => {
+    if (!isNew) {
+      getFetchData()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (data !== null) {
+      setResponseData(data)
+    }
+  }, [data])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -40,9 +67,19 @@ const EditPost = (props) => {
       content: content,
     }
 
-    fetchData(newData)
+    createFetchData(newData)
     navigate('/home')
   }
+
+  useEffect(() => {
+    if (data !== null && !isNew) {
+      setTitle(data.title)
+      const contentState = EditorState.createWithContent(
+        convertFromRaw(markdownToDraft(data.content))
+      )
+      setEditorState(contentState)
+    }
+  }, [data, isNew, setEditorState])
 
   return (
     <Mainlayout>
@@ -65,7 +102,7 @@ const EditPost = (props) => {
           label="Title"
           fullWidth
           margin="normal"
-          value={title}
+          value={responseData.title || title}
           onChange={(e) => {
             setTitle(e.target.value)
           }}

@@ -12,6 +12,7 @@ const useEditor = () => {
 
   return {
     editorState,
+    setEditorState,
     onEditorStateChange,
     editorContent,
   }

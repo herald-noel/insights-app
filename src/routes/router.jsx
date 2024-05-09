@@ -20,6 +20,7 @@ const routes = () => {
           {MyBlogRoutes}
         </Route>
         {LandingPageRoutes}
+        {/* TODO: Refactor */}
         <Route path={'/edit/:id'} element={<EditPost isNew={false} />} exact />
       </Routes>
     </Router>
