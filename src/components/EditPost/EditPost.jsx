@@ -23,14 +23,18 @@ const EditPost = (props) => {
   const { isNew } = props
 
   const { currentId } = useCurrentId()
-  const { editorState, onEditorStateChange, editorContent, setEditorState } =
-    useEditor()
+  const {
+    editorState,
+    onEditorStateChange,
+    editorContent,
+    setEditorContent,
+    setEditorState,
+  } = useEditor()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [title, setTitle] = useState('')
-  const [responseData, setResponseData] = useState({})
 
   const { fetchData: createFetchData } = useFetch(
     '/posts/create/blog',
@@ -40,6 +44,10 @@ const EditPost = (props) => {
     `posts/get/blog/${currentId}`,
     REQUEST.GET
   )
+  const { fetchData: updateData } = useFetch(
+    `/posts/update/blog/${currentId}`,
+    REQUEST.PUT
+  )
 
   useEffect(() => {
     if (!isNew) {
@@ -48,10 +56,15 @@ const EditPost = (props) => {
   }, [])
 
   useEffect(() => {
-    if (data !== null) {
-      setResponseData(data)
+    if (data !== null && !isNew) {
+      setTitle(data.title)
+      const contentState = EditorState.createWithContent(
+        convertFromRaw(markdownToDraft(data.content))
+      )
+      setEditorContent(data.content)
+      setEditorState(contentState)
     }
-  }, [data])
+  }, [data, isNew, setEditorState, setEditorContent])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -62,24 +75,19 @@ const EditPost = (props) => {
       return
     }
     content = draftToMarkdown(convertToRaw(content))
-    const newData = {
+    const data = {
       title: title,
       content: content,
     }
 
-    createFetchData(newData)
+    if (isNew) {
+      createFetchData(data)
+    } else {
+      console.log(content)
+      updateData(data)
+    }
     navigate('/home')
   }
-
-  useEffect(() => {
-    if (data !== null && !isNew) {
-      setTitle(data.title)
-      const contentState = EditorState.createWithContent(
-        convertFromRaw(markdownToDraft(data.content))
-      )
-      setEditorState(contentState)
-    }
-  }, [data, isNew, setEditorState])
 
   return (
     <Mainlayout>
@@ -102,7 +110,7 @@ const EditPost = (props) => {
           label="Title"
           fullWidth
           margin="normal"
-          value={responseData.title || title}
+          value={title}
           onChange={(e) => {
             setTitle(e.target.value)
           }}

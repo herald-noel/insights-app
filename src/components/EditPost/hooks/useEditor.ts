@@ -15,6 +15,7 @@ const useEditor = () => {
     setEditorState,
     onEditorStateChange,
     editorContent,
+    setEditorContent,
   }
 }
 
