@@ -6,6 +6,7 @@ import BlogRoutes from './BlogRoutes'
 import CreateBlogRoutes from './CreateBlogRoutes'
 import PrivateUserRoutes from './PrivateUserRoutes'
 import MyBlogRoutes from './MyBlogsRoutes'
+import EditPost from '../components/EditPost/EditPost'
 
 const routes = () => {
   return (
@@ -19,6 +20,8 @@ const routes = () => {
           {MyBlogRoutes}
         </Route>
         {LandingPageRoutes}
+        {/* TODO: Refactor */}
+        <Route path={'/edit/:id'} element={<EditPost isNew={false} />} exact />
       </Routes>
     </Router>
   )
