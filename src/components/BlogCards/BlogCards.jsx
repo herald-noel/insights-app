@@ -6,29 +6,31 @@ import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import useSearch from '../../hooks/useSearch'
 
 const BlogCards = (props) => {
   const { url, isNewPostBtn } = props
   const [pageNumber, setPageNumber] = useState(1)
-  const [search, setSearch] = useState('')
   const [params, setParams] = useState({})
   const [responseData, setResponseData] = useState({})
 
-  const newSearch = useSelector((state) => state.search.query)
-
   const { data, fetchData } = useFetch(url, REQUEST.GET, params)
+
+  const { getSearch } = useSearch();
+
+  const search = getSearch()
+
+  useEffect(() => {
+    console.log(search)
+  },[search])
 
   useEffect(() => {
     fetchData()
   }, [params])
 
   useEffect(() => {
-    setParams({ page: pageNumber - 1, query: search })
+    setParams({ page: pageNumber - 1, query: search})
   }, [pageNumber, search])
-
-  useEffect(() => {
-    setSearch(newSearch)
-  }, [newSearch])
 
   useEffect(() => {
     if (data === null) {
@@ -42,6 +44,7 @@ const BlogCards = (props) => {
     console.log(pageNumber)
     setPageNumber(newPage)
   }
+
   return (
     <>
       {isNewPostBtn && <CreateBlogButton />}
