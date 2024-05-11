@@ -5,7 +5,6 @@ import CreateBlogButton from './components/CreateBlogButton'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import useSearch from '../../hooks/useSearch'
 
 const BlogCards = (props) => {

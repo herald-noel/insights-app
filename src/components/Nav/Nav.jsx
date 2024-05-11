@@ -48,19 +48,26 @@ const Nav = (props) => {
                   alignItems: 'center',
                   cursor: 'pointer',
                 }}
-                onClick={handleLogoClick}
               >
-                <img
-                  src={brandLogo}
-                  alt="insights logo"
-                  width="21px"
-                  style={{ marginRight: '7px' }}
-                />
-                <Typography variant="h6" component="div">
-                  {BRAND_NAME}
-                </Typography>
-
-                {isAuthenticated && <SearchAppBar />}
+                <Container
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                  }}
+                  onClick={handleLogoClick}
+                >
+                  <img
+                    src={brandLogo}
+                    alt="insights logo"
+                    width="21px"
+                    style={{ marginRight: '7px' }}
+                  />
+                  <Typography variant="h6" component="div">
+                    {BRAND_NAME}
+                  </Typography>
+                </Container>
+                {isAuthenticated && <SearchAppBar/>}
               </Box>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 {isAuthenticated ? (
