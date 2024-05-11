@@ -1,7 +1,7 @@
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 
-const SOCKET_URL = 'http://localhost:8080/notifications'
+const SOCKET_URL = 'http://localhost:8080/our-websocket'
 
 class NotificationService {
   stompClient: Stomp.Client
@@ -15,15 +15,12 @@ class NotificationService {
   initializeWebSocketConnection() {
     const socket = new SockJS(SOCKET_URL)
     this.stompClient = Stomp.over(socket)
-    this.stompClient.connect(
-      { Authorization: `Bearer ${this.token}` },
-      this.onConnected.bind(this)
-    )
+    this.stompClient.connect({}, this.onConnected.bind(this))
   }
 
   onConnected() {
     this.stompClient.subscribe(
-      '/topic/notifications',
+      '/topic/messages',
       this.onNotificationReceived.bind(this)
     )
   }
@@ -32,15 +29,13 @@ class NotificationService {
     console.log('Received notification:', payload.body)
   }
 
-  subscribeToNotifications(callback) {
-    if (this.stompClient && this.stompClient.connected) {
-      const subscription = this.stompClient.subscribe(
-        '/topic/notifications',
-        callback
-      )
-      return subscription
-    }
-    return null
+  sendMessage(message: string) {
+    console.log('sending message')
+    this.stompClient.send(
+      '/ws/message',
+      {},
+      JSON.stringify({ messageContent: message })
+    )
   }
 }
 

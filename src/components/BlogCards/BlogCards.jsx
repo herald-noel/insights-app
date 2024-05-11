@@ -45,23 +45,13 @@ const BlogCards = (props) => {
     setPageNumber(newPage)
   }
 
-  useEffect(() => {
-    const handleNotification = (payload) => {
-      console.log('Received notification:', payload.body)
-    }
-
-    const subscription =
-      NotificationService.subscribeToNotifications(handleNotification)
-
-    return () => {
-      if (subscription) {
-        subscription.unsubscribe()
-      }
-    }
-  }, [])
+  const handletest = () => {
+    NotificationService.sendMessage('testt')
+  }
 
   return (
     <>
+      <button onClick={handletest}>test</button>
       {isNewPostBtn && <CreateBlogButton />}
       {responseData.content &&
         responseData.content.map((post) => (
