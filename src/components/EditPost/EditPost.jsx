@@ -9,7 +9,6 @@ import SnackbarBlog from './components/SnackbarBlog'
 import useEditor from './hooks/useEditor'
 import { useEffect, useState } from 'react'
 import { openSnackbar } from './createPostSlice'
-import draftToMarkdown from 'draftjs-to-markdown'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import { useDispatch } from 'react-redux'
 import useFetch from '../../hooks/useFetch'
@@ -17,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import { REQUEST } from '../../data/requests.constants'
 import '../../styles/editor.modules.css'
 import useCurrentId from '../../hooks/useCurrentId'
-import { markdownToDraft } from 'markdown-draft-js'
+import { markdownToDraft, draftToMarkdown } from 'markdown-draft-js'
 
 const EditPost = (props) => {
   const { isNew } = props
