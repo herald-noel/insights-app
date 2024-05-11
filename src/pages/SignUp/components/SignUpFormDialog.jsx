@@ -37,7 +37,7 @@ const SignUpFormDialog = () => {
   return (
     <Dialog open={isOpen} onClose={() => dispatch(openSignUp())}>
       <DialogTitle textAlign={'center'}>Join Insights.</DialogTitle>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}> 
         <DialogContent>
           <Box sx={{ display: 'flex', gap: '10px' }}>
             <TextField
@@ -50,7 +50,6 @@ const SignUpFormDialog = () => {
               required
             />
             <TextField
-              autoFocus
               margin="dense"
               label="Last Name"
               fullWidth
