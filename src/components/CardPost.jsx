@@ -12,9 +12,17 @@ import {
   Avatar,
 } from '@mui/material'
 import { PATH } from '../data/paths'
+import useSearch from '../hooks/useSearch'
+import { useEffect } from 'react'
 
 function CardPost(props) {
   const { post } = props
+
+  const { setSearch } = useSearch();
+
+  useEffect(() => {
+    setSearch('');
+  }, [])
 
   return (
     <Grid item xs={12} md={6} py={1}>
