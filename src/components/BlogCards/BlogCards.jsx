@@ -5,8 +5,8 @@ import CreateBlogButton from './components/CreateBlogButton'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import useSearch from '../../hooks/useSearch'
+import NotificationService from '../../services/NotificationService'
 
 const BlogCards = (props) => {
   const { url, isNewPostBtn } = props
@@ -16,20 +16,20 @@ const BlogCards = (props) => {
 
   const { data, fetchData } = useFetch(url, REQUEST.GET, params)
 
-  const { getSearch } = useSearch();
+  const { getSearch } = useSearch()
 
   const search = getSearch()
 
   useEffect(() => {
     console.log(search)
-  },[search])
+  }, [search])
 
   useEffect(() => {
     fetchData()
   }, [params])
 
   useEffect(() => {
-    setParams({ page: pageNumber - 1, query: search})
+    setParams({ page: pageNumber - 1, query: search })
   }, [pageNumber, search])
 
   useEffect(() => {
@@ -44,6 +44,21 @@ const BlogCards = (props) => {
     console.log(pageNumber)
     setPageNumber(newPage)
   }
+
+  useEffect(() => {
+    const handleNotification = (payload) => {
+      console.log('Received notification:', payload.body)
+    }
+
+    const subscription =
+      NotificationService.subscribeToNotifications(handleNotification)
+
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe()
+      }
+    }
+  }, [])
 
   return (
     <>
