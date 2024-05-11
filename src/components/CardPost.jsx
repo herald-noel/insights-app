@@ -14,15 +14,16 @@ import {
 import { PATH } from '../data/paths'
 import useSearch from '../hooks/useSearch'
 import { useEffect } from 'react'
+import { parseISO, format } from 'date-fns';
 
 function CardPost(props) {
   const { post } = props
 
-  const { setSearch } = useSearch();
-
   useEffect(() => {
     setSearch('');
   }, [])
+
+  const { setSearch } = useSearch();
 
   return (
     <Grid item xs={12} md={6} py={1}>
@@ -58,7 +59,7 @@ function CardPost(props) {
               <Typography variant="subtitle1">{`${post.user.firstname} ${post.user.lastname}`}</Typography>
               <span>⋅</span>
               <Typography variant="subtitle1" color="text.secondary">
-                {post.createdAt}
+                {format(parseISO(post.createdAt), 'MMMM M, yyyy')}
               </Typography>
             </Grid>
             <Typography component="h2" variant="h5">

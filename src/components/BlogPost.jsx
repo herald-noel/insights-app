@@ -21,6 +21,7 @@ import MoreIcon from '@mui/icons-material/MoreHoriz'
 import useCurrentId from '../hooks/useCurrentId'
 import { useSelector } from 'react-redux'
 import { PATH } from '../data/paths'
+import { parseISO, format } from 'date-fns'
 
 function BlogPost() {
   const userEmail = useSelector((state) => state.user.user)
@@ -131,7 +132,7 @@ function BlogPost() {
                     style={{ fontSize: '16px' }}
                   >{`${responseData.user.firstname} ${responseData.user.lastname}`}</p>
                   <p style={{ fontSize: '14px', color: 'grey' }}>
-                    {responseData.createdAt}
+                    {format(parseISO(responseData.createdAt), 'h:mm a MMMM M, yyyy')}
                   </p>
                 </Box>
               </Box>
