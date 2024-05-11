@@ -15,17 +15,16 @@ import brandLogo from '../../assets/feather.svg'
 import SearchAppBar from './components/SearchAppBar'
 import { useSelector } from 'react-redux'
 import NavItems from './components/NavItems'
-import { useNavigate } from 'react-router-dom'
+import useSearch from '../../hooks/useSearch'
 
 const Nav = (props) => {
-  const navigate = useNavigate()
-
   let isAuthenticated = useSelector((state) => state.user.isAuthenticated)
 
-  // not sure how to handle all of these constants in redux so ari lng sani
+  const { setSearch } = useSearch()
+
   const handleLogoClick = () => {
-    console.log('Brand clicked') // Add console.log statement
-    navigate(isAuthenticated ? '/home' : '/')
+    console.log('Brand clicked')
+    isAuthenticated ? setSearch('') : '/'
   }
 
   return (
@@ -67,7 +66,7 @@ const Nav = (props) => {
                     {BRAND_NAME}
                   </Typography>
                 </Container>
-                {isAuthenticated && <SearchAppBar/>}
+                {isAuthenticated && <SearchAppBar />}
               </Box>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 {isAuthenticated ? (
