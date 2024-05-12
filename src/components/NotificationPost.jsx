@@ -77,7 +77,7 @@ const NotificationPost = ({ post }) => {
               color="secondary"
             />
           </Box>
-          <Typography component="h2" variant="h5" gutterBottom>
+          <Typography component="span" variant="h5" gutterBottom>
             {postData.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">

@@ -21,12 +21,12 @@ const NotificationTabs = () => {
       </Box>
       <Box sx={{ p: 3 }}>
         {value === 0 && (
-          <Typography variant="body1">
+          <Typography component="span" variant="body1">
             <NotificationCards url={url}/>
           </Typography>
         )}
         {value === 1 && (
-          <Typography variant="body1">
+          <Typography component="span" variant="body1">
             This is the Responses tab content.
           </Typography>
         )}
