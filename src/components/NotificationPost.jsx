@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import {
@@ -13,21 +13,7 @@ import {
 import { PATH } from '../data/paths';
 
 const NotificationPost = ({ post }) => {
-  // Dummy value for the post prop
-  const dummyPost = {
-    blogId: '1234567890',
-    coverImage: 'https://via.placeholder.com/300x200?text=Cover+Image',
-    title: 'Blog Post Title',
-    content: 'This is a dummy content for the blog post. It demonstrates how the post card will look like with the provided information.',
-    user: {
-      firstname: 'John',
-      lastname: 'Doe',
-    },
-    createdAt: '2023-05-10T12:00:00.000Z',
-  };
-
-  // Use the dummy value if no post prop is provided
-  const postData = post || dummyPost;
+  const postData = post;
 
   return (
     <Card
@@ -44,7 +30,7 @@ const NotificationPost = ({ post }) => {
       <CardMedia
         component="img"
         height="200"
-        image={dummyPost.coverImage}
+        // image={coverImage}
         alt={postData.title}
         sx={{ maxWidth: { xs: '100%', md: '300px' } }}
       />
@@ -88,5 +74,19 @@ const NotificationPost = ({ post }) => {
     </Card>
   );
 };
+
+NotificationPost.propTypes = {
+  post: PropTypes.shape({
+    blogId: PropTypes.number.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      userId: PropTypes.number.isRequired,
+      firstname: PropTypes.string.isRequired,
+      lastname: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+}
 
 export default NotificationPost;
