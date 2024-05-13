@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Box, Tab, Tabs, Typography } from '@mui/material'
 import NotificationCards from './NotificationCards'
+import NotificationComments from './NotficationComments'
 
 const NotificationTabs = () => {
   const [value, setValue] = useState(0)
@@ -27,7 +28,19 @@ const NotificationTabs = () => {
         )}
         {value === 1 && (
           <Typography component="span" variant="body1">
-            This is the Responses tab content.
+            <NotificationComments
+              blogTitle="My Awesome Blog Post"
+              comment={{
+                commentId: 1,
+                user: {
+                  userId: 1,
+                  firstname: 'John',
+                  lastname: 'Doe',
+                },
+                content: 'This is a great post! Keep up the good work.',
+                createdAt: '2023-05-12T10:30:00.000Z',
+              }}
+            />
           </Typography>
         )}
       </Box>
