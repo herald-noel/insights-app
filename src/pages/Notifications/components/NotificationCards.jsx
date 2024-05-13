@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 import { Box, Pagination } from '@mui/material'
-import NotificationPost from '../NotificationPost'
-import useFetch from '../../hooks/useFetch'
-import { REQUEST } from '../../data/requests.constants'
+import NotificationPost from '../../../components/NotificationPost'
+import useFetch from '../../../hooks/useFetch'
+import { REQUEST } from '../../../data/requests.constants'
 import { useEffect, useState } from 'react'
-import useSearch from '../../hooks/useSearch'
+import useSearch from '../../../hooks/useSearch'
 
 const NotificationCards = (props) => {
   const { url } = props

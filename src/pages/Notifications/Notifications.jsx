@@ -1,10 +1,10 @@
 import Mainlayout from '../../layout/Mainlayout'
-import NotificationBody from '../../components/Notif/NotificationBody'
+import NotificationBody from './components/NotificationBody'
 
 const Notifications = () => {
   return (
     <Mainlayout>
-      <NotificationBody/>
+      <NotificationBody />
     </Mainlayout>
   )
 }

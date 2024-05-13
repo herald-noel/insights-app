@@ -4,7 +4,7 @@ import NotificationTabs from './NotificationTabs'
 const NotificationBody = () => {
   return (
     <Box sx={{ p: 2 }}>
-      <Box sx={{marginBottom: 4}}>
+      <Box sx={{ marginBottom: 4 }}>
         <Typography variant="h4" gutterBottom>
           Notifications
         </Typography>
@@ -15,7 +15,7 @@ const NotificationBody = () => {
           The latest releases from publishers you follow.
         </Typography>
       </Box>
-      <NotificationTabs/>
+      <NotificationTabs />
     </Box>
   )
 }
