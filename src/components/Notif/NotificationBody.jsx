@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Typography } from '@mui/material'
 import NotificationTabs from './NotificationTabs'
 
@@ -10,7 +9,7 @@ const NotificationBody = () => {
           Notifications
         </Typography>
         <Typography variant="body1" gutterBottom>
-          What's New
+          What&apos;s New
         </Typography>
         <Typography variant="body2" color="text.secondary">
           The latest releases from publishers you follow.
