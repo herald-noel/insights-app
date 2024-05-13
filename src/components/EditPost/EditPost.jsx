@@ -12,13 +12,13 @@ import { openSnackbar } from './createPostSlice'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import { useDispatch } from 'react-redux'
 import useFetch from '../../hooks/useFetch'
-import { useNavigate } from 'react-router-dom'
 import { REQUEST } from '../../data/requests.constants'
 import '../../styles/editor.modules.css'
 import useCurrentId from '../../hooks/useCurrentId'
 import { markdownToDraft, draftToMarkdown } from 'markdown-draft-js'
-import { TbSettingsSearch } from 'react-icons/tb'
 import useSearch from '../../hooks/useSearch'
+import { useNavigate } from 'react-router-dom'
+import { PATH } from '../../data/paths'
 
 const EditPost = (props) => {
   const { isNew } = props
@@ -32,8 +32,8 @@ const EditPost = (props) => {
     setEditorState,
   } = useEditor()
 
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { setSearch } = useSearch()
 
   const [title, setTitle] = useState('')
@@ -89,6 +89,7 @@ const EditPost = (props) => {
       updateData(data)
     }
     setSearch('')
+    navigate(PATH.HOME)
   }
 
   return (

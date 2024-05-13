@@ -10,7 +10,6 @@ const useSearch = () => {
 
   const setSearch = (keyword: string) => {
     dispatch(searchKey(keyword))
-    navigate('/home')
   }
 
   const getSearch = () => {
