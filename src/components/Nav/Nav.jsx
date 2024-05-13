@@ -16,15 +16,25 @@ import SearchAppBar from './components/SearchAppBar'
 import { useSelector } from 'react-redux'
 import NavItems from './components/NavItems'
 import useSearch from '../../hooks/useSearch'
+import { useNavigate } from 'react-router-dom'
+import { PATH } from '../../data/paths'
 
 const Nav = (props) => {
   let isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+
+  const navigate = useNavigate()
 
   const { setSearch } = useSearch()
 
   const handleLogoClick = () => {
     console.log('Brand clicked')
-    isAuthenticated ? setSearch('') : '/'
+
+    if (isAuthenticated) {
+      setSearch('')
+      navigate(PATH.HOME)
+    } else {
+      navigate('/')
+    }
   }
 
   return (
