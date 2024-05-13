@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom';
-import { format, parseISO } from 'date-fns';
+import rehypeRaw from 'rehype-raw'
+import ReactMarkdown from 'react-markdown'
+import { Link } from 'react-router-dom'
+import { format, parseISO } from 'date-fns'
 import {
   Card,
   CardContent,
@@ -9,12 +11,12 @@ import {
   Avatar,
   Chip,
   Box,
-} from '@mui/material';
-import { PATH } from '../data/paths';
+} from '@mui/material'
+import { PATH } from '../data/paths'
 
 const NotificationPost = ({ post }) => {
-  const postData = post;
-  const coverImage = 'https://via.placeholder.com/300x200?text=Cover+Image';
+  const postData = post
+  const coverImage = 'https://via.placeholder.com/300x200?text=Cover+Image'
   return (
     <Card
       component={Link}
@@ -66,14 +68,16 @@ const NotificationPost = ({ post }) => {
           <Typography component="span" variant="h5" gutterBottom>
             {postData.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {postData.content.slice(0, 150)}...
+          <Typography component="span" variant="body2" color="text.secondary">
+            <ReactMarkdown className="line-break" rehypePlugins={[rehypeRaw]}>
+              {postData.content}
+            </ReactMarkdown>
           </Typography>
         </CardContent>
       </Box>
     </Card>
-  );
-};
+  )
+}
 
 NotificationPost.propTypes = {
   post: PropTypes.shape({
@@ -89,4 +93,4 @@ NotificationPost.propTypes = {
   }).isRequired,
 }
 
-export default NotificationPost;
+export default NotificationPost
