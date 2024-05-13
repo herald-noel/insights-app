@@ -48,8 +48,8 @@ const BlogCards = (props) => {
     <>
       {isNewPostBtn && <CreateBlogButton />}
       {responseData.content &&
-        responseData.content.map((post) => (
-          <CardPost key={post.title} post={post} />
+        responseData.content.map((post, index) => (
+          <CardPost key={index} post={post} />
         ))}
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         {responseData.content && (

@@ -14,20 +14,20 @@ const NotificationCards = (props) => {
 
   const { data, fetchData } = useFetch(url, REQUEST.GET, params)
 
-  const { getSearch } = useSearch();
+  const { getSearch } = useSearch()
 
   const search = getSearch()
 
   useEffect(() => {
     console.log(search)
-  },[search])
+  }, [search])
 
   useEffect(() => {
     fetchData()
   }, [params])
 
   useEffect(() => {
-    setParams({ page: pageNumber - 1, query: search})
+    setParams({ page: pageNumber - 1, query: search })
   }, [pageNumber, search])
 
   useEffect(() => {
@@ -46,8 +46,8 @@ const NotificationCards = (props) => {
   return (
     <>
       {responseData.content &&
-        responseData.content.map((post) => (
-          <NotificationPost key={post.title} post={post} />
+        responseData.content.map((post, index) => (
+          <NotificationPost key={index} post={post} />
         ))}
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         {responseData.content && (

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Box, Tab, Tabs, Typography } from '@mui/material';
-import NotificationCards from './NotificationCards';
+import { useState } from 'react'
+import { Box, Tab, Tabs, Typography } from '@mui/material'
+import NotificationCards from './NotificationCards'
 
 const NotificationTabs = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(0)
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   const url = '/posts/all'
 
@@ -22,7 +22,7 @@ const NotificationTabs = () => {
       <Box sx={{ p: 3 }}>
         {value === 0 && (
           <Typography component="span" variant="body1">
-            <NotificationCards url={url}/>
+            <NotificationCards url={url} />
           </Typography>
         )}
         {value === 1 && (
@@ -32,7 +32,7 @@ const NotificationTabs = () => {
         )}
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default NotificationTabs;
+export default NotificationTabs
