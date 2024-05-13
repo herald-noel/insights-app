@@ -55,6 +55,7 @@ export default function SearchAppBar() {
   const handleSubmit = (event) => {
     event.preventDefault()
     setSearch(inputValue)
+    console.log('submitted')
   }
 
   return (

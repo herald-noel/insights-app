@@ -17,6 +17,8 @@ import { REQUEST } from '../../data/requests.constants'
 import '../../styles/editor.modules.css'
 import useCurrentId from '../../hooks/useCurrentId'
 import { markdownToDraft, draftToMarkdown } from 'markdown-draft-js'
+import { TbSettingsSearch } from 'react-icons/tb'
+import useSearch from '../../hooks/useSearch'
 
 const EditPost = (props) => {
   const { isNew } = props
@@ -31,7 +33,8 @@ const EditPost = (props) => {
   } = useEditor()
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
+  const { setSearch } = useSearch()
 
   const [title, setTitle] = useState('')
 
@@ -85,7 +88,7 @@ const EditPost = (props) => {
       console.log(content)
       updateData(data)
     }
-    navigate('/home')
+    setSearch('')
   }
 
   return (
