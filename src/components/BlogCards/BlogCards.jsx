@@ -6,7 +6,6 @@ import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useState } from 'react'
 import useSearch from '../../hooks/useSearch'
-import NotificationService from '../../services/NotificationService'
 
 const BlogCards = (props) => {
   const { url, isNewPostBtn } = props
@@ -45,13 +44,8 @@ const BlogCards = (props) => {
     setPageNumber(newPage)
   }
 
-  const handletest = () => {
-    NotificationService.sendMessage('testt')
-  }
-
   return (
     <>
-      <button onClick={handletest}>test</button>
       {isNewPostBtn && <CreateBlogButton />}
       {responseData.content &&
         responseData.content.map((post) => (
