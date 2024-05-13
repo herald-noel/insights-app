@@ -11,7 +11,7 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import CommentButton from '../pages/Comments/CommentButton'
 import '../styles/reactMarkdown.css'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import { REQUEST } from '../data/requests.constants'
 import { useEffect, useState } from 'react'
@@ -128,11 +128,16 @@ function BlogPost() {
                   {responseData.user.lastname[0]}
                 </Avatar>
                 <Box sx={{ marginY: '20px', marginLeft: '10px' }}>
-                  <p
-                    style={{ fontSize: '16px' }}
-                  >{`${responseData.user.firstname} ${responseData.user.lastname}`}</p>
+                  <p style={{ fontSize: '16px' }}>
+                    {`${responseData.user.firstname} ${responseData.user.lastname}`}
+                    <span> ⋅ </span>
+                    <Link>Follow</Link>
+                  </p>
                   <p style={{ fontSize: '14px', color: 'grey' }}>
-                    {format(parseISO(responseData.createdAt), 'h:mm a MMMM M, yyyy')}
+                    {format(
+                      parseISO(responseData.createdAt),
+                      'h:mm a MMMM M, yyyy'
+                    )}
                   </p>
                 </Box>
               </Box>
