@@ -14,7 +14,7 @@ import { PATH } from '../data/paths';
 
 const NotificationPost = ({ post }) => {
   const postData = post;
-
+  const coverImage = 'https://via.placeholder.com/300x200?text=Cover+Image';
   return (
     <Card
       component={Link}
@@ -30,7 +30,7 @@ const NotificationPost = ({ post }) => {
       <CardMedia
         component="img"
         height="200"
-        // image={coverImage}
+        image={coverImage}
         alt={postData.title}
         sx={{ maxWidth: { xs: '100%', md: '300px' } }}
       />
