@@ -36,9 +36,6 @@ const Blog = () => {
   return (
     <Mainlayout>
       <div>
-        {sampleBlog.map((post) => (
-          <BlogPost key={post.title} post={post} />
-        ))}
         <CommentButton />
       </div>
     </Mainlayout>
