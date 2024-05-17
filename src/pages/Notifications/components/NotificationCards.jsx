@@ -1,17 +1,13 @@
 import PropTypes from 'prop-types'
 import { Box, Pagination } from '@mui/material'
-import CardPost from '../CardPost'
-import CreateBlogButton from './components/CreateBlogButton'
-import useFetch from '../../hooks/useFetch'
-import { REQUEST } from '../../data/requests.constants'
+import NotificationPost from '../../../components/NotificationPost'
+import useFetch from '../../../hooks/useFetch'
+import { REQUEST } from '../../../data/requests.constants'
 import { useEffect, useState } from 'react'
-import useSearch from '../../hooks/useSearch'
-import { useLocation } from 'react-router-dom'
-import { PATH } from '../../data/paths'
+import useSearch from '../../../hooks/useSearch'
 
-const BlogCards = (props) => {
-  const location = useLocation()
-  const { url, isNewPostBtn } = props
+const NotificationCards = (props) => {
+  const { url } = props
   const [pageNumber, setPageNumber] = useState(1)
   const [params, setParams] = useState({})
   const [responseData, setResponseData] = useState({})
@@ -29,12 +25,6 @@ const BlogCards = (props) => {
   useEffect(() => {
     fetchData()
   }, [params])
-
-  useEffect(() => {
-    if (location.pathname === PATH.HOME) {
-      fetchData()
-    }
-  }, [location])
 
   useEffect(() => {
     setParams({ page: pageNumber - 1, query: search })
@@ -55,10 +45,9 @@ const BlogCards = (props) => {
 
   return (
     <>
-      {isNewPostBtn && <CreateBlogButton />}
       {responseData.content &&
         responseData.content.map((post, index) => (
-          <CardPost key={index} post={post} />
+          <NotificationPost key={index} post={post} />
         ))}
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         {responseData.content && (
@@ -75,9 +64,8 @@ const BlogCards = (props) => {
   )
 }
 
-BlogCards.propTypes = {
+NotificationCards.propTypes = {
   url: PropTypes.string.isRequired,
-  isNewPostBtn: PropTypes.bool.isRequired,
 }
 
-export default BlogCards
+export default NotificationCards

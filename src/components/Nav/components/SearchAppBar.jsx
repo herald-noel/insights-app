@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
-import { useDispatch, useSelector } from 'react-redux'
-import { searchKey } from '../../../reducer/search/searchSlice'
+import useSearch from '../../../hooks/useSearch'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -46,7 +45,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar() {
   const [inputValue, setInputValue] = useState('')
-  const dispatch = useDispatch()
+
+  const { setSearch } = useSearch();
 
   const handleChange = (event) => {
     setInputValue(event.target.value)
@@ -54,7 +54,8 @@ export default function SearchAppBar() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    dispatch(searchKey(inputValue))
+    setSearch(inputValue)
+    console.log('submitted')
   }
 
   return (

@@ -12,6 +12,7 @@ import {
   Avatar,
 } from '@mui/material'
 import { PATH } from '../data/paths'
+import { parseISO, format } from 'date-fns';
 
 function CardPost(props) {
   const { post } = props
@@ -50,7 +51,7 @@ function CardPost(props) {
               <Typography variant="subtitle1">{`${post.user.firstname} ${post.user.lastname}`}</Typography>
               <span>⋅</span>
               <Typography variant="subtitle1" color="text.secondary">
-                {post.createdAt}
+                {format(parseISO(post.createdAt), 'MMMM M, yyyy')}
               </Typography>
             </Grid>
             <Typography component="h2" variant="h5">
