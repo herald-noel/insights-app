@@ -73,7 +73,7 @@ function BlogPost() {
 
   const handleClickDelete = () => {
     deleteBlog()
-    navigate(PATH.HOME)
+    navigate(PATH.HOME, { state: { refresh: true } })
   }
 
   const renderMenu = (

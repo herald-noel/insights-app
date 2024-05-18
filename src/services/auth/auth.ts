@@ -32,8 +32,8 @@ export const register = async (signUpData: SignUpData) => {
 // Function to log out user
 export const logout = async () => {
   try {
-    await axios.post(`${BASE_URL}/logout`)
     localStorage.removeItem('token')
+    await axios.post(`${BASE_URL}/logout`)
   } catch (error) {
     throw error
   }
