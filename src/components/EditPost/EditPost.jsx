@@ -32,11 +32,13 @@ const EditPost = (props) => {
     setEditorState,
   } = useEditor()
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { setSearch } = useSearch()
 
   const [title, setTitle] = useState('')
+  const [image, setImage] = useState(null)
+  const [imageUrl, setImageUrl] = useState('')
 
   const { fetchData: createFetchData } = useFetch(
     '/posts/create/blog',
@@ -60,6 +62,8 @@ const EditPost = (props) => {
   useEffect(() => {
     if (data !== null && !isNew) {
       setTitle(data.title)
+      setImageUrl(data.imageUrl)
+
       const contentState = EditorState.createWithContent(
         convertFromRaw(markdownToDraft(data.content))
       )
@@ -68,6 +72,58 @@ const EditPost = (props) => {
     }
   }, [data, isNew, setEditorState, setEditorContent])
 
+  const resizeImage = (file, maxWidth, maxHeight) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        const img = new Image()
+        img.onload = () => {
+          let width = img.width
+          let height = img.height
+          if (width > maxWidth) {
+            height = (maxWidth / width) * height
+            width = maxWidth
+          }
+          if (height > maxHeight) {
+            width = (maxHeight / height) * width
+            height = maxHeight
+          }
+          const canvas = document.createElement('canvas')
+          canvas.width = width
+          canvas.height = height
+          const ctx = canvas.getContext('2d')
+          ctx.drawImage(img, 0, 0, width, height)
+          canvas.toBlob(resolve, file.type)
+        }
+        img.onerror = (error) => reject(error)
+        img.src = event.target.result
+      }
+      reader.onerror = (error) => reject(error)
+      reader.readAsDataURL(file)
+    })
+  }
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(e.target.files[0])
+    }
+  }
+
+  const handleImageUpload = async (file) => {
+    try {
+      const resizedImage = await resizeImage(file, 800, 800)
+      const reader = new FileReader()
+      return new Promise((resolve, reject) => {
+        reader.onloadend = () => {
+          setImage(resizedImage) // Set image state for form submission
+          resolve({ data: { url: reader.result } })
+        }
+        reader.onerror = (reason) => reject(reason)
+        reader.readAsDataURL(resizedImage)
+      })
+    } catch (error) {
+      throw error
+    }
+  }
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -77,16 +133,25 @@ const EditPost = (props) => {
       return
     }
     content = draftToMarkdown(convertToRaw(content))
-    const data = {
+
+    const blogRequestDTO = {
       title: title,
       content: content,
     }
 
+    const formData = new FormData()
+    formData.append(
+      'blog',
+      new Blob([JSON.stringify(blogRequestDTO)], { type: 'application/json' })
+    )
+    if (image) {
+      const resizedImage = await resizeImage(image, 800, 800) // Resize image to fit within 800x800 pixels
+      formData.append('image', resizedImage, image.name)
+    }
     if (isNew) {
-      createFetchData(data)
+      createFetchData(formData)
     } else {
-      console.log(content)
-      updateData(data)
+      updateData(formData)
     }
     setSearch('')
     navigate(PATH.HOME)
@@ -94,7 +159,7 @@ const EditPost = (props) => {
 
   return (
     <Mainlayout>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button
             variant="outlined"
@@ -118,6 +183,7 @@ const EditPost = (props) => {
             setTitle(e.target.value)
           }}
         />
+
         <Editor
           editorState={editorState}
           toolbarClassName="toolbarClassName"
@@ -137,6 +203,11 @@ const EditPost = (props) => {
               'history',
             ],
             link: { inDropdown: true },
+            image: {
+              previewImage: true,
+              uploadCallback: handleImageUpload,
+              alt: { present: true, mandatory: true },
+            },
           }}
           placeholder="Tell your story..."
         />
