@@ -200,7 +200,7 @@ function BlogPost() {
               <img
                 src={imageURL}
                 alt="Blog"
-                style={{ width: '600px', height: '600px', objectFit: 'cover' }}
+                style={{ width: '500px', height: '500px', objectFit: 'cover' }}
               />
             )}
           </Box>
