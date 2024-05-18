@@ -28,6 +28,11 @@ function BlogPost() {
   const navigate = useNavigate()
   const { currentId } = useCurrentId()
 
+  const { data: imageData, fetchData: fetchImageData } = useFetch(
+    `images/get/${currentId}`,
+    REQUEST.GET
+  )
+
   const { data, fetchData } = useFetch(
     `posts/get/blog/${currentId}`,
     REQUEST.GET
@@ -40,6 +45,7 @@ function BlogPost() {
   const [responseData, setResponseData] = useState({})
   const [likes, setLikes] = useState(0)
 
+  const [imageURL, setImageURL] = useState('')
   const [moreAnchorEl, setMoreAnchorEl] = useState(null)
 
   const handleMenuOpen = (event) => {
@@ -54,7 +60,8 @@ function BlogPost() {
 
   useEffect(() => {
     fetchData()
-  }, [])
+    fetchImageData()
+  }, [fetchData, fetchImageData])
 
   useEffect(() => {
     console.log(responseData)
@@ -66,6 +73,16 @@ function BlogPost() {
       setResponseData(data)
     }
   }, [data])
+
+  useEffect(() => {
+    if (imageData !== null && imageData.length > 0) {
+      setImageURL(imageData[0].imageURL)
+    }
+  }, [imageData])
+
+  useEffect(() => {
+    console.log(imageData)
+  }, [imageData])
 
   const handleClickEdit = () => {
     navigate(`/edit/${currentId}`)
@@ -170,6 +187,23 @@ function BlogPost() {
             </Box>
           </Box>
           <Divider />
+          <Box
+            sx={{
+              marginTop: '2rem',
+              marginBottom: '2rem',
+              display: 'flex',
+              justifyContent: 'center', // Center horizontally
+              alignItems: 'center', // Center vertically
+            }}
+          >
+            {imageURL && (
+              <img
+                src={imageURL}
+                alt="Blog"
+                style={{ width: '600px', height: '600px', objectFit: 'cover' }}
+              />
+            )}
+          </Box>
           <Box marginTop={'20px'}>
             <ReactMarkdown
               className="blog-line-break"
