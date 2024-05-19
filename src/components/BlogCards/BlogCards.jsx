@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Box, Pagination } from '@mui/material'
+import { Box, Pagination, Typography } from '@mui/material'
 import CardBlog from '../CardBlog'
 import CreateBlogButton from './components/CreateBlogButton'
 import useFetch from '../../hooks/useFetch'
@@ -59,12 +59,18 @@ const BlogCards = (props) => {
   return (
     <>
       {isNewPostBtn && <CreateBlogButton />}
-      {responseData.content &&
+      {responseData.content && responseData.content.length > 0 ? (
         responseData.content.map((post, index) => (
-          <CardBlog key={index} post={post} />
-        ))}
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        {responseData.content && (
+          <CardBlog key={`${post.id}-${index}`} post={post} />
+        ))
+      ) : (
+        <Typography variant="h6" align="center" color="textSecondary">
+          No posts found.
+        </Typography>
+      )}
+
+      {responseData.totalPages > 1 && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
           <Pagination
             page={pageNumber}
             count={responseData.totalPages}
@@ -72,8 +78,8 @@ const BlogCards = (props) => {
             size="large"
             onChange={handlePageChange}
           />
-        )}
-      </Box>
+        </Box>
+      )}
     </>
   )
 }

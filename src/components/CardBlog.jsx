@@ -17,6 +17,7 @@ import { PATH } from '../data/paths'
 
 const CardBlog = ({ post }) => {
   const postData = post
+  const coverImage = 'https://via.placeholder.com/300x200?text=Cover+Image'
   return (
     <Card
       component={Link}
@@ -32,7 +33,11 @@ const CardBlog = ({ post }) => {
       <CardMedia
         component="img"
         height="200"
-        image={postData.images[0].imageURL}
+        image={
+          postData.images !== undefined
+            ? postData.images[0].imageURL
+            : coverImage
+        }
         alt={postData.title}
         sx={{ maxWidth: { xs: '100%', md: '300px' } }}
       />
