@@ -53,7 +53,11 @@ const CommentSection = () => {
   return (
     <List>
       <ListItem key="comment">
-        <CommentBox handleCommentChange={handleCommentChange} comment={comment}>
+        <CommentBox
+          handleCommentChange={handleCommentChange}
+          comment={comment}
+          label={'What are your thoughts?'}
+        >
           <>
             <Button
               size="small"

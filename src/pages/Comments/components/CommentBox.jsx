@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 
 export default function CommentBox(props) {
-  const { children, handleCommentChange, comment } = props
+  const { children, handleCommentChange, comment, label } = props
 
   return (
     <Card
@@ -17,7 +17,7 @@ export default function CommentBox(props) {
       <CardContent>
         <TextField
           id="outlined-multiline-flexible"
-          label="What are your thoughts?"
+          label={label}
           multiline
           maxRows={50}
           variant="standard"
@@ -38,4 +38,5 @@ CommentBox.propTypes = {
   children: PropTypes.object.isRequired,
   handleCommentChange: PropTypes.func.isRequired,
   comment: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 }
