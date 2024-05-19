@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { Box, Pagination } from '@mui/material'
-import CardPost from '../CardPost'
+import CardBlog from '../CardBlog'
 import CreateBlogButton from './components/CreateBlogButton'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
@@ -57,7 +57,7 @@ const BlogCards = (props) => {
       {isNewPostBtn && <CreateBlogButton />}
       {responseData.content &&
         responseData.content.map((post, index) => (
-          <CardPost key={index} post={post} />
+          <CardBlog key={index} post={post} />
         ))}
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         {responseData.content && (

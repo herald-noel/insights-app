@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import rehypeRaw from 'rehype-raw'
 import ReactMarkdown from 'react-markdown'
+import stringAvatar from '../utils/stringAvatar'
 import { Link } from 'react-router-dom'
 import { format, parseISO } from 'date-fns'
 import {
@@ -14,7 +15,7 @@ import {
 } from '@mui/material'
 import { PATH } from '../data/paths'
 
-const NotificationPost = ({ post }) => {
+const CardBlog = ({ post }) => {
   const postData = post
   const coverImage = 'https://via.placeholder.com/300x200?text=Cover+Image'
   return (
@@ -47,22 +48,17 @@ const NotificationPost = ({ post }) => {
             }}
           >
             <Avatar
-              sx={{
-                width: 30,
-                height: 30,
-                bgcolor: 'primary.main',
-                color: 'common.white',
-              }}
-            >
-              {`${postData.user.firstname[0]}${postData.user.lastname[0]}`}
-            </Avatar>
+              {...stringAvatar(
+                `${postData.user.firstname} ${postData.user.lastname}`
+              )}
+            />
             <Typography variant="subtitle1">
               {`${postData.user.firstname} ${postData.user.lastname}`}
             </Typography>
             <Chip
               size="small"
               label={format(parseISO(postData.createdAt), 'MMMM M, yyyy')}
-              color="secondary"
+              sx={{ color: '#2979ff' }}
             />
           </Box>
           <Typography component="span" variant="h5" gutterBottom>
@@ -79,7 +75,7 @@ const NotificationPost = ({ post }) => {
   )
 }
 
-NotificationPost.propTypes = {
+CardBlog.propTypes = {
   post: PropTypes.shape({
     blogId: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
@@ -93,4 +89,4 @@ NotificationPost.propTypes = {
   }).isRequired,
 }
 
-export default NotificationPost
+export default CardBlog
