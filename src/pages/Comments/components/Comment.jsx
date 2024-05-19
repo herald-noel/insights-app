@@ -28,7 +28,9 @@ export default function Comment(props) {
   const { currentId } = useCurrentId()
 
   const updateUrl = `comments/update/comment/${data.commentId}/${currentId}`
+  const deleteUrl = `comments/delete/comment/${data.commentId}/${currentId}`
   const { fetchData: updateComment } = useFetch(updateUrl, REQUEST.PUT)
+  const { fetchData: deleteComment } = useFetch(deleteUrl, REQUEST.DELETE)
 
   useEffect(() => {
     setCurrComment(data.comment)
@@ -63,6 +65,11 @@ export default function Comment(props) {
     setIsEdit(true)
   }
 
+  const handleDeleteClick = async () => {
+    await deleteComment()
+    handleUpdatedData()
+  }
+
   const handleCancelClick = () => {
     setIsEdit(false)
     setCurrComment(data.comment)
@@ -86,7 +93,7 @@ export default function Comment(props) {
       <MenuItem onClick={handleEditClick}>
         <Typography variant="body2">Edit</Typography>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={handleDeleteClick}>
         <Typography variant="body2">Delete</Typography>
       </MenuItem>
     </Menu>
