@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react'
 
 export default function RecommendButton(props) {
   const { likes, blogId } = props
-  const { toggleLike, numLikes } = useLike(blogId)
+  const { toggleLike, numLikes, isUserLike } = useLike(blogId)
   const [likeCount, setLikeCount] = useState(0)
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function RecommendButton(props) {
       <Box display={'flex'} alignItems={'center'}>
         <Tooltip title="Recommend" placement="top">
           <IconButton label="Recommend" onClick={toggleLike}>
-            <ThumbUpOffAltOutlined />
+            <ThumbUpOffAltOutlined color={isUserLike ? 'primary' : 'inherit'} />
           </IconButton>
         </Tooltip>
         <Typography marginRight={'5px'}>{likeCount}</Typography>
