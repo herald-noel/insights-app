@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useFetchDataFromApi } from '../services/apiAuth'
 
 const useFetch = (url: string, method: string, params?: any) => {
@@ -6,18 +6,21 @@ const useFetch = (url: string, method: string, params?: any) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<any>(null)
 
-  const fetchData = async (payload?: any) => {
-    setLoading(true)
-    setError(null)
-    try {
-      const response = await useFetchDataFromApi(url, method, params, payload)
-      setData(response)
-    } catch (error) {
-      setError(error)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const fetchData = useCallback(
+    async (payload) => {
+      setLoading(true)
+      setError(null)
+      try {
+        const response = await useFetchDataFromApi(url, method, params, payload)
+        setData(response)
+      } catch (error) {
+        setError(error)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [url, method, params]
+  )
 
   return { data, loading, error, fetchData }
 }
