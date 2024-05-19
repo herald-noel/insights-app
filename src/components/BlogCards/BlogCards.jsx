@@ -45,7 +45,6 @@ const BlogCards = (props) => {
       return
     }
     setResponseData(data)
-    console.log(data)
   }, [data])
 
   const handlePageChange = (event, newPage) => {

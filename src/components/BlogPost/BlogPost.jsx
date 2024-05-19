@@ -64,10 +64,6 @@ function BlogPost() {
   }, [fetchData, fetchImageData])
 
   useEffect(() => {
-    console.log(responseData)
-  }, [responseData])
-
-  useEffect(() => {
     if (data !== null) {
       setLikes(data.likes)
       setResponseData(data)
