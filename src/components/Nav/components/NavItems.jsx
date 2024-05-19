@@ -8,11 +8,14 @@ import Menu from '@mui/material/Menu'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import MoreIcon from '@mui/icons-material/MoreVert'
+import useFetch from '../../../hooks/useFetch'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../../reducer/user/userSlice'
 import { useNavigate } from 'react-router-dom'
 import { logout as logoutUser } from '../../../services/auth/auth'
 import { PATH } from '../../../data/paths'
+import { REQUEST } from '../../../data/requests.constants'
+import { useEffect, useState } from 'react'
 
 export default function NavItems() {
   const dispatch = useDispatch()
@@ -56,6 +59,19 @@ export default function NavItems() {
   const handleMyBlogs = () => {
     navigate(PATH.USER_BLOGS)
   }
+
+  const [responseData, setResponseData] = useState(0)
+  const url = '/notifications/count'
+
+  const { data, fetchData } = useFetch(url, REQUEST.GET)
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  useEffect(() => {
+    setResponseData(data)
+  }, [data])
 
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
@@ -154,7 +170,7 @@ export default function NavItems() {
             color="inherit"
             onClick={handleNotificationClick}
           >
-            <Badge badgeContent={17} color="error">
+            <Badge badgeContent={responseData} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
