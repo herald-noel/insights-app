@@ -73,6 +73,14 @@ export default function NavItems() {
     setResponseData(data)
   }, [data])
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchData() 
+    }, 3000)
+
+    return () => clearInterval(intervalId)
+  }, [fetchData]) 
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
