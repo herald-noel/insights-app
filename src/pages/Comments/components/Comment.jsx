@@ -15,13 +15,20 @@ import { useEffect, useState } from 'react'
 import stringAvatar from '../../../utils/stringAvatar'
 import { parseISO, format } from 'date-fns'
 import CommentBox from './CommentBox'
+import useFetch from '../../../hooks/useFetch'
+import useCurrentId from '../../../hooks/useCurrentId'
+import { REQUEST } from '../../../data/requests.constants'
 
 export default function Comment(props) {
-  const { data } = props
+  const { data, handleUpdatedData } = props
 
   const [moreAnchorEl, setMoreAnchorEl] = useState(null)
   const [currComment, setCurrComment] = useState('')
   const [isEdit, setIsEdit] = useState(false)
+  const { currentId } = useCurrentId()
+
+  const updateUrl = `comments/update/comment/${data.commentId}/${currentId}`
+  const { fetchData: updateComment } = useFetch(updateUrl, REQUEST.PUT)
 
   useEffect(() => {
     setCurrComment(data.comment)
@@ -41,7 +48,15 @@ export default function Comment(props) {
     setCurrComment(event.target.value)
   }
 
-  const handleRespond = async () => {}
+  const handleUpdate = async () => {
+    const payload = {
+      comment: currComment,
+    }
+
+    await updateComment(payload)
+    setIsEdit(false)
+    handleUpdatedData()
+  }
 
   const handleEditClick = () => {
     handleMenuClose()
@@ -50,6 +65,7 @@ export default function Comment(props) {
 
   const handleCancelClick = () => {
     setIsEdit(false)
+    setCurrComment(data.comment)
   }
 
   const renderMenu = (
@@ -107,7 +123,9 @@ export default function Comment(props) {
                     {data.user.firstname} {data.user.lastname}
                   </Typography>
                   <Typography variant="subtitle2" color="text.secondary">
-                    {format(parseISO(data.createdAt), 'h:mm a MMMM M, yyyy')}
+                    {data.updatedAt
+                      ? format(parseISO(data.updatedAt), 'h:mm a MMMM M, yyyy')
+                      : format(parseISO(data.createdAt), 'h:mm a MMMM M, yyyy')}
                   </Typography>
                 </Box>
               </Box>
@@ -152,7 +170,7 @@ export default function Comment(props) {
               size="small"
               variant="contained"
               sx={{ bgcolor: 'sky-blue', color: 'white' }}
-              onClick={handleRespond}
+              onClick={handleUpdate}
             >
               Update
             </Button>
@@ -165,12 +183,16 @@ export default function Comment(props) {
 
 Comment.propTypes = {
   data: PropTypes.shape({
+    commentId: PropTypes.number.isRequired,
     comment: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired,
     user: PropTypes.shape({
       firstname: PropTypes.string.isRequired,
       lastname: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired,
     }),
   }).isRequired,
+
+  handleUpdatedData: PropTypes.func.isRequired,
 }

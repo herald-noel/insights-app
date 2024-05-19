@@ -50,6 +50,11 @@ const CommentSection = () => {
     setComment(event.target.value)
   }
 
+  const handleUpdatedData = () => {
+    console.log('retrieving')
+    fetchData()
+  }
+
   return (
     <List>
       <ListItem key="comment">
@@ -80,7 +85,7 @@ const CommentSection = () => {
 
       {comments.map((data, index) => (
         <ListItem key={index}>
-          <Comment data={data} />
+          <Comment data={data} handleUpdatedData={handleUpdatedData} />
         </ListItem>
       ))}
     </List>
