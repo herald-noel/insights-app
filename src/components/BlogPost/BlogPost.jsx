@@ -23,12 +23,13 @@ import { PATH } from '../../data/paths'
 import { parseISO, format } from 'date-fns'
 import CommentSection from '../../pages/Comments/components/CommentSection'
 import stringAvatar from '../../utils/stringAvatar'
+import { LoadingButton } from '@mui/lab'
 
 function BlogPost() {
   const userEmail = useSelector((state) => state.user.user)
   const navigate = useNavigate()
   const { currentId } = useCurrentId()
-  const ownerId = useRef(0)
+  const ownerId = useRef(null)
 
   const { data: imageData, fetchData: fetchImageData } = useFetch(
     `images/get/${currentId}`,
@@ -49,6 +50,12 @@ function BlogPost() {
     `follows/toggle/follow/${ownerId.current}`,
     REQUEST.POST
   )
+
+  const {
+    loading: followLoading,
+    data: isUserFollowing,
+    fetchData: checkIfUserFollow,
+  } = useFetch(`follows/following/${ownerId.current}`, REQUEST.GET)
 
   const [responseData, setResponseData] = useState({})
   const [likes, setLikes] = useState(0)
@@ -80,6 +87,12 @@ function BlogPost() {
   }, [data])
 
   useEffect(() => {
+    if (ownerId.current) {
+      checkIfUserFollow()
+    }
+  }, [ownerId, checkIfUserFollow])
+
+  useEffect(() => {
     if (imageData !== null && imageData.length > 0) {
       setImageURL(imageData[0].imageURL)
     }
@@ -98,8 +111,9 @@ function BlogPost() {
     navigate(PATH.HOME, { state: { refresh: true } })
   }
 
-  const handleFollowClick = () => {
-    toggleFollow()
+  const handleFollowClick = async () => {
+    await toggleFollow()
+    await checkIfUserFollow()
     console.log('test')
   }
 
@@ -157,7 +171,14 @@ function BlogPost() {
                   <p style={{ fontSize: '16px' }}>
                     {`${responseData.user.firstname} ${responseData.user.lastname}`}
                     <span> ⋅ </span>
-                    <Link onClick={handleFollowClick}>{'Follow'}</Link>
+                    <LoadingButton
+                      size="small"
+                      onClick={handleFollowClick}
+                      loading={followLoading}
+                      disabled={followLoading}
+                    >
+                      {isUserFollowing ? 'Following' : 'Follow'}
+                    </LoadingButton>
                   </p>
                   <p style={{ fontSize: '14px', color: 'grey' }}>
                     {format(
