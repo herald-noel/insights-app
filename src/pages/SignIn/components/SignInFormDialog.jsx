@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -19,16 +18,12 @@ const SignInFormDialog = () => {
 
   const {
     email,
-    setEmail,
     password,
-    setPassword,
-    emailError,
-    emailErrorMsg,
-    passwordError,
-    passwordErrorMsg,
     handleEmailChange,
     handlePasswordChange,
     handleSubmit,
+    emailError,
+    emailErrorMsg,
   } = useSignIn()
 
   return (
@@ -44,6 +39,7 @@ const SignInFormDialog = () => {
             fullWidth
             value={email}
             onChange={handleEmailChange}
+            error={emailError}
           />
           <TextField
             margin="dense"
@@ -53,6 +49,8 @@ const SignInFormDialog = () => {
             value={password}
             onChange={handlePasswordChange}
             sx={{ marginBottom: '10px' }}
+            error={emailError}
+            helperText={emailErrorMsg}
           />
           <Link href="#" underline="none">
             Forgot Password?
