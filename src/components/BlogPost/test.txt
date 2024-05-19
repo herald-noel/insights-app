@@ -7,98 +7,87 @@ import {
   MenuItem,
   Typography,
   CircularProgress,
-} from '@mui/material'
-import ReactMarkdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
-import CommentButton from '../../pages/Comments/CommentButton'
-import '../../styles/reactMarkdown.css'
-import { Link, useNavigate } from 'react-router-dom'
-import useFetch from '../../hooks/useFetch'
-import { REQUEST } from '../../data/requests.constants'
-import { useEffect, useState } from 'react'
-import RecommendButton from '../../pages/Blog/components/RecommendButton'
-import IconButton from '@mui/material/IconButton'
-import MoreIcon from '@mui/icons-material/MoreHoriz'
-import useCurrentId from '../../hooks/useCurrentId'
-import { useSelector } from 'react-redux'
-import { PATH } from '../../data/paths'
-import { parseISO, format } from 'date-fns'
+} from '@mui/material';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import CommentButton from '../../pages/Comments/CommentButton';
+import '../../styles/reactMarkdown.css';
+import { Link, useNavigate } from 'react-router-dom';
+import useFetch from '../../hooks/useFetch';
+import useFetchImage from '../../hooks/useFetchImage'; // Import the new hook
+import { REQUEST } from '../../data/requests.constants';
+import { useEffect, useState } from 'react';
+import RecommendButton from '../../pages/Blog/components/RecommendButton';
+import IconButton from '@mui/material/IconButton';
+import MoreIcon from '@mui/icons-material/MoreHoriz';
+import useCurrentId from '../../hooks/useCurrentId';
+import { useSelector } from 'react-redux';
+import { PATH } from '../../data/paths';
+import { parseISO, format } from 'date-fns';
 
 function BlogPost() {
-  const userEmail = useSelector((state) => state.user.user)
-  const navigate = useNavigate()
-  const { currentId } = useCurrentId()
-
-  const { data: imageData, fetchData: fetchImageData } = useFetch(
-    `images/get/${currentId}`,
-    REQUEST.GET
-  )
-
-  const { fetchData: deleteImage } = useFetch(
-    `images/delete/${currentId}`,
-    REQUEST.DELETE
-  )
+  const userEmail = useSelector((state) => state.user.user);
+  const navigate = useNavigate();
+  const { currentId } = useCurrentId();
 
   const { data, fetchData } = useFetch(
     `posts/get/blog/${currentId}`,
     REQUEST.GET
-  )
+  );
   const { fetchData: deleteBlog } = useFetch(
     `posts/delete/blog/${currentId}`,
     REQUEST.DELETE
-  )
+  );
 
-  const [responseData, setResponseData] = useState({})
-  const [likes, setLikes] = useState(0)
+  const { imageData, isImageLoading, fetchImageData, deleteImageData } = useFetchImage(currentId);
 
-  const [imageURL, setImageURL] = useState('')
-  const [isImageLoading, setIsImageLoading] = useState(true)
-  const [moreAnchorEl, setMoreAnchorEl] = useState(null)
+  const [responseData, setResponseData] = useState({});
+  const [likes, setLikes] = useState(0);
+  const [imageURL, setImageURL] = useState('');
+  const [moreAnchorEl, setMoreAnchorEl] = useState(null);
 
-  const handleMenuOpen = (event) => {
-    setMoreAnchorEl(event.currentTarget)
-  }
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMoreAnchorEl(event.currentTarget);
+  };
 
   const handleMenuClose = () => {
-    setMoreAnchorEl(null)
-  }
+    setMoreAnchorEl(null);
+  };
 
-  const isMenuOpen = Boolean(moreAnchorEl)
+  const isMenuOpen = Boolean(moreAnchorEl);
 
   useEffect(() => {
-    fetchData()
-    fetchImageData()
-  }, [fetchData, fetchImageData])
+    fetchData();
+    fetchImageData();
+  }, [fetchData, fetchImageData]);
 
   useEffect(() => {
     if (data !== null) {
-      setLikes(data.likes)
-      setResponseData(data)
+      setLikes(data.likes);
+      setResponseData(data);
     }
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
     if (imageData !== null && imageData.length > 0) {
-      setImageURL(imageData[0].imageURL)
+      setImageURL(imageData[0].imageURL);
     }
-  }, [imageData])
-
-  useEffect(() => {
-    console.log(imageData)
-  }, [imageData])
+  }, [imageData]);
 
   const handleClickEdit = () => {
-    navigate(`/edit/${currentId}`)
-  }
+    navigate(`/edit/${currentId}`);
+  };
 
-  const handleClickDelete = () => {
-    deleteBlog()
-    deleteImage()
-    navigate(PATH.HOME, { state: { refresh: true } })
-  }
+  const handleClickDelete = async () => {
+    await deleteBlog();
+    await deleteImageData();
+    navigate(PATH.HOME, { state: { refresh: true } });
+  };
+
   const handleImageLoad = () => {
-    setIsImageLoading(false)
-  }
+    setIsImageLoading(false);
+  };
+
   const renderMenu = (
     <Menu
       anchorEl={moreAnchorEl}
@@ -121,7 +110,7 @@ function BlogPost() {
         <Typography variant="body2">Delete</Typography>
       </MenuItem>
     </Menu>
-  )
+  );
 
   return (
     <Grid
@@ -229,7 +218,7 @@ function BlogPost() {
       )}
       {renderMenu}
     </Grid>
-  )
+  );
 }
 
-export default BlogPost
+export default BlogPost;
