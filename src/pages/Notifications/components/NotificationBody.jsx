@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import NotificationTabs from './NotificationTabs'
 
 const NotificationBody = () => {
@@ -15,6 +15,7 @@ const NotificationBody = () => {
           The latest releases from publishers you follow.
         </Typography>
       </Box>
+      <Divider />
       <NotificationTabs />
     </Box>
   )
