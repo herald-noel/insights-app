@@ -33,6 +33,11 @@ function BlogPost() {
     REQUEST.GET
   )
 
+  const { fetchData: deleteBlogImage } = useFetch(
+    `images/delete/${currentId}`,
+    REQUEST.DELETE
+  )
+
   const { data, fetchData } = useFetch(
     `posts/get/blog/${currentId}`,
     REQUEST.GET
@@ -90,6 +95,8 @@ function BlogPost() {
 
   const handleClickDelete = () => {
     deleteBlog()
+    deleteBlogImage()
+    console.log('image deleted')
     navigate(PATH.HOME, { state: { refresh: true } })
   }
 
