@@ -9,18 +9,18 @@ import {
 } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
-import CommentButton from '../pages/Comments/CommentButton'
-import '../styles/reactMarkdown.css'
+import CommentButton from '../../pages/Comments/CommentButton'
+import '../../styles/reactMarkdown.css'
 import { Link, useNavigate } from 'react-router-dom'
-import useFetch from '../hooks/useFetch'
-import { REQUEST } from '../data/requests.constants'
+import useFetch from '../../hooks/useFetch'
+import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useState } from 'react'
-import RecommendButton from '../pages/Blog/components/RecommendButton'
+import RecommendButton from '../../pages/Blog/components/RecommendButton'
 import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
-import useCurrentId from '../hooks/useCurrentId'
+import useCurrentId from '../../hooks/useCurrentId'
 import { useSelector } from 'react-redux'
-import { PATH } from '../data/paths'
+import { PATH } from '../../data/paths'
 import { parseISO, format } from 'date-fns'
 
 function BlogPost() {
@@ -31,11 +31,6 @@ function BlogPost() {
   const { data: imageData, fetchData: fetchImageData } = useFetch(
     `images/get/${currentId}`,
     REQUEST.GET
-  )
-
-  const { fetchData: deleteBlogImage } = useFetch(
-    `images/delete/${currentId}`,
-    REQUEST.DELETE
   )
 
   const { data, fetchData } = useFetch(
@@ -69,10 +64,6 @@ function BlogPost() {
   }, [fetchData, fetchImageData])
 
   useEffect(() => {
-    console.log(responseData)
-  }, [responseData])
-
-  useEffect(() => {
     if (data !== null) {
       setLikes(data.likes)
       setResponseData(data)
@@ -95,8 +86,6 @@ function BlogPost() {
 
   const handleClickDelete = () => {
     deleteBlog()
-    deleteBlogImage()
-    console.log('image deleted')
     navigate(PATH.HOME, { state: { refresh: true } })
   }
 
@@ -189,7 +178,7 @@ function BlogPost() {
             }}
           >
             <Box marginY={'1px'} display={'flex'}>
-              <RecommendButton likes={likes} />
+              <RecommendButton likes={likes} blogId={currentId} />
               <CommentButton />
             </Box>
           </Box>

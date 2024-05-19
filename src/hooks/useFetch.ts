@@ -7,7 +7,7 @@ const useFetch = (url: string, method: string, params?: any) => {
   const [error, setError] = useState<any>(null)
 
   const fetchData = useCallback(
-    async (payload) => {
+    async (payload?) => {
       setLoading(true)
       setError(null)
       try {

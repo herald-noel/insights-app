@@ -1,5 +1,5 @@
 import Mainlayout from '../../layout/Mainlayout'
-import BlogPost from '../../components/BlogPost'
+import BlogPost from '../../components/BlogPost/BlogPost'
 import { Box } from '@mui/material'
 
 const Blog = () => {

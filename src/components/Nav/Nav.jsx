@@ -27,8 +27,6 @@ const Nav = (props) => {
   const { setSearch } = useSearch()
 
   const handleLogoClick = () => {
-    console.log('Brand clicked')
-
     if (isAuthenticated) {
       setSearch('')
       navigate(PATH.HOME)
