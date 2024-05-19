@@ -193,7 +193,7 @@ Comment.propTypes = {
     commentId: PropTypes.number.isRequired,
     comment: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string,
     user: PropTypes.shape({
       firstname: PropTypes.string.isRequired,
       lastname: PropTypes.string.isRequired,
