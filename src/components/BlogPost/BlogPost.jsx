@@ -13,7 +13,7 @@ import '../../styles/reactMarkdown.css'
 import { Link, useNavigate } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import RecommendButton from '../../pages/Blog/components/RecommendButton'
 import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
@@ -28,6 +28,7 @@ function BlogPost() {
   const userEmail = useSelector((state) => state.user.user)
   const navigate = useNavigate()
   const { currentId } = useCurrentId()
+  const ownerId = useRef(0)
 
   const { data: imageData, fetchData: fetchImageData } = useFetch(
     `images/get/${currentId}`,
@@ -38,9 +39,15 @@ function BlogPost() {
     `posts/get/blog/${currentId}`,
     REQUEST.GET
   )
+
   const { fetchData: deleteBlog } = useFetch(
     `posts/delete/blog/${currentId}`,
     REQUEST.DELETE
+  )
+
+  const { fetchData: toggleFollow } = useFetch(
+    `follows/toggle/follow/${ownerId.current}`,
+    REQUEST.POST
   )
 
   const [responseData, setResponseData] = useState({})
@@ -66,6 +73,7 @@ function BlogPost() {
 
   useEffect(() => {
     if (data !== null) {
+      ownerId.current = data.user.userId
       setLikes(data.likes)
       setResponseData(data)
     }
@@ -88,6 +96,11 @@ function BlogPost() {
   const handleClickDelete = () => {
     deleteBlog()
     navigate(PATH.HOME, { state: { refresh: true } })
+  }
+
+  const handleFollowClick = () => {
+    toggleFollow()
+    console.log('test')
   }
 
   const renderMenu = (
@@ -126,9 +139,6 @@ function BlogPost() {
     >
       {responseData && (
         <>
-          <Grid
-            sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
-          ></Grid>
           <h1 style={{ fontSize: '42px' }}>{responseData.title}</h1>
           {responseData.user && (
             <Box
@@ -147,7 +157,7 @@ function BlogPost() {
                   <p style={{ fontSize: '16px' }}>
                     {`${responseData.user.firstname} ${responseData.user.lastname}`}
                     <span> ⋅ </span>
-                    <Link>Follow</Link>
+                    <Link onClick={handleFollowClick}>{'Follow'}</Link>
                   </p>
                   <p style={{ fontSize: '14px', color: 'grey' }}>
                     {format(
