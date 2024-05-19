@@ -41,6 +41,10 @@ const BlogCards = (props) => {
   }, [pageNumber, search])
 
   useEffect(() => {
+    console.log(responseData)
+  }, [responseData])
+
+  useEffect(() => {
     if (data === null) {
       return
     }

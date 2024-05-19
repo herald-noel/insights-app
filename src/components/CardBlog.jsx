@@ -17,7 +17,6 @@ import { PATH } from '../data/paths'
 
 const CardBlog = ({ post }) => {
   const postData = post
-  const coverImage = 'https://via.placeholder.com/300x200?text=Cover+Image'
   return (
     <Card
       component={Link}
@@ -33,7 +32,7 @@ const CardBlog = ({ post }) => {
       <CardMedia
         component="img"
         height="200"
-        image={coverImage}
+        image={postData.images[0].imageURL}
         alt={postData.title}
         sx={{ maxWidth: { xs: '100%', md: '300px' } }}
       />
@@ -81,6 +80,7 @@ CardBlog.propTypes = {
     createdAt: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    images: PropTypes.array.isRequired,
     user: PropTypes.shape({
       userId: PropTypes.number.isRequired,
       firstname: PropTypes.string.isRequired,
