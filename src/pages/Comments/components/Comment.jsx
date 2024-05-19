@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
 import { useState } from 'react'
 import stringAvatar from '../../../utils/stringAvatar'
+import { parseISO, format } from 'date-fns'
 
 export default function Comment(props) {
   const { data } = props
@@ -78,7 +79,7 @@ export default function Comment(props) {
                 {data.user.firstname} {data.user.lastname}
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                {data.createdAt}
+                {format(parseISO(data.createdAt), 'h:mm a MMMM M, yyyy')}
               </Typography>
             </Box>
           </Box>
