@@ -11,6 +11,7 @@ import {
 import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
 import { useState } from 'react'
+import stringAvatar from '../../../utils/stringAvatar'
 
 export default function Comment(props) {
   const { data } = props
@@ -42,7 +43,7 @@ export default function Comment(props) {
       onClose={handleMenuClose}
     >
       <MenuItem>
-        <Typography variant="body2">Edit Comment</Typography>
+        <Typography variant="body2">Edit</Typography>
       </MenuItem>
       <MenuItem>
         <Typography variant="body2">Delete</Typography>
@@ -53,7 +54,7 @@ export default function Comment(props) {
   return (
     <Card
       sx={{
-        width: 400,
+        width: '100%',
         border: 'none', // Remove the border
       }}
     >
@@ -68,7 +69,10 @@ export default function Comment(props) {
           }}
         >
           <Box display={'flex'} alignItems={'center'}>
-            <Avatar>J</Avatar>
+            <Avatar
+              {...stringAvatar(`${data.user.firstname} ${data.user.lastname}`)}
+            />
+
             <Box marginLeft={'10px'}>
               <Typography variant="subtitle1">
                 {data.user.firstname} {data.user.lastname}

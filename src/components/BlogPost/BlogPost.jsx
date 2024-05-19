@@ -9,7 +9,6 @@ import {
 } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
-import CommentButton from '../../pages/Comments/CommentButton'
 import '../../styles/reactMarkdown.css'
 import { Link, useNavigate } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
@@ -22,6 +21,8 @@ import useCurrentId from '../../hooks/useCurrentId'
 import { useSelector } from 'react-redux'
 import { PATH } from '../../data/paths'
 import { parseISO, format } from 'date-fns'
+import CommentSection from '../../pages/Comments/components/CommentSection'
+import stringAvatar from '../../utils/stringAvatar'
 
 function BlogPost() {
   const userEmail = useSelector((state) => state.user.user)
@@ -136,10 +137,12 @@ function BlogPost() {
               alignItems={'center'}
             >
               <Box display={'flex'} alignItems={'center'}>
-                <Avatar>
-                  {responseData.user.firstname[0]}
-                  {responseData.user.lastname[0]}
-                </Avatar>
+                <Avatar
+                  {...stringAvatar(
+                    `${responseData.user.firstname} ${responseData.user.lastname}`
+                  )}
+                />
+
                 <Box sx={{ marginY: '20px', marginLeft: '10px' }}>
                   <p style={{ fontSize: '16px' }}>
                     {`${responseData.user.firstname} ${responseData.user.lastname}`}
@@ -179,7 +182,7 @@ function BlogPost() {
           >
             <Box marginY={'1px'} display={'flex'}>
               <RecommendButton likes={likes} blogId={currentId} />
-              <CommentButton />
+              {/* <CommentButton /> */}
             </Box>
           </Box>
           <Divider />
@@ -211,6 +214,9 @@ function BlogPost() {
         </>
       )}
       {renderMenu}
+      <Box id="comment-section" sx={{ marginTop: '100px' }}>
+        <CommentSection />
+      </Box>
     </Grid>
   )
 }

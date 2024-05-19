@@ -10,8 +10,7 @@ export default function CommentBox(props) {
   return (
     <Card
       sx={{
-        minWidth: 400,
-
+        width: '100%',
         border: '1px solid rgba(0, 0, 0, 0.1)',
       }}
     >
