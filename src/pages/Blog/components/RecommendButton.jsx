@@ -5,10 +5,20 @@ import { ThumbUpOffAltOutlined } from '@mui/icons-material'
 
 import { Box, IconButton, Tooltip, Typography } from '@mui/material'
 import useLike from '../../../components/BlogPost/hooks/useLike'
+import { useState, useEffect } from 'react'
 
 export default function RecommendButton(props) {
   const { likes, blogId } = props
-  const { toggleLike } = useLike(blogId)
+  const { toggleLike, numLikes } = useLike(blogId)
+  const [likeCount, setLikeCount] = useState(0)
+
+  useEffect(() => {
+    setLikeCount(likes)
+  }, [likes])
+
+  useEffect(() => {
+    setLikeCount(numLikes)
+  }, [numLikes])
 
   return (
     <React.Fragment>
@@ -18,7 +28,7 @@ export default function RecommendButton(props) {
             <ThumbUpOffAltOutlined />
           </IconButton>
         </Tooltip>
-        <Typography marginRight={'5px'}>{likes}</Typography>
+        <Typography marginRight={'5px'}>{likeCount}</Typography>
       </Box>
     </React.Fragment>
   )

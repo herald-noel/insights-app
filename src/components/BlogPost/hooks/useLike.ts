@@ -5,25 +5,24 @@ import useFetch from '../../../hooks/useFetch'
 const useLike = (blogId: string) => {
   const url = `/likes/blog/${blogId}`
   const { data, fetchData } = useFetch(url, REQUEST.POST)
-  const [response, setResponse] = useState('')
+  const [numLikes, setNumLikes] = useState('')
 
   useEffect(() => {
-    setResponse(data)
+    setNumLikes(data)
   }, [data])
 
   const toggleLike = async () => {
     try {
       await fetchData()
-      console.log('success like')
+      console.log('success toggle')
     } catch (error) {
       console.log(error)
     }
-    console.log('like button ' + blogId)
   }
 
   return {
     toggleLike,
-    response,
+    numLikes,
   }
 }
 
