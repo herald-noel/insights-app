@@ -154,7 +154,7 @@ const EditPost = (props) => {
       updateData(formData)
     }
     setSearch('')
-    navigate(PATH.HOME)
+    navigate(PATH.HOME, { state: { refresh: true } })
   }
 
   return (
