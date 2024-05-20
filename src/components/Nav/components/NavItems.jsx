@@ -6,14 +6,16 @@ import Badge from '@mui/material/Badge'
 import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
 import AccountCircle from '@mui/icons-material/AccountCircle'
-import MailIcon from '@mui/icons-material/Mail'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import MoreIcon from '@mui/icons-material/MoreVert'
+import useFetch from '../../../hooks/useFetch'
 import { useDispatch } from 'react-redux'
 import { logout } from '../../../reducer/user/userSlice'
 import { useNavigate } from 'react-router-dom'
 import { logout as logoutUser } from '../../../services/auth/auth'
 import { PATH } from '../../../data/paths'
+import { REQUEST } from '../../../data/requests.constants'
+import { useEffect, useState } from 'react'
 
 export default function NavItems() {
   const dispatch = useDispatch()
@@ -58,6 +60,27 @@ export default function NavItems() {
     navigate(PATH.USER_BLOGS)
   }
 
+  const [responseData, setResponseData] = useState(0)
+  const url = '/notifications/count'
+
+  const { data, fetchData } = useFetch(url, REQUEST.GET)
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  useEffect(() => {
+    setResponseData(data)
+  }, [data])
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchData() 
+    }, 3000)
+
+    return () => clearInterval(intervalId)
+  }, [fetchData]) 
+
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -99,7 +122,6 @@ export default function NavItems() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMyBlogs}>My Blogs</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <MenuItem onClick={handleLogout}>Log out</MenuItem>
     </Menu>
   )
@@ -121,14 +143,6 @@ export default function NavItems() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
       <MenuItem onClick={handleNotificationClick}>
         <IconButton size="large" aria-label="new notifications" color="inherit">
           <Badge badgeContent={17} color="error">
@@ -158,18 +172,13 @@ export default function NavItems() {
       <Toolbar>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <IconButton size="large" aria-label="new mails" color="inherit">
-            <Badge badgeContent={4} color="error">
-              <MailIcon />
-            </Badge>
-          </IconButton>
           <IconButton
             size="large"
             aria-label="new notifications"
             color="inherit"
             onClick={handleNotificationClick}
           >
-            <Badge badgeContent={17} color="error">
+            <Badge badgeContent={responseData} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>

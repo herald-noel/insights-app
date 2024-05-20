@@ -10,12 +10,11 @@ import {
 } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
-import CommentButton from '../../pages/Comments/CommentButton'
 import '../../styles/reactMarkdown.css'
 import { Link, useNavigate } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import RecommendButton from '../../pages/Blog/components/RecommendButton'
 import IconButton from '@mui/material/IconButton'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
@@ -23,11 +22,15 @@ import useCurrentId from '../../hooks/useCurrentId'
 import { useSelector } from 'react-redux'
 import { PATH } from '../../data/paths'
 import { parseISO, format } from 'date-fns'
+import CommentSection from '../../pages/Comments/components/CommentSection'
+import stringAvatar from '../../utils/stringAvatar'
+import { LoadingButton } from '@mui/lab'
 
 function BlogPost() {
   const userEmail = useSelector((state) => state.user.user)
   const navigate = useNavigate()
   const { currentId } = useCurrentId()
+  const ownerId = useRef(null)
 
   const { data: imageData, fetchData: fetchImageData } = useFetch(
     `images/get/${currentId}`,
@@ -43,10 +46,22 @@ function BlogPost() {
     `posts/get/blog/${currentId}`,
     REQUEST.GET
   )
+
   const { fetchData: deleteBlog } = useFetch(
     `posts/delete/blog/${currentId}`,
     REQUEST.DELETE
   )
+
+  const { fetchData: toggleFollow } = useFetch(
+    `follows/toggle/follow/${ownerId.current}`,
+    REQUEST.POST
+  )
+
+  const {
+    loading: followLoading,
+    data: isUserFollowing,
+    fetchData: checkIfUserFollow,
+  } = useFetch(`follows/following/${ownerId.current}`, REQUEST.GET)
 
   const [responseData, setResponseData] = useState({})
   const [likes, setLikes] = useState(0)
@@ -72,10 +87,17 @@ function BlogPost() {
 
   useEffect(() => {
     if (data !== null) {
+      ownerId.current = data.user.userId
       setLikes(data.likes)
       setResponseData(data)
     }
   }, [data])
+
+  useEffect(() => {
+    if (ownerId.current) {
+      checkIfUserFollow()
+    }
+  }, [ownerId, checkIfUserFollow])
 
   useEffect(() => {
     if (imageData !== null && imageData.length > 0) {
@@ -96,6 +118,13 @@ function BlogPost() {
     deleteImage()
     navigate(PATH.HOME, { state: { refresh: true } })
   }
+
+  const handleFollowClick = async () => {
+    await toggleFollow()
+    await checkIfUserFollow()
+    console.log('test')
+  }
+
   const handleImageLoad = () => {
     setIsImageLoading(false)
   }
@@ -135,9 +164,6 @@ function BlogPost() {
     >
       {responseData && (
         <>
-          <Grid
-            sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}
-          ></Grid>
           <h1 style={{ fontSize: '42px' }}>{responseData.title}</h1>
           {responseData.user && (
             <Box
@@ -146,15 +172,24 @@ function BlogPost() {
               alignItems={'center'}
             >
               <Box display={'flex'} alignItems={'center'}>
-                <Avatar>
-                  {responseData.user.firstname[0]}
-                  {responseData.user.lastname[0]}
-                </Avatar>
+                <Avatar
+                  {...stringAvatar(
+                    `${responseData.user.firstname} ${responseData.user.lastname}`
+                  )}
+                />
+
                 <Box sx={{ marginY: '20px', marginLeft: '10px' }}>
                   <p style={{ fontSize: '16px' }}>
                     {`${responseData.user.firstname} ${responseData.user.lastname}`}
                     <span> ⋅ </span>
-                    <Link>Follow</Link>
+                    <LoadingButton
+                      size="small"
+                      onClick={handleFollowClick}
+                      loading={followLoading}
+                      disabled={followLoading}
+                    >
+                      {isUserFollowing ? 'Following' : 'Follow'}
+                    </LoadingButton>
                   </p>
                   <p style={{ fontSize: '14px', color: 'grey' }}>
                     {format(
@@ -189,7 +224,7 @@ function BlogPost() {
           >
             <Box marginY={'1px'} display={'flex'}>
               <RecommendButton likes={likes} blogId={currentId} />
-              <CommentButton />
+              {/* <CommentButton /> */}
             </Box>
           </Box>
           <Divider />
@@ -228,6 +263,9 @@ function BlogPost() {
         </>
       )}
       {renderMenu}
+      <Box id="comment-section" sx={{ marginTop: '100px' }}>
+        <CommentSection />
+      </Box>
     </Grid>
   )
 }

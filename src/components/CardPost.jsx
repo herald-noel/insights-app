@@ -12,7 +12,8 @@ import {
   Avatar,
 } from '@mui/material'
 import { PATH } from '../data/paths'
-import { parseISO, format } from 'date-fns';
+import { parseISO, format } from 'date-fns'
+import stringAvatar from '../utils/stringAvatar'
 
 function CardPost(props) {
   const { post } = props
@@ -44,10 +45,11 @@ function CardPost(props) {
                 marginBottom: '10px',
               }}
             >
-              <Avatar sx={{ width: 30, height: 30 }}>
-                {post.user.firstname[0]}
-                {post.user.lastname[0]}
-              </Avatar>
+              <Avatar
+                {...stringAvatar(
+                  `${post.user.firstname} ${post.user.lastname}`
+                )}
+              />
               <Typography variant="subtitle1">{`${post.user.firstname} ${post.user.lastname}`}</Typography>
               <span>⋅</span>
               <Typography variant="subtitle1" color="text.secondary">

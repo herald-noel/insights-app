@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { Box, Pagination } from '@mui/material'
-import NotificationPost from '../../../components/NotificationPost'
+import CardBlog from '../../../components/CardBlog'
 import useFetch from '../../../hooks/useFetch'
 import { REQUEST } from '../../../data/requests.constants'
 import { useEffect, useState } from 'react'
@@ -47,7 +47,7 @@ const NotificationCards = (props) => {
     <>
       {responseData.content &&
         responseData.content.map((post, index) => (
-          <NotificationPost key={index} post={post} />
+          <CardBlog key={index} post={post} />
         ))}
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         {responseData.content && (

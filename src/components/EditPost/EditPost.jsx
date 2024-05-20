@@ -19,6 +19,7 @@ import { markdownToDraft, draftToMarkdown } from 'markdown-draft-js'
 import useSearch from '../../hooks/useSearch'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../data/paths'
+import LoadingButton from '@mui/lab/LoadingButton'
 
 const EditPost = (props) => {
   const { isNew } = props
@@ -40,7 +41,7 @@ const EditPost = (props) => {
   const [image, setImage] = useState(null)
   const [imageUrl, setImageUrl] = useState('')
 
-  const { fetchData: createFetchData } = useFetch(
+  const { loading, fetchData: createFetchData } = useFetch(
     '/posts/create/blog',
     REQUEST.POST
   )
@@ -109,21 +110,18 @@ const EditPost = (props) => {
   }
 
   const handleImageUpload = async (file) => {
-    try {
-      const resizedImage = await resizeImage(file, 800, 800)
-      const reader = new FileReader()
-      return new Promise((resolve, reject) => {
-        reader.onloadend = () => {
-          setImage(resizedImage) // Set image state for form submission
-          resolve({ data: { url: reader.result } })
-        }
-        reader.onerror = (reason) => reject(reason)
-        reader.readAsDataURL(resizedImage)
-      })
-    } catch (error) {
-      throw error
-    }
+    const resizedImage = await resizeImage(file, 800, 800)
+    const reader = new FileReader()
+    return new Promise((resolve, reject) => {
+      reader.onloadend = () => {
+        setImage(resizedImage) // Set image state for form submission
+        resolve({ data: { url: reader.result } })
+      }
+      reader.onerror = (reason) => reject(reason)
+      reader.readAsDataURL(resizedImage)
+    })
   }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -149,9 +147,9 @@ const EditPost = (props) => {
       formData.append('image', resizedImage, image.name)
     }
     if (isNew) {
-      createFetchData(formData)
+      await createFetchData(formData)
     } else {
-      updateData(formData)
+      await updateData(formData)
     }
     setSearch('')
     navigate(PATH.HOME, { state: { refresh: true } })
@@ -161,7 +159,9 @@ const EditPost = (props) => {
     <Mainlayout>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
+          <LoadingButton
+            loading={loading}
+            loadingPosition="end"
             variant="outlined"
             sx={{
               marginBottom: '8px',
@@ -170,7 +170,7 @@ const EditPost = (props) => {
             endIcon={<SendIcon />}
           >
             {isNew ? 'POST' : 'SAVE'}
-          </Button>
+          </LoadingButton>
         </Box>
         <TextField
           required
