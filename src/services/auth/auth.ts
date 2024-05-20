@@ -10,7 +10,7 @@ export const login = async (credentials: Credentials) => {
     const response = await axios.post(`${BASE_URL}/authenticate`, credentials)
     const { token } = response.data
     localStorage.setItem('token', token)
-    return token
+    return response.data
   } catch (error) {
     console.error('Error logging in:', error)
     throw error
@@ -23,7 +23,7 @@ export const register = async (signUpData: SignUpData) => {
     const response = await axios.post(`${BASE_URL}/register`, signUpData)
     const { token } = response.data
     localStorage.setItem('token', token)
-    return token
+    return response.data
   } catch (error) {
     throw error
   }

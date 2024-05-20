@@ -27,6 +27,8 @@ const CommentSection = () => {
   useEffect(() => {
     if (data !== null) {
       setComments(data)
+      console.log('comments')
+      console.log(data)
     }
   }, [data])
 

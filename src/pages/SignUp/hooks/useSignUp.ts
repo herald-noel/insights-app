@@ -65,12 +65,12 @@ const useSignUp = () => {
       password: password,
     }
     try {
-      await register(signUpData)
+      const userData = await register(signUpData)
       setEmailError(false)
       setEmailErrorMsg('')
 
       dispatch(openSignUp())
-      dispatch(loginSuccess(signUpData.email))
+      dispatch(loginSuccess(userData))
 
       navigate('/home')
     } catch (error) {
