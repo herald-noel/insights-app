@@ -1,7 +1,5 @@
 import { Button, List, ListItem } from '@mui/material'
-import { useDispatch } from 'react-redux'
 import CommentBox from './CommentBox'
-import { openDrawer } from '../DrawerFormDialogSlice'
 import Comment from './Comment'
 import useFetch from '../../../hooks/useFetch'
 import { REQUEST } from '../../../data/requests.constants'
@@ -10,7 +8,6 @@ import { useEffect, useState } from 'react'
 
 const CommentSection = () => {
   const location = useLocation()
-  const dispatch = useDispatch()
 
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState('')
@@ -50,8 +47,11 @@ const CommentSection = () => {
     setComment(event.target.value)
   }
 
+  const handleCancelButton = () => {
+    setComment('')
+  }
+
   const handleUpdatedData = () => {
-    console.log('retrieving')
     fetchData()
   }
 
@@ -67,7 +67,7 @@ const CommentSection = () => {
             <Button
               size="small"
               sx={{ color: 'grey' }}
-              onClick={() => dispatch(openDrawer())}
+              onClick={handleCancelButton}
             >
               Cancel
             </Button>
