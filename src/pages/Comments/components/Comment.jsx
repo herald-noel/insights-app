@@ -18,6 +18,7 @@ import CommentBox from './CommentBox'
 import useFetch from '../../../hooks/useFetch'
 import useCurrentId from '../../../hooks/useCurrentId'
 import { REQUEST } from '../../../data/requests.constants'
+import { useSelector } from 'react-redux'
 
 export default function Comment(props) {
   const { data, handleUpdatedData } = props
@@ -26,6 +27,7 @@ export default function Comment(props) {
   const [currComment, setCurrComment] = useState('')
   const [isEdit, setIsEdit] = useState(false)
   const { currentId } = useCurrentId()
+  const { userId: loginUserId } = useSelector((state) => state.user.user)
 
   const updateUrl = `comments/update/comment/${data.commentId}/${currentId}`
   const deleteUrl = `comments/delete/comment/${data.commentId}/${currentId}`
@@ -136,17 +138,19 @@ export default function Comment(props) {
                   </Typography>
                 </Box>
               </Box>
-              <Box>
-                <IconButton
-                  size="large"
-                  aria-label="show more"
-                  aria-haspopup="true"
-                  onClick={handleMenuOpen}
-                  color="inherit"
-                >
-                  <MoreIcon />
-                </IconButton>
-              </Box>
+              {loginUserId === data.user.userId && (
+                <Box>
+                  <IconButton
+                    size="large"
+                    aria-label="show more"
+                    aria-haspopup="true"
+                    onClick={handleMenuOpen}
+                    color="inherit"
+                  >
+                    <MoreIcon />
+                  </IconButton>
+                </Box>
+              )}
             </Box>
             <Typography
               variant="body2"
