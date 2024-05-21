@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Box, Pagination, Typography } from '@mui/material'
+import { Box, Pagination, Typography, Divider, Grid } from '@mui/material'
 import CardBlog from '../CardBlog'
 import CreateBlogButton from './components/CreateBlogButton'
 import useFetch from '../../hooks/useFetch'
@@ -58,7 +58,37 @@ const BlogCards = (props) => {
 
   return (
     <>
-      {isNewPostBtn && <CreateBlogButton />}
+      <Box sx={{ p: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4" gutterBottom>
+              Blogs
+            </Typography>
+          </Grid>
+          <Grid item xs={12} container spacing={2}>
+            <Grid item xs={12} md={6} sx={{ mt: 1 }}>
+              <Typography variant="body1" gutterBottom>
+                Latest posts
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                The latest releases from publishers you may know.
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              display="flex"
+              justifyContent="flex-end"
+              alignItems="center"
+              sx={{ mt: 1 }}
+            >
+              {isNewPostBtn && <CreateBlogButton />}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Divider sx={{ my: 2 }} />
+      </Box>
       {responseData.content && responseData.content.length > 0 ? (
         responseData.content.map((post, index) => (
           <CardBlog key={`${post.id}-${index}`} post={post} />

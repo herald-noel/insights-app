@@ -37,7 +37,7 @@ const useSignIn = () => {
       setEmailError(false)
       setEmailErrorMsg('')
       dispatch(openSignIn())
-      dispatch(loginSuccess(credentials.email))
+      dispatch(loginSuccess(userData))
 
       navigate('/home')
     } catch (error) {

@@ -11,7 +11,6 @@ import { openSignIn } from '../signInFormDialogSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import useSignIn from '../hooks/useSignIn'
 
-// TODO change to REDUX!!
 const SignInFormDialog = () => {
   const isOpen = useSelector((state) => state.signInFormDialog.isOpen)
   const dispatch = useDispatch()
