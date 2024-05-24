@@ -11,7 +11,7 @@ import {
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import '../../styles/reactMarkdown.css'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useRef, useState } from 'react'
@@ -28,7 +28,7 @@ import { LoadingButton } from '@mui/lab'
 import ConfirmationDialog from './ConfirmationDialog'
 
 function BlogPost() {
-  const userEmail = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.user.user)
   const navigate = useNavigate()
   const { currentId } = useCurrentId()
   const ownerId = useRef(null)
@@ -69,12 +69,10 @@ function BlogPost() {
 
   const handleMenuOpen = (event) => {
     setMoreAnchorEl(event.currentTarget)
-    console.log('Menu Opened')
   }
 
   const handleMenuClose = () => {
     setMoreAnchorEl(null)
-    console.log('Menu Closed')
   }
 
   const isMenuOpen = Boolean(moreAnchorEl)
@@ -104,8 +102,6 @@ function BlogPost() {
       ownerId.current = data.user.userId
       setLikes(data.likes)
       setResponseData(data)
-      console.log('data', data)
-      console.log('currentUser', userEmail)
     }
   }, [data])
 
@@ -113,25 +109,12 @@ function BlogPost() {
     if (ownerId.current) {
       checkIfUserFollow()
     }
-    console.log('ownerId: ', ownerId.current)
-    console.log('ownerId type:', typeof ownerId.current)
-    if (userEmail.userId === ownerId.current) {
-      console.log('The userEmail addresses are equal with currentId.')
-    } else {
-      console.log(
-        'The ownerId: ' +
-          ownerId.current +
-          ' are not equal with currentId: ' +
-          userEmail.userId
-      )
-    }
   }, [ownerId, checkIfUserFollow])
 
   useEffect(() => {
     if (imageData !== null && imageData.length > 0) {
       setImageURL(imageData[0].imageURL)
     }
-    console.log(imageData)
   }, [imageData])
 
   const handleClickEdit = () => {
@@ -145,7 +128,6 @@ function BlogPost() {
   const handleFollowClick = async () => {
     await toggleFollow()
     await checkIfUserFollow()
-    console.log('test')
   }
 
   const handleImageLoad = () => {
@@ -223,7 +205,7 @@ function BlogPost() {
                 </Box>
               </Box>
 
-              {userEmail.userId === ownerId.current && (
+              {user.userId === ownerId.current && (
                 <Box>
                   <IconButton
                     size="large"
