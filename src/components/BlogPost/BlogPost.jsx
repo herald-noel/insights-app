@@ -25,6 +25,7 @@ import { parseISO, format } from 'date-fns'
 import CommentSection from '../../pages/Comments/components/CommentSection'
 import stringAvatar from '../../utils/stringAvatar'
 import { LoadingButton } from '@mui/lab'
+import ConfirmationDialog from './ConfirmationDialog'
 
 function BlogPost() {
   const userEmail = useSelector((state) => state.user.user)
@@ -37,17 +38,12 @@ function BlogPost() {
     REQUEST.GET
   )
 
-  const { fetchData: deleteImage } = useFetch(
-    `images/delete/${currentId}`,
-    REQUEST.DELETE
-  )
-
   const { data, fetchData } = useFetch(
     `posts/get/blog/${currentId}`,
     REQUEST.GET
   )
 
-  const { fetchData: deleteBlog } = useFetch(
+  const { loading, fetchData: deleteBlog } = useFetch(
     `posts/delete/blog/${currentId}`,
     REQUEST.DELETE
   )
@@ -69,16 +65,34 @@ function BlogPost() {
   const [imageURL, setImageURL] = useState('')
   const [isImageLoading, setIsImageLoading] = useState(true)
   const [moreAnchorEl, setMoreAnchorEl] = useState(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const handleMenuOpen = (event) => {
     setMoreAnchorEl(event.currentTarget)
+    console.log('Menu Opened')
   }
 
   const handleMenuClose = () => {
     setMoreAnchorEl(null)
+    console.log('Menu Closed')
   }
 
   const isMenuOpen = Boolean(moreAnchorEl)
+
+  //confirmation dialog
+  const handleDialogOpen = () => {
+    setDialogOpen(true)
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false)
+  }
+
+  const handleDeleteConfirm = async () => {
+    await deleteBlog()
+    navigate(PATH.HOME, { state: { refresh: true } })
+    handleDialogClose()
+  }
 
   useEffect(() => {
     fetchData()
@@ -90,6 +104,8 @@ function BlogPost() {
       ownerId.current = data.user.userId
       setLikes(data.likes)
       setResponseData(data)
+      console.log('data', data)
+      console.log('currentUser', userEmail)
     }
   }, [data])
 
@@ -97,15 +113,24 @@ function BlogPost() {
     if (ownerId.current) {
       checkIfUserFollow()
     }
+    console.log('ownerId: ', ownerId.current)
+    console.log('ownerId type:', typeof ownerId.current)
+    if (userEmail.userId === ownerId.current) {
+      console.log('The userEmail addresses are equal with currentId.')
+    } else {
+      console.log(
+        'The ownerId: ' +
+          ownerId.current +
+          ' are not equal with currentId: ' +
+          userEmail.userId
+      )
+    }
   }, [ownerId, checkIfUserFollow])
 
   useEffect(() => {
     if (imageData !== null && imageData.length > 0) {
       setImageURL(imageData[0].imageURL)
     }
-  }, [imageData])
-
-  useEffect(() => {
     console.log(imageData)
   }, [imageData])
 
@@ -114,9 +139,7 @@ function BlogPost() {
   }
 
   const handleClickDelete = () => {
-    deleteBlog()
-    deleteImage()
-    navigate(PATH.HOME, { state: { refresh: true } })
+    handleDialogOpen()
   }
 
   const handleFollowClick = async () => {
@@ -200,7 +223,7 @@ function BlogPost() {
                 </Box>
               </Box>
 
-              {userEmail === responseData.user.email && (
+              {userEmail.userId === ownerId.current && (
                 <Box>
                   <IconButton
                     size="large"
@@ -263,6 +286,11 @@ function BlogPost() {
         </>
       )}
       {renderMenu}
+      <ConfirmationDialog
+        open={dialogOpen}
+        handleClose={handleDialogClose}
+        handleConfirm={handleDeleteConfirm}
+      />
       <Box id="comment-section" sx={{ marginTop: '100px' }}>
         <CommentSection />
       </Box>

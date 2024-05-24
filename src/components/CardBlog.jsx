@@ -34,7 +34,9 @@ const CardBlog = ({ post }) => {
         component="img"
         height="200"
         image={
-          postData.images !== undefined
+          postData.images &&
+          postData.images.length > 0 &&
+          postData.images[0].imageURL
             ? postData.images[0].imageURL
             : coverImage
         }

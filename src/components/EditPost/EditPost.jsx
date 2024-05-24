@@ -9,7 +9,12 @@ import SnackbarBlog from './components/SnackbarBlog'
 import useEditor from './hooks/useEditor'
 import { useEffect, useState } from 'react'
 import { openSnackbar } from './createPostSlice'
-import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
+import {
+  convertFromRaw,
+  convertToRaw,
+  EditorState,
+  AtomicBlockUtils,
+} from 'draft-js'
 import { useDispatch } from 'react-redux'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
@@ -20,6 +25,7 @@ import useSearch from '../../hooks/useSearch'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../data/paths'
 import LoadingButton from '@mui/lab/LoadingButton'
+import { insertImage, resizeImage } from './components/ImageHelper'
 
 const EditPost = (props) => {
   const { isNew } = props
@@ -41,7 +47,7 @@ const EditPost = (props) => {
   const [image, setImage] = useState(null)
   const [imageUrl, setImageUrl] = useState('')
 
-  const { loading, fetchData: createFetchData } = useFetch(
+  const { loading: createLoading, fetchData: createFetchData } = useFetch(
     '/posts/create/blog',
     REQUEST.POST
   )
@@ -49,7 +55,7 @@ const EditPost = (props) => {
     `posts/get/blog/${currentId}`,
     REQUEST.GET
   )
-  const { fetchData: updateData } = useFetch(
+  const { loading: updateLoading, fetchData: updateData } = useFetch(
     `/posts/update/blog/${currentId}`,
     REQUEST.PUT
   )
@@ -62,52 +68,22 @@ const EditPost = (props) => {
 
   useEffect(() => {
     if (data !== null && !isNew) {
+      console.log(data)
+      // console.log(data.images[0].imageURL)
       setTitle(data.title)
-      setImageUrl(data.imageUrl)
 
+      setImageUrl(data.images[0]?.imageURL || null)
       const contentState = EditorState.createWithContent(
         convertFromRaw(markdownToDraft(data.content))
       )
       setEditorContent(data.content)
-      setEditorState(contentState)
+      let newEditorState = contentState
+      if (data.images[0]?.imageURL) {
+        newEditorState = insertImage(newEditorState, data.images[0].imageURL)
+      }
+      setEditorState(newEditorState)
     }
   }, [data, isNew, setEditorState, setEditorContent])
-
-  const resizeImage = (file, maxWidth, maxHeight) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        const img = new Image()
-        img.onload = () => {
-          let width = img.width
-          let height = img.height
-          if (width > maxWidth) {
-            height = (maxWidth / width) * height
-            width = maxWidth
-          }
-          if (height > maxHeight) {
-            width = (maxHeight / height) * width
-            height = maxHeight
-          }
-          const canvas = document.createElement('canvas')
-          canvas.width = width
-          canvas.height = height
-          const ctx = canvas.getContext('2d')
-          ctx.drawImage(img, 0, 0, width, height)
-          canvas.toBlob(resolve, file.type)
-        }
-        img.onerror = (error) => reject(error)
-        img.src = event.target.result
-      }
-      reader.onerror = (error) => reject(error)
-      reader.readAsDataURL(file)
-    })
-  }
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0])
-    }
-  }
 
   const handleImageUpload = async (file) => {
     const resizedImage = await resizeImage(file, 800, 800)
@@ -144,12 +120,15 @@ const EditPost = (props) => {
     )
     if (image) {
       const resizedImage = await resizeImage(image, 800, 800) // Resize image to fit within 800x800 pixels
+
       formData.append('image', resizedImage, image.name)
     }
     if (isNew) {
       await createFetchData(formData)
+      console.log('Image Created', image)
     } else {
       await updateData(formData)
+      console.log('ImageUpdated', image)
     }
     setSearch('')
     navigate(PATH.HOME, { state: { refresh: true } })
@@ -160,7 +139,7 @@ const EditPost = (props) => {
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <LoadingButton
-            loading={loading}
+            loading={createLoading || updateLoading}
             loadingPosition="end"
             variant="outlined"
             sx={{
@@ -206,7 +185,6 @@ const EditPost = (props) => {
             image: {
               previewImage: true,
               uploadCallback: handleImageUpload,
-              alt: { present: true, mandatory: true },
             },
           }}
           placeholder="Tell your story..."
