@@ -37,7 +37,7 @@ const SignUpFormDialog = () => {
   return (
     <Dialog open={isOpen} onClose={() => dispatch(openSignUp())}>
       <DialogTitle textAlign={'center'}>Join Insights.</DialogTitle>
-      <form onSubmit={handleSubmit}> 
+      <form onSubmit={handleSubmit}>
         <DialogContent>
           <Box sx={{ display: 'flex', gap: '10px' }}>
             <TextField
@@ -67,6 +67,7 @@ const SignUpFormDialog = () => {
             onChange={handleEmailChange}
             error={emailError}
             helperText={emailError ? emailErrorMsg : ''}
+            autoComplete="email"
             required
           />
           <TextField
@@ -77,6 +78,7 @@ const SignUpFormDialog = () => {
             value={password}
             onChange={handlePasswordChange}
             error={passwordError}
+            autoComplete="new-password"
             required
           />
           <TextField
@@ -88,6 +90,7 @@ const SignUpFormDialog = () => {
             onChange={handleConfirmPasswordChange}
             error={passwordError}
             helperText={passwordError ? passwordErrorMsg : ''}
+            autoComplete="new-password"
             required
           />
         </DialogContent>

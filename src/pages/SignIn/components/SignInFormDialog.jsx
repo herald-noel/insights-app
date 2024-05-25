@@ -39,6 +39,7 @@ const SignInFormDialog = () => {
             value={email}
             onChange={handleEmailChange}
             error={emailError}
+            autoComplete="email"
           />
           <TextField
             margin="dense"
@@ -50,6 +51,7 @@ const SignInFormDialog = () => {
             sx={{ marginBottom: '10px' }}
             error={emailError}
             helperText={emailErrorMsg}
+            autoComplete="current-password"
           />
           <Link href="#" underline="none">
             Forgot Password?
