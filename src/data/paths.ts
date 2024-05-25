@@ -5,4 +5,5 @@ export const PATH = {
   BLOG: '/blog',
   CREATE_BLOG: '/create-blog/',
   USER_BLOGS: '/my-blogs/',
+  EDIT_BLOGS: '/edit/:id',
 }
