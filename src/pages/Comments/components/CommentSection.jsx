@@ -27,13 +27,10 @@ const CommentSection = () => {
   useEffect(() => {
     if (data !== null) {
       setComments(data)
-      console.log('comments')
-      console.log(data)
     }
   }, [data])
 
   const handleRespond = async () => {
-    console.log(comment)
     if (comment.trim() === '') {
       return
     }

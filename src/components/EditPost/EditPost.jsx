@@ -68,8 +68,6 @@ const EditPost = (props) => {
 
   useEffect(() => {
     if (data !== null && !isNew) {
-      console.log(data)
-      // console.log(data.images[0].imageURL)
       setTitle(data.title)
 
       setImageUrl(data.images[0]?.imageURL || null)
@@ -125,10 +123,8 @@ const EditPost = (props) => {
     }
     if (isNew) {
       await createFetchData(formData)
-      console.log('Image Created', image)
     } else {
       await updateData(formData)
-      console.log('ImageUpdated', image)
     }
     setSearch('')
     navigate(PATH.HOME, { state: { refresh: true } })

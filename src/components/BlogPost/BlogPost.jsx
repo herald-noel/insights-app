@@ -43,7 +43,7 @@ function BlogPost() {
     REQUEST.GET
   )
 
-  const { loading, fetchData: deleteBlog } = useFetch(
+  const { fetchData: deleteBlog } = useFetch(
     `posts/delete/blog/${currentId}`,
     REQUEST.DELETE
   )
