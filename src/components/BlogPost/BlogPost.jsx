@@ -104,26 +104,12 @@ function BlogPost() {
       ownerId.current = data.user.userId
       setLikes(data.likes)
       setResponseData(data)
-      console.log('data', data)
-      console.log('currentUser', userEmail)
     }
   }, [data])
 
   useEffect(() => {
     if (ownerId.current) {
       checkIfUserFollow()
-    }
-    console.log('ownerId: ', ownerId.current)
-    console.log('ownerId type:', typeof ownerId.current)
-    if (userEmail.userId === ownerId.current) {
-      console.log('The userEmail addresses are equal with currentId.')
-    } else {
-      console.log(
-        'The ownerId: ' +
-          ownerId.current +
-          ' are not equal with currentId: ' +
-          userEmail.userId
-      )
     }
   }, [ownerId, checkIfUserFollow])
 
