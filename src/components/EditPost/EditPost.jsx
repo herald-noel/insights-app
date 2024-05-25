@@ -112,13 +112,14 @@ const EditPost = (props) => {
     )
     if (image) {
       const resizedImage = await resizeImage(image, 800, 800)
-
       formData.append('image', resizedImage, image.name)
-    } else {
-      setErrorThumbnail(true)
-      return
     }
+
     if (isNew) {
+      if (!image) {
+        setErrorThumbnail(true)
+        return
+      }
       await createFetchData(formData)
     } else {
       await updateData(formData)
@@ -152,7 +153,7 @@ const EditPost = (props) => {
             {isNew ? 'POST' : 'SAVE'}
           </LoadingButton>
         </Box>
-        <UploadImage handleImageUpload={handleImageUpload} />
+        <UploadImage handleImageUpload={handleImageUpload} isNew={isNew} />
         <TextField
           required
           id="outlined-required"

@@ -1,7 +1,7 @@
 import PropsTypes from 'prop-types'
 import { Box, InputLabel, Input } from '@mui/material'
 const UploadImage = (props) => {
-  const { handleImageUpload } = props
+  const { handleImageUpload, isNew } = props
   return (
     <Box
       display="flex"
@@ -14,6 +14,7 @@ const UploadImage = (props) => {
       }}
     >
       <InputLabel htmlFor="thumbnail-input" sx={{ fontWeight: 'bold' }}>
+        {!isNew && 'Change '}
         Thumbnail:
       </InputLabel>
       <Input
@@ -29,6 +30,7 @@ const UploadImage = (props) => {
 
 UploadImage.propTypes = {
   handleImageUpload: PropsTypes.func.isRequired,
+  isNew: PropsTypes.bool.isRequired,
 }
 
 export default UploadImage
