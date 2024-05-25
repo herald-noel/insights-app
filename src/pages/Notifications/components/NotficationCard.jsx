@@ -6,6 +6,17 @@ import stringAvatar from '../../../utils/stringAvatar'
 import { notificationType } from '../../../data/notificationType.constants'
 
 const NotificationCard = ({ notifData }) => {
+  const getNotificationMessage = (notif) => {
+    switch (notif) {
+      case notificationType.COMMENT_POST:
+        return 'commented on your blog'
+      case notificationType.NEW_POST:
+        return 'created a new post'
+      default:
+        return 'liked your post'
+    }
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       {notifData &&
@@ -30,10 +41,7 @@ const NotificationCard = ({ notifData }) => {
                         {`${notif.author.firstname} ${notif.author.lastname}`}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" ml={1}>
-                        {notif.notificationType ===
-                        notificationType.COMMENT_POST
-                          ? 'commented on your blog'
-                          : 'created a new post'}
+                        {getNotificationMessage(notif.notificationType)}
                       </Typography>
                       <Typography
                         variant="body2"
