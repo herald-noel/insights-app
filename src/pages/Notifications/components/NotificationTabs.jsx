@@ -15,13 +15,12 @@ const NotificationTabs = () => {
 
   useEffect(() => {
     setResponseData(data)
-    console.log(responseData)
   }, [data])
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ p: 3 }}>
-        <NotificationCard blogData={responseData} />
+        <NotificationCard notifData={responseData} />
       </Box>
     </Box>
   )
