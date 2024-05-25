@@ -186,15 +186,19 @@ function BlogPost() {
                 <Box sx={{ marginY: '20px', marginLeft: '10px' }}>
                   <p style={{ fontSize: '16px' }}>
                     {`${responseData.user.firstname} ${responseData.user.lastname}`}
-                    <span> ⋅ </span>
-                    <LoadingButton
-                      size="small"
-                      onClick={handleFollowClick}
-                      loading={followLoading}
-                      disabled={followLoading}
-                    >
-                      {isUserFollowing ? 'Following' : 'Follow'}
-                    </LoadingButton>
+                    {user.userId !== ownerId.current && (
+                      <>
+                        <span> ⋅ </span>
+                        <LoadingButton
+                          size="small"
+                          onClick={handleFollowClick}
+                          loading={followLoading}
+                          disabled={followLoading}
+                        >
+                          {isUserFollowing ? 'Following' : 'Follow'}
+                        </LoadingButton>
+                      </>
+                    )}
                   </p>
                   <p style={{ fontSize: '14px', color: 'grey' }}>
                     {format(
