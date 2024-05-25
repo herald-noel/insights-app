@@ -7,6 +7,7 @@ import CreateBlogRoutes from './CreateBlogRoutes'
 import PrivateUserRoutes from './PrivateUserRoutes'
 import MyBlogRoutes from './MyBlogsRoutes'
 import EditPostRoutes from './EditPostRoutes'
+import NotFound from '../pages/NotFound/NotFound'
 
 const routes = () => {
   return (
@@ -21,6 +22,7 @@ const routes = () => {
           {EditPostRoutes}
         </Route>
         {LandingPageRoutes}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )
