@@ -59,25 +59,6 @@ const EditPost = (props) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (data !== null && !isNew) {
-      console.log(data)
-      // console.log(data.images[0].imageURL)
-      setTitle(data.title)
-
-      setImageUrl(data.images[0]?.imageURL || null)
-      const contentState = EditorState.createWithContent(
-        convertFromRaw(markdownToDraft(data.content))
-      )
-      setEditorContent(data.content)
-      let newEditorState = contentState
-      if (data.images[0]?.imageURL) {
-        newEditorState = insertImage(newEditorState, data.images[0].imageURL)
-      }
-      setEditorState(newEditorState)
-    }
-  }, [data, isNew, setEditorState, setEditorContent])
-
   const handleImageUpload = async (event) => {
     const file = event.target.files[0]
     console.log(file)
