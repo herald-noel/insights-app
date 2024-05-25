@@ -23,10 +23,6 @@ const BlogCards = (props) => {
   const search = getSearch()
 
   useEffect(() => {
-    console.log(search)
-  }, [search])
-
-  useEffect(() => {
     fetchData()
   }, [params])
 
@@ -41,10 +37,6 @@ const BlogCards = (props) => {
   }, [pageNumber, search])
 
   useEffect(() => {
-    console.log(responseData)
-  }, [responseData])
-
-  useEffect(() => {
     if (data === null) {
       return
     }
@@ -52,7 +44,6 @@ const BlogCards = (props) => {
   }, [data])
 
   const handlePageChange = (event, newPage) => {
-    console.log(pageNumber)
     setPageNumber(newPage)
   }
 

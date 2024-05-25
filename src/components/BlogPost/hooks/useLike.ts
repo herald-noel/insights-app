@@ -16,7 +16,6 @@ const useLike = (blogId: string) => {
   )
 
   const [numLikes, setNumLikes] = useState('')
-  const [isLike, setIsLike] = useState(false)
 
   useEffect(() => {
     fetchUserLike()
@@ -26,18 +25,11 @@ const useLike = (blogId: string) => {
     setNumLikes(likesData)
   }, [likesData])
 
-  useEffect(() => {
-    console.log(isUserLike)
-    setIsLike(isUserLike)
-  }, [isUserLike])
-
   const toggleLike = async () => {
     try {
       await likeBlog()
       await fetchUserLike()
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
 
   return {

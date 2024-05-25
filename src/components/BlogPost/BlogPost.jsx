@@ -11,7 +11,7 @@ import {
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import '../../styles/reactMarkdown.css'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 import { REQUEST } from '../../data/requests.constants'
 import { useEffect, useRef, useState } from 'react'
@@ -28,7 +28,7 @@ import { LoadingButton } from '@mui/lab'
 import ConfirmationDialog from './ConfirmationDialog'
 
 function BlogPost() {
-  const userEmail = useSelector((state) => state.user.user)
+  const user = useSelector((state) => state.user.user)
   const navigate = useNavigate()
   const { currentId } = useCurrentId()
   const ownerId = useRef(null)
@@ -131,7 +131,6 @@ function BlogPost() {
     if (imageData !== null && imageData.length > 0) {
       setImageURL(imageData[0].imageURL)
     }
-    console.log(imageData)
   }, [imageData])
 
   const handleClickEdit = () => {
@@ -145,7 +144,6 @@ function BlogPost() {
   const handleFollowClick = async () => {
     await toggleFollow()
     await checkIfUserFollow()
-    console.log('test')
   }
 
   const handleImageLoad = () => {
@@ -204,15 +202,19 @@ function BlogPost() {
                 <Box sx={{ marginY: '20px', marginLeft: '10px' }}>
                   <p style={{ fontSize: '16px' }}>
                     {`${responseData.user.firstname} ${responseData.user.lastname}`}
-                    <span> ⋅ </span>
-                    <LoadingButton
-                      size="small"
-                      onClick={handleFollowClick}
-                      loading={followLoading}
-                      disabled={followLoading}
-                    >
-                      {isUserFollowing ? 'Following' : 'Follow'}
-                    </LoadingButton>
+                    {user.userId !== ownerId.current && (
+                      <>
+                        <span> ⋅ </span>
+                        <LoadingButton
+                          size="small"
+                          onClick={handleFollowClick}
+                          loading={followLoading}
+                          disabled={followLoading}
+                        >
+                          {isUserFollowing ? 'Following' : 'Follow'}
+                        </LoadingButton>
+                      </>
+                    )}
                   </p>
                   <p style={{ fontSize: '14px', color: 'grey' }}>
                     {format(
@@ -223,7 +225,7 @@ function BlogPost() {
                 </Box>
               </Box>
 
-              {userEmail.userId === ownerId.current && (
+              {user.userId === ownerId.current && (
                 <Box>
                   <IconButton
                     size="large"
