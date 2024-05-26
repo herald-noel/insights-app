@@ -7,13 +7,16 @@ import { notificationType } from '../../../data/notificationType.constants'
 
 const NotificationCard = ({ notifData }) => {
   const getNotificationMessage = (notif) => {
+    console.log(notif)
     switch (notif) {
       case notificationType.COMMENT_POST:
         return 'commented on your blog'
-      case notificationType.NEW_POST:
+      case notificationType.BLOG_POST:
         return 'created a new post'
-      default:
+      case notificationType.LIKE_POST:
         return 'liked your post'
+      case notificationType.FOLLOW_USER:
+        return 'followed you.'
     }
   }
 
@@ -23,7 +26,7 @@ const NotificationCard = ({ notifData }) => {
         notifData.map((notif, index) => (
           <Card key={index} sx={{ mb: 2 }}>
             <Link
-              to={`/blog/${notif.blogId}`}
+              to={notif.blogId && `/blog/${notif.blogId}`}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <CardContent>
@@ -68,8 +71,8 @@ const NotificationCard = ({ notifData }) => {
 NotificationCard.propTypes = {
   notifData: PropTypes.arrayOf(
     PropTypes.shape({
-      blogId: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
+      blogId: PropTypes.number,
+      title: PropTypes.string,
       createdAt: PropTypes.string.isRequired,
       notificationType: PropTypes.string.isRequired,
       author: PropTypes.shape({
