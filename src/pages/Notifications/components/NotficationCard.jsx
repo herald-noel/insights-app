@@ -7,10 +7,11 @@ import { notificationType } from '../../../data/notificationType.constants'
 
 const NotificationCard = ({ notifData }) => {
   const getNotificationMessage = (notif) => {
+    console.log(notif)
     switch (notif) {
       case notificationType.COMMENT_POST:
         return 'commented on your blog'
-      case notificationType.NEW_POST:
+      case notificationType.BLOG_POST:
         return 'created a new post'
       case notificationType.LIKE_POST:
         return 'liked your post'
