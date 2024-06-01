@@ -9,6 +9,7 @@ const useFetch = (url: string, method: string, params?: any) => {
   const fetchData = useCallback(
     async (payload?: any) => {
       setLoading(true)
+      console.log('loading =', loading)
       setError(null)
       try {
         const response = await useFetchDataFromApi(url, method, params, payload)

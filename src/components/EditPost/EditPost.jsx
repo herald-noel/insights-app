@@ -137,8 +137,10 @@ const EditPost = (props) => {
         return
       }
       await createFetchData(formData)
+      console.log('Image Created', image)
     } else {
       await updateData(formData)
+      console.log('ImageUpdated', image)
     }
     setSearch('')
     navigate(PATH.HOME, { state: { refresh: true } })

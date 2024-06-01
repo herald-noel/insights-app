@@ -43,7 +43,7 @@ function BlogPost() {
     REQUEST.GET
   )
 
-  const { fetchData: deleteBlog } = useFetch(
+  const { loading, fetchData: deleteBlog } = useFetch(
     `posts/delete/blog/${currentId}`,
     REQUEST.DELETE
   )
@@ -69,10 +69,12 @@ function BlogPost() {
 
   const handleMenuOpen = (event) => {
     setMoreAnchorEl(event.currentTarget)
+    console.log('Menu Opened')
   }
 
   const handleMenuClose = () => {
     setMoreAnchorEl(null)
+    console.log('Menu Closed')
   }
 
   const isMenuOpen = Boolean(moreAnchorEl)
