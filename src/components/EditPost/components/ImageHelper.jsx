@@ -52,3 +52,31 @@ export const insertImage = (editorState, url) => {
     newEditorState.getCurrentContent().getSelectionAfter()
   )
 }
+
+// Function to remove images from the editor state by URL
+export const removeImages = (editorState, imageUrl) => {
+  const contentState = editorState.getCurrentContent()
+  const blockMap = contentState.getBlockMap()
+
+  const newBlockMap = blockMap.map((block) => {
+    const entityKey = block.getEntityAt(0)
+    if (entityKey) {
+      const entity = contentState.getEntity(entityKey)
+      if (entity.getType() === 'IMAGE' && entity.getData().src === imageUrl) {
+        const newBlock = new ContentBlock({
+          key: block.getKey(),
+          type: 'unstyled',
+          text: '',
+          characterList: block.getCharacterList().splice(0, 0),
+          depth: block.getDepth(),
+          data: block.getData(),
+        })
+        return newBlock
+      }
+    }
+    return block
+  })
+
+  const newContentState = contentState.set('blockMap', newBlockMap)
+  return EditorState.push(editorState, newContentState, 'remove-range')
+}
