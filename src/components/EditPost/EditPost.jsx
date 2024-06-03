@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types'
 import Mainlayout from '../../layout/Mainlayout'
-import { Box, TextField } from '@mui/material'
+import {
+  Box,
+  TextField,
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+} from '@mui/material'
 import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import SendIcon from '@mui/icons-material/Send'
@@ -16,7 +23,11 @@ import useSearch from '../../hooks/useSearch'
 import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../data/paths'
 import LoadingButton from '@mui/lab/LoadingButton'
-import { insertImage, resizeImage } from './components/ImageHelper'
+import {
+  insertImage,
+  removeImages,
+  resizeImage,
+} from './components/ImageHelper'
 import UploadImage from './components/UploadImage'
 import SnackBarAlert from './components/SnackBarAlert'
 
@@ -39,6 +50,7 @@ const EditPost = (props) => {
 
   const [title, setTitle] = useState('')
   const [image, setImage] = useState(null)
+  const [imageUrl, setImageUrl] = useState('')
 
   const { loading: createLoading, fetchData: createFetchData } = useFetch(
     '/posts/create/blog',
@@ -69,7 +81,9 @@ const EditPost = (props) => {
       setEditorContent(data.content)
       let newEditorState = contentState
       if (data.images[0]?.imageURL) {
-        newEditorState = insertImage(newEditorState, data.images[0].imageURL)
+        // newEditorState = insertImage(newEditorState, data.images[0].imageURL)
+        // newEditorState = insertImage(newEditorState, null)
+        setImageUrl(data.images[0].imageURL)
       }
       setEditorState(newEditorState)
     }
@@ -82,7 +96,9 @@ const EditPost = (props) => {
     const reader = new FileReader()
     return new Promise((resolve, reject) => {
       reader.onloadend = () => {
-        setImage(resizedImage) // Set image state for form submission
+        // setImage(resizedImage) // Set image state for form submission
+        setImage(resizedImage) // Set image Blob for form submission
+        setImageUrl(reader.result) // Set image URL for display
         resolve({ data: { url: reader.result } })
       }
       reader.onerror = (reason) => reject(reason)
@@ -121,8 +137,10 @@ const EditPost = (props) => {
         return
       }
       await createFetchData(formData)
+      console.log('Image Created', image)
     } else {
       await updateData(formData)
+      console.log('ImageUpdated', image)
     }
     setSearch('')
     navigate(PATH.HOME, { state: { refresh: true } })
@@ -146,6 +164,7 @@ const EditPost = (props) => {
             variant="outlined"
             sx={{
               marginBottom: '8px',
+              marginTop: '25px',
             }}
             type="submit"
             endIcon={<SendIcon />}
@@ -154,6 +173,30 @@ const EditPost = (props) => {
           </LoadingButton>
         </Box>
         <UploadImage handleImageUpload={handleImageUpload} isNew={isNew} />
+        {imageUrl && (
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: 3,
+              marginBottom: 3,
+            }}
+          >
+            <Card
+              sx={{
+                height: 350,
+                width: 350,
+              }}
+            >
+              <CardMedia
+                component="img"
+                image={imageUrl}
+                alt="Blog post image"
+                sx={{ height: '100%', width: '100%' }}
+              />
+            </Card>
+          </Box>
+        )}
         <TextField
           required
           id="outlined-required"
